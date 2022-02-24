@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <textarea id="text-input" oninput="this.editor.update()" rows="6" cols="60">Type **Markdown** here.</textarea>
+    <div id="preview"> </div>
+    <script src="../../node_modules/markdown/lib/markdown.js"></script>
+    <script>
+        function Editor(input, preview) {
+            this.update = function () {
+                preview.innerHTML = markdown.toHTML(input.value);
+            };
+            input.editor = this;
+            this.update();
+        }
+        var $ = function (id) { return document.getElementById(id); };
+        new Editor($("text-input"), $("preview"));
+
+
+        // markdown.js
+        var markdown = require("markdown").markdown;
+        var md_content = "Hello.\n\n* This is markdown.\n* It is fun\n* Love it or leave it."
+        var html_content = markdown.toHTML(md_content);
+        
+        // marked.js
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+@mixin setLayout($display: initial, $js: auto, $ji: legacy, $jc: normal, $as: auto, $ai: normal, $ac: normal) {
+    display: $display;
+    justify: {
+        content: $jc;
+        items: $ji;
+        self: $js;
+    }
+    align: {
+        content: $ac;
+        items: $ai;
+        self: $as;
+    }
+}
+@mixin setBackground($color: #000) {
+    background: {
+        color: $color;
+    }
+}
+@mixin setElAttr($width: auto, $height: auto) {
+    width: $width;
+    height: $height;
+}
+@mixin setPosition($position: static) {
+    position: $position;
+}
+@mixin setOffsetAttr($top: auto, $right: auto, $bottom: auto, $left: auto) {
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+}
+@mixin setMargin($top: 0, $right: 0, $bottom: 0, $left: 0) {
+    margin: {
+        top: $top;
+        right: $right;
+        bottom: $bottom;
+        left: $left;
+    }
+}
+@mixin setPadding($top: 0, $right: 0, $bottom: 0, $left: 0) {
+    padding: {
+        top: $top;
+        right: $right;
+        bottom: $bottom;
+        left: $left;
+    }
+}
+@mixin setFont($family: initial, $size: medium, $weight: normal, $stretch: normal) {
+    font: {
+        family: $family;
+        size: $size;
+        weight: $weight;
+        stretch: $stretch;
+    }
+}
