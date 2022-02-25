@@ -3,7 +3,7 @@ import { Layout, Menu, Tabs } from 'antd';
 import { useHistory, Link } from 'umi';
 import { Navigation } from '../../component';
 import { RouteName, RouteLink } from '../../constant';
-import style from './index.scss';
+import style from './index.less';
 const { Header } = Layout;
 const { TabPane } = Tabs;
 const { Item } = Menu;

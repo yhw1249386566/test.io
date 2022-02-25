@@ -2,7 +2,7 @@ import { Layout, Menu, Breadcrumb } from 'antd';
 import { useState } from 'react';
 import { Link, history } from 'umi';
 
-import style from "./index.scss";
+import style from "./index.less";
 import Footer from "../footer";
 import Hedaer from "../header";
 
@@ -16,7 +16,7 @@ const tabTitle = [
 ]
 
 const Contain = (props) => {
-    console.log('props',props)
+    console.log('props', props)
     const [tab, setTab] = useState(["1"])
 
     const handleBarClick = (e) => {
