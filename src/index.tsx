@@ -7,7 +7,7 @@ import { ThemeProvider } from './contexts'
 
 const { Content } = Layout
 
-const Contain = (props: { children: React.ReactNode }) => {
+const Index = (props: { children: React.ReactNode }) => {
     const [theme, setTheme] = useState<Theme>('light')
 
     return (
@@ -26,4 +26,4 @@ const Contain = (props: { children: React.ReactNode }) => {
     )
 }
 
-export default Contain
+export default Index
