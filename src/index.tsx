@@ -1,9 +1,29 @@
-import styles from './index.less'
+import React, { useState } from 'react'
+import { Layout } from 'antd'
+import style from './index.less'
+import Footer from './layouts/footer'
+import Header from './layouts/header'
+import { ThemeProvider } from './contexts'
 
-export default function Index() {
+const { Content } = Layout
+
+const Contain = (props: { children: React.ReactNode }) => {
+    const [theme, setTheme] = useState<Theme>('light')
+
     return (
-        <>
-            <h1 className={styles.title}>hello</h1>
-        </>
+        <ThemeProvider theme={theme}>
+            <Layout className={style.layout}>
+                <Header
+                    theme={theme}
+                    onToggleTheme={(theme) => setTheme(theme)}
+                />
+
+                <Content>{props.children}</Content>
+
+                <Footer />
+            </Layout>
+        </ThemeProvider>
     )
 }
+
+export default Contain
