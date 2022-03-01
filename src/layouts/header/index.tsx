@@ -1,50 +1,66 @@
-import React, { useState } from 'react';
-import { Layout, Menu, Tabs } from 'antd';
-import { useHistory, Link } from 'umi';
-import { Navigation } from '../../component';
-import { RouteName, RouteLink } from '../../constant';
-import style from './index.less';
-const { Header } = Layout;
-const { TabPane } = Tabs;
-const { Item } = Menu;
+import { useHistory } from 'umi'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
+import { useTheme } from '@/hooks'
+import { RouteName, RouteLink } from '@/constant'
+import { Text, Navigation, Direction } from '@/component'
+import style from './index.less'
 
-const DefaultHeader = () => {
-  const [tab, setTab] = useState(['1']);
-  const history = useHistory();
-  const handleBarClick = (e) => {
-    setTab([e.key]);
-  };
-
-  return (
-    <div>
-      <div className={style.title} onClick={() => history.push('/index')}>
-        青芽
-      </div>
-      <Navigation
-        data={[
-          { label: RouteName.Index, link: RouteLink.Index },
-          { label: RouteName.Type, link: RouteLink.Type },
-          { label: RouteName.Mood, link: RouteLink.Mood },
-          { label: RouteName.About, link: RouteLink.About },
-        ]}
-      />
-    </div>
-  );
-};
-
-export default DefaultHeader;
-
-{
-  /* <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} selectedKeys={tab}>
-{
-    tabTitle.map((v, i) => {
-        const key = i;
-        return (
-            <Item key={key} onClick={(e) => handleBarClick(e)}>
-                {v.title}
-            </Item>
-        )
-    })
+interface HeaderProps {
+    theme?: Theme
+    onToggleTheme?: (theme: Theme) => void
 }
-</Menu> */
+
+const navigationData = [
+    { id: 'index', label: RouteName.Index, link: RouteLink.Index },
+    { id: 'type', label: RouteName.Type, link: RouteLink.Type },
+    { id: 'mood', label: RouteName.Mood, link: RouteLink.Mood },
+    { id: 'about', label: RouteName.About, link: RouteLink.About },
+]
+
+const Header = (props: HeaderProps) => {
+    const { theme = 'light', onToggleTheme = () => null } = props
+
+    const { primaryBgColor, moonSun } = useTheme()
+
+    const history = useHistory()
+
+    const handleClickTitle = () => history.push('/index')
+
+    const handleToggleTheme = () => {
+        if (theme === 'light') {
+            onToggleTheme('dark')
+            return
+        }
+        onToggleTheme('light')
+    }
+
+    return (
+        <div className={style.box} style={{ backgroundColor: primaryBgColor }}>
+            <Direction className={style.titleBox}>
+                <Text
+                    type='title'
+                    className={style.title}
+                    onClick={handleClickTitle}>
+                    青芽
+                </Text>
+            </Direction>
+
+            <Direction>
+                <Navigation
+                    type='title'
+                    data={navigationData}
+                    className={style.navigation}
+                />
+            </Direction>
+
+            <FontAwesomeIcon
+                icon={theme === 'light' ? faSun : faMoon}
+                style={{ fontSize: 30, color: moonSun }}
+                onClick={handleToggleTheme}
+            />
+        </div>
+    )
 }
+
+export default Header

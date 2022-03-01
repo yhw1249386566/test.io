@@ -1,54 +1,57 @@
 {
-  "private": true,
-  "scripts": {
-    "start-dev": "umi dev",
-    "build": "umi build",
-    "postinstall": "umi generate tmp",
-    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
-    "test": "umi-test",
-    "test:coverage": "umi-test --coverage",
-    "prepare": "husky install"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,less,md,json}": [
-      "prettier --write"
-    ],
-    "*.{js,ts,tsx}": [
-      "prettier --write"
-    ],
-    "*.ts?(x)": [
-      "prettier --parser=typescript --write"
-    ]
-  },
-  "dependencies": {
-    "@ant-design/pro-layout": "^6.5.0",
-    "markdown": "^0.5.0",
-    "mobx": "^6.3.2",
-    "mobx-react": "^7.2.0",
-    "react": "17.x",
-    "react-dom": "17.x",
-    "umi": "^3.5.13"
-  },
-  "devDependencies": {
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.12.1",
-    "@typescript-eslint/parser": "^5.12.1",
-    "@umijs/preset-react": "1.x",
-    "@umijs/test": "^3.5.13",
-    "eslint": "^8.9.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-react": "^7.29.0",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "eslint-plugin-react-native": "^4.0.0",
-    "husky": "^7.0.4",
-    "lint-staged": "^10.0.7",
-    "prettier": "^2.2.0",
-    "typescript": "^4.1.2"
-  }
+    "private": true,
+    "scripts": {
+        "start-dev": "umi dev",
+        "build": "umi build",
+        "postinstall": "umi generate tmp",
+        "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
+        "test": "umi-test",
+        "test:coverage": "umi-test --coverage",
+        "prepare": "husky install",
+        "eslint": "npx eslint src",
+        "lint-staged": "npx lint-staged src"
+    },
+    "gitHooks": {
+        "pre-commit": "lint-staged"
+    },
+    "lint-staged": {
+        "*.{js,jsx,less,md,json,ts,tsx}": [
+            "prettier"
+        ]
+    },
+    "dependencies": {
+        "@ant-design/pro-layout": "^6.5.0",
+        "@fortawesome/react-fontawesome": "^0.1.17",
+        "classnames": "^2.3.1",
+        "markdown": "^0.5.0",
+        "mobx": "^6.3.2",
+        "mobx-react": "^7.2.0",
+        "react": "17.x",
+        "react-dom": "17.x",
+        "umi": "^3.5.13"
+    },
+    "devDependencies": {
+        "@fortawesome/fontawesome-free": "^6.0.0",
+        "@fortawesome/fontawesome-svg-core": "^1.3.0",
+        "@fortawesome/free-brands-svg-icons": "^6.0.0",
+        "@fortawesome/free-regular-svg-icons": "^6.0.0",
+        "@fortawesome/free-solid-svg-icons": "^6.0.0",
+        "@types/react": "^17.0.0",
+        "@types/react-dom": "^17.0.0",
+        "@typescript-eslint/eslint-plugin": "^5.12.1",
+        "@typescript-eslint/parser": "^5.12.1",
+        "@umijs/preset-react": "1.x",
+        "@umijs/test": "^3.5.13",
+        "eslint": "^8.9.0",
+        "eslint-config-airbnb": "^19.0.4",
+        "eslint-plugin-import": "^2.25.4",
+        "eslint-plugin-jsx-a11y": "^6.5.1",
+        "eslint-plugin-react": "^7.29.0",
+        "eslint-plugin-react-hooks": "^4.3.0",
+        "eslint-plugin-react-native": "^4.0.0",
+        "husky": "^7.0.4",
+        "lint-staged": "^10.0.7",
+        "prettier": "^2.2.0",
+        "typescript": "^4.1.2"
+    }
 }

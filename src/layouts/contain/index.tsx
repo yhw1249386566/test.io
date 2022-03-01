@@ -1,40 +1,29 @@
-import { Layout, Menu, Breadcrumb } from 'antd';
-import { useState } from 'react';
-import { Link, history } from 'umi';
+import React, { useState } from 'react'
+import { Layout } from 'antd'
+import { ThemeProvider } from '../../contexts'
+import style from './index.less'
+import Footer from '../footer'
+import Header from '../header'
 
-import style from './index.less';
-import Footer from '../footer';
-import Hedaer from '../header';
+const { Content } = Layout
 
-const { Content } = Layout;
+const Contain = (props: { children: React.ReactNode }) => {
+    const [theme, setTheme] = useState<Theme>('light')
 
-const tabTitle = [
-  { title: '首页' },
-  { title: '分类' },
-  { title: '心情' },
-  { title: '关于' },
-];
+    return (
+        <ThemeProvider theme={theme}>
+            <Layout className={style.layout}>
+                <Header
+                    theme={theme}
+                    onToggleTheme={(theme) => setTheme(theme)}
+                />
 
-const Contain = (props) => {
-  console.log('props', props);
-  const [tab, setTab] = useState(['1']);
+                <Content>{props.children}</Content>
 
-  const handleBarClick = (e) => {
-    setTab([e.key]);
-  };
+                <Footer />
+            </Layout>
+        </ThemeProvider>
+    )
+}
 
-  return (
-    <Layout className="layout">
-      <Hedaer />
-      {/* 
-            <Content style={{ padding: '0 50px' }}>
-                {tab}
-            </Content> */}
-      {props.children}
-
-      <Footer />
-    </Layout>
-  );
-};
-
-export default Contain;
+export default Contain

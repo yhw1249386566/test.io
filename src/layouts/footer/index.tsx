@@ -1,11 +1,19 @@
-import { Layout } from 'antd';
-
-const { Footer } = Layout;
+import style from './index.less'
+import { useTheme } from '@/hooks'
+import { Text, Direction } from '@/component'
 
 const DefaultFooter = () => {
-  return (
-    <Footer style={{ textAlign: 'center' }}>©2021 Created by Yomua</Footer>
-  );
-};
+    const themeContext = useTheme()
 
-export default DefaultFooter;
+    return (
+        <Direction
+            className={style.footer}
+            style={{
+                backgroundColor: themeContext.primaryBgColor,
+            }}>
+            <Text type='title'>©2021 Created by Yomua</Text>
+        </Direction>
+    )
+}
+
+export default DefaultFooter

@@ -1,7 +1,5 @@
-import React, { Component } from 'react';
-
 const TopBar = () => {
-  return <div></div>;
-};
+    return <div></div>
+}
 
-export default TopBar;
+export default TopBar

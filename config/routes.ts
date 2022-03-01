@@ -6,7 +6,7 @@ export default [
             { path: '/', redirect: '/index', exact: true },
             {
                 path: '/index',
-                component: '@/pages/index',
+                component: '@/index',
             },
             {
                 path: '/type',

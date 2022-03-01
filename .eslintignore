@@ -2,3 +2,7 @@
 #     "ignorePatterns": [".eslintrc.js"]
 # }
 .eslintrc.js
+src/assets/**
+*.less
+*.ejs
+*.html

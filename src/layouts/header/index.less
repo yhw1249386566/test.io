@@ -1,11 +1,24 @@
-.title {
-  display: flex;
-  justify-content: center;
-  font-size: 72px;
-  color: #ff85c0;
-  cursor: pointer;
-  &:hover {
-    transition: all 0.5s ease-in-out;
-    color: #ffadd2;
-  }
+.box {
+    background: black;
+
+    .titleBox {
+        padding-top: 30px;
+        .title {
+            display: flex;
+            justify-content: center;
+            font-size: 72px;
+            color: #fff;
+            cursor: pointer;
+            &:hover {
+                transition: all 0.5s ease-in-out;
+                color: #fff;
+            }
+        }
+    }
+
+    .navigation {
+        display: flex;
+        width: 50%;
+        justify-content: space-between;
+    }
 }

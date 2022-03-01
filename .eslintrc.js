@@ -1,59 +1,33 @@
 module.exports = {
-  env: {
-    browser: true,
-    es2021: true,
-    'react-native/react-native': true,
-  },
-  extends: [
-    'plugin:react/recommended',
-    'airbnb',
-    'plugin:@typescript-eslint/recommended',
-  ],
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
+    env: {
+        browser: true,
+        es2021: true,
     },
-    ecmaVersion: 13,
-    sourceType: 'module',
-  },
-  settings: {
-    'react-native/style-sheet-object-names': [
-      'EStyleSheet',
-      'OtherStyleSheet',
-      'PStyleSheet',
+    extends: [
+        'eslint:recommended',
+        'plugin:react/recommended',
+        'plugin:@typescript-eslint/recommended',
     ],
-  },
-  plugins: ['@typescript-eslint', 'react-native'],
-  rules: {
-    'react-native/no-unused-styles': 2,
-    'react-native/split-platform-components': 2,
-    'react-native/no-inline-styles': 0,
-    'react-native/no-color-literals': 2,
-    'react-native/no-raw-text': 0,
-    'react-native/no-single-element-style-arrays': 2,
-    'jsx-quotes': 0,
-    quotes: [0],
-    'react/jsx-filename-extension': [
-      1,
-      { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
-    ],
-    'react/jsx-key': 2,
-    'react/jsx-props-no-spreading': [0],
-    'react/require-default-props': [1, { ignoreFunctionalComponents: true }],
-    'no-unused-expressions': [0],
-    'react/jsx-no-bind': [0],
-    'import/no-unresolved': [0],
-    'import/extensions': [0],
-    'import/no-extraneous-dependencies': [0],
-    'import/no-unescaped-entities': [0],
-    'no-unescaped-entities': [0],
-    'react/no-unescaped-entities': [0],
-    'arrow-body-style': [0],
-    'react/react-in-jsx-scope': [0],
-    'react/jsx-closing-bracket-location': [0],
-    'react/jsx-one-expression-per-line': [0],
-    'object-curly-newline': [0],
-    'operator-linebreak': [0],
-  },
-};
+    parser: '@typescript-eslint/parser',
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true,
+        },
+        ecmaVersion: 12,
+        sourceType: 'module',
+    },
+    plugins: ['react', '@typescript-eslint'],
+    rules: {
+        quotes: [2, 'single'], //单引号
+        'no-lone-blocks': 0, //禁止不必要的嵌套块
+        'no-duplicate-case': 2, //switch中的case标签不能重复
+        'no-dupe-args': 2, //函数参数不能重复
+        'no-undef': 0, //不能有未定义的变量
+        'no-use-before-define': 2, //未定义前不能使用
+        'react/no-deprecated': 2, //不使用弃用的方法
+        'no-unreachable': 2, //不能有无法执行的代码
+        'react/jsx-key': 1, //在数组或迭代器中验证JSX具有key属性
+        'no-var': 2, // 禁止使用 let 或 const 而不是 var
+        'react/react-in-jsx-scope': 0,
+    },
+}

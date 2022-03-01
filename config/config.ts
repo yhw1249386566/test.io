@@ -6,6 +6,6 @@ export default defineConfig({
     type: 'none',
   },
   fastRefresh: {},
-  mfsu: {},
+  // mfsu: {},
   routes,
 });
