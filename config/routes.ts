@@ -1,12 +1,12 @@
 export default [
     {
         path: '/',
-        component: '@/layouts/contain',
+        component: '@/index',
         routes: [
             { path: '/', redirect: '/index', exact: true },
             {
                 path: '/index',
-                component: '@/index',
+                component: '@/pages/index',
             },
             {
                 path: '/type',
@@ -20,8 +20,6 @@ export default [
                 path: '/about',
                 component: '@/pages/about',
             },
-        ]
-
+        ],
     },
-
 ]
