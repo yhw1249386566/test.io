@@ -8,26 +8,32 @@
         "test": "umi-test",
         "test:coverage": "umi-test --coverage",
         "prepare": "husky install",
-        "eslint": "npx eslint src",
+        "eslint": "npx eslint src/",
         "lint-staged": "npx lint-staged src"
     },
     "gitHooks": {
         "pre-commit": "lint-staged"
     },
     "lint-staged": {
-        "*.{js,jsx,less,md,json,ts,tsx}": [
-            "prettier"
+        "*.{js,ts,tsx}": [
+            "eslint",
+            "prettier --write",
+            "git add"
         ]
     },
     "dependencies": {
         "@ant-design/pro-layout": "^6.5.0",
         "@fortawesome/react-fontawesome": "^0.1.17",
         "classnames": "^2.3.1",
+        "eslint": "^8.10.0",
         "markdown": "^0.5.0",
         "mobx": "^6.3.2",
         "mobx-react": "^7.2.0",
         "react": "17.x",
         "react-dom": "17.x",
+        "react-markdown": "^8.0.0",
+        "react-syntax-highlighter": "^15.4.5",
+        "remark-gfm": "^3.0.1",
         "umi": "^3.5.13"
     },
     "devDependencies": {
@@ -42,7 +48,6 @@
         "@typescript-eslint/parser": "^5.12.1",
         "@umijs/preset-react": "1.x",
         "@umijs/test": "^3.5.13",
-        "eslint": "^8.9.0",
         "eslint-config-airbnb": "^19.0.4",
         "eslint-plugin-import": "^2.25.4",
         "eslint-plugin-jsx-a11y": "^6.5.1",

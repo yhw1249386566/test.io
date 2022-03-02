@@ -10,7 +10,7 @@ interface HeaderProps {
     theme?: Theme
     onToggleTheme?: (theme: Theme) => void
 }
-
+//
 const navigationData = [
     { id: 'index', label: RouteName.Index, link: RouteLink.Index },
     { id: 'type', label: RouteName.Type, link: RouteLink.Type },
@@ -41,7 +41,8 @@ const Header = (props: HeaderProps) => {
                 <Text
                     type='title'
                     className={style.title}
-                    onClick={handleClickTitle}>
+                    onClick={handleClickTitle}
+                >
                     青芽
                 </Text>
             </Direction>
