@@ -1,0 +1,17 @@
+[data-theme='dark']:root {
+    --pure-same-color: #000;
+    --pure-inversion-color: #fff;
+    --primary-color: rgba(255, 255, 255, 0.65);
+    --primary-background-color: #062c1c;
+    --secondary-color: '';
+    --moon-sun: #b1d5c8;
+}
+
+[data-theme='light']:root {
+    --pure-same-color: #fff;
+    --pure-inversion-color: #000;
+    --primary-color: rgba(0, 0, 0, 0.65);
+    --primary-background-color: #f9d3e3;
+    --secondary-color: '';
+    --moon-sun: #f7eead;
+}

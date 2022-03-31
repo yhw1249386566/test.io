@@ -1,5 +1,6 @@
 import React from 'react'
-import { useTheme } from '@/hooks'
+import classnames from 'classnames'
+import style from './index.less'
 
 // type ReactHTMLDivElement = Omit<React.HTMLAttributes<HTMLDivElement>, 'css'>
 type Text = React.ClassAttributes<HTMLDivElement> &
@@ -14,19 +15,15 @@ interface TextProps extends Text {
 
 const Text = (props: TextProps) => {
     const { type = 'primary' } = props
-    const { primaryTextColor, secondaryColor } = useTheme()
 
-    const colorStrategy = new Map([
-        ['primary', () => primaryTextColor],
-        ['secondary', () => secondaryColor],
-        ['title', () => 'rgba(255, 255, 255, 0.65)'],
-    ])
-
-    const getColor = (type: Type) =>
-        colorStrategy.get(type)?.() ?? primaryTextColor
+    const className = classnames(style.text, {
+        [style.primary]: type === 'primary',
+        [style.secondary]: type === 'secondary',
+        [style.title]: type === 'title',
+    })
 
     return (
-        <div style={{ color: getColor(type), width: 'max-content' }} {...props}>
+        <div className={className} {...props}>
             {props.children}
         </div>
     )

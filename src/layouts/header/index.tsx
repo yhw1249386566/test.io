@@ -1,7 +1,6 @@
 import { useHistory } from 'umi'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
-import { useTheme } from '@/hooks'
 import { RouteName, RouteLink } from '@/constant'
 import { Text, Navigation, Direction } from '@/component'
 import style from './index.less'
@@ -21,8 +20,6 @@ const navigationData = [
 const Header = (props: HeaderProps) => {
     const { theme = 'light', onToggleTheme = () => null } = props
 
-    const { primaryBgColor, moonSun } = useTheme()
-
     const history = useHistory()
 
     const handleClickTitle = () => history.push('/index')
@@ -36,7 +33,7 @@ const Header = (props: HeaderProps) => {
     }
 
     return (
-        <div className={style.box} style={{ backgroundColor: primaryBgColor }}>
+        <div className={style.box}>
             <Direction className={style.titleBox}>
                 <Text
                     type='title'
@@ -56,8 +53,8 @@ const Header = (props: HeaderProps) => {
             </Direction>
 
             <FontAwesomeIcon
+                className={style.themeIcon}
                 icon={theme === 'light' ? faSun : faMoon}
-                style={{ fontSize: 30, color: moonSun }}
                 onClick={handleToggleTheme}
             />
         </div>
