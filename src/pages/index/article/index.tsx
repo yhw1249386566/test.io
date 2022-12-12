@@ -15,7 +15,7 @@ export default function Article(props) {
 
     return (
         <div className='className_article'>
-            {params.article === '1' && (
+            {params.article == 1 && (
                 <ReactMarkdown
                     children={designPatterns}
                     components={{

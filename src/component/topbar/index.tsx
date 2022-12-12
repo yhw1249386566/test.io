@@ -1,5 +1,7 @@
+import { memo } from 'react'
+
 const TopBar = () => {
     return <div></div>
 }
 
-export default TopBar
+export default memo(TopBar)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Link } from 'umi'
 import { Type } from '../text'
 import { Text } from '../index'
@@ -33,4 +33,4 @@ const Navigation = (props: Props) => {
     )
 }
 
-export default Navigation
+export default memo(Navigation)
