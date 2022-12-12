@@ -1,4 +1,5 @@
 import React, { memo } from 'react'
+
 import style from './index.less'
 
 type Div = React.ClassAttributes<HTMLDivElement> &
