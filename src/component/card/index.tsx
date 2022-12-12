@@ -9,6 +9,7 @@ import {
 
 import style from './index.less'
 
+//
 interface CustomProps extends CardProps {
     img?: string
     text?: string
