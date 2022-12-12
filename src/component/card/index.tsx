@@ -11,7 +11,12 @@ interface CustomProps extends CardProps {
     title?: string
     author?: string
     time?: string
-    tag?: { icon: IconProp; name: string; color?: string }[]
+    tag?: {
+        icon: IconProp
+        name: string
+        key?: string
+        color?: string
+    }[]
 }
 
 const CustomCard = (props: CustomProps) => {
@@ -69,9 +74,10 @@ const CustomCard = (props: CustomProps) => {
                 </div>
 
                 <div className={style.tags}>
-                    {tag.map((tag) => {
+                    {tag.map((tag, index) => {
                         return (
                             <Tag
+                                key={tag?.key ?? index}
                                 icon={<FontAwesomeIcon icon={tag?.icon} />}
                                 color={tag?.color ?? '#55acee'}
                                 className={style.tag}
