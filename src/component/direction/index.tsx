@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import style from './index.less'
 
 type Div = React.ClassAttributes<HTMLDivElement> &
@@ -25,10 +25,11 @@ const Direction = (props: DirectionProps) => {
     return (
         <div
             className={`${style[defaultClassName]} ${className}`}
-            {...otherProps}>
+            {...otherProps}
+        >
             {children}
         </div>
     )
 }
 
-export default Direction
+export default memo(Direction)

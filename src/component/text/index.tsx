@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import classnames from 'classnames'
 import style from './index.less'
 
@@ -29,4 +29,4 @@ const Text = (props: TextProps) => {
     )
 }
 
-export default Text
+export default memo(Text)

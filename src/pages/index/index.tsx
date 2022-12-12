@@ -1,20 +1,25 @@
+import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { faClock, faUserAstronaut } from '@fortawesome/free-solid-svg-icons'
-import { useRouteMatch, useLocation } from 'umi'
+import { useRouteMatch, history } from 'umi'
 
 import { Card } from '@/component'
+import Article from './article'
 import style from './index.less'
 import content from '../../../../../own/privatenotes/1_front_end/0_base/JS设计模式/设计模式.md'
 
-export default function Index(props) {
+export default function Index(props: { children: React.ReactNode }) {
+    const [articleData, setArticleData] = useState('')
+
     const match = useRouteMatch()
-    console.log('__match', match, useLocation())
+
+    function handleSwitchArticle(articleId: string) {
+        return () => history.push(`/index/${articleId}`)
+    }
 
     return (
         <div className={style.index} style={{ padding: 50 }}>
-            {/* {props.children} */}
+            {props.children}
             <Card
                 title='Animation'
                 text='动画的存在是存在关键帧的前提动画的存在是存在关键帧的前提动画的存在是存在关键帧的前提动画的存在是存在关键帧的前提,即:关键帧是定义在动画中的动画的存在是存在关键帧的前提,即:关键帧是定义在动画中的动画的存在是存在关键帧的前提,即:关键帧是定义在动画中的'
@@ -29,7 +34,7 @@ export default function Index(props) {
                         color: '#ecb0c1',
                     },
                 ]}
-                // onClick={}
+                onClick={handleSwitchArticle('1')}
             />
             <Card
                 title='Animation'
@@ -37,7 +42,9 @@ export default function Index(props) {
                 author='Yomua'
                 time='2020年6月22日'
                 img='https://i.niupic.com/images/2022/03/08/9W7A.jpg'
+                onClick={handleSwitchArticle('')}
             />
+            <Article data={articleData} />
         </div>
     )
 }

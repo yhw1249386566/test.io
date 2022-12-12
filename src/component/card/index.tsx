@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
+import { memo, useState } from 'react'
 import { Tag, Card, Image, CardProps } from 'antd'
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faClock, faUserAstronaut } from '@fortawesome/free-solid-svg-icons'
+import {
+    faClock,
+    faUserAstronaut,
+    IconDefinition,
+} from '@fortawesome/free-solid-svg-icons'
+
 import style from './index.less'
 
+//
 interface CustomProps extends CardProps {
     img?: string
     text?: string
@@ -12,7 +17,7 @@ interface CustomProps extends CardProps {
     author?: string
     time?: string
     tag?: {
-        icon: IconProp
+        icon: IconDefinition
         name: string
         key?: string
         color?: string
@@ -66,10 +71,11 @@ const CustomCard = (props: CustomProps) => {
 
                 <div className={style.info}>
                     <div>
-                        <FontAwesomeIcon icon={faUserAstronaut} /> {author}
+                        <FontAwesomeIcon icon={faUserAstronaut as any} />{' '}
+                        {author}
                     </div>
                     <div>
-                        <FontAwesomeIcon icon={faClock} /> {time}
+                        <FontAwesomeIcon icon={faClock as any} /> {time}
                     </div>
                 </div>
 
@@ -78,7 +84,9 @@ const CustomCard = (props: CustomProps) => {
                         return (
                             <Tag
                                 key={tag?.key ?? index}
-                                icon={<FontAwesomeIcon icon={tag?.icon} />}
+                                icon={
+                                    <FontAwesomeIcon icon={tag?.icon as any} />
+                                }
                                 color={tag?.color ?? '#55acee'}
                                 className={style.tag}
                             >
@@ -92,4 +100,4 @@ const CustomCard = (props: CustomProps) => {
     )
 }
 
-export default CustomCard
+export default memo(CustomCard)
