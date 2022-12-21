@@ -49,7 +49,10 @@ const CustomCard = (props: CustomProps) => {
                 src={img}
                 className={style.image}
                 preview={{ visible: false }}
-                onClick={() => setVisible(true)}
+                onClick={(event) => {
+                    setVisible(true)
+                    event.stopPropagation()
+                }}
             />
 
             <div className={style.preview}>
