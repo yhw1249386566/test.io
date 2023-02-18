@@ -19,7 +19,7 @@ library.add(fas, faFacebookSquare, faYoutubeSquare, faLinkedin, faTwitterSquare)
 const Index = (props: { children: React.ReactNode }) => {
     const [theme, setTheme] = useState<Theme>('light')
 
-    const handleChangeTheme = useCallback(() => {
+    const handleChangeTheme = useCallback((theme: Theme) => {
         setTheme(theme)
     }, [])
 

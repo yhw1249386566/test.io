@@ -1,4 +1,5 @@
 import React, { memo } from 'react'
+import classNames from 'classnames'
 
 import style from './index.less'
 
@@ -25,7 +26,7 @@ const Direction = (props: DirectionProps) => {
 
     return (
         <div
-            className={`${style[defaultClassName]} ${className}`}
+            className={classNames(style[defaultClassName], className)}
             {...otherProps}
         >
             {children}

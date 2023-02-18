@@ -1,9 +1,13 @@
 import { memo, useState, useCallback } from 'react'
+import classNames from 'classnames'
 import { Tag, Card, Image, CardProps } from 'antd'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import { useTheme } from '@/hooks'
+
 import Text from '../text'
+
 import style from './index.less'
 
 interface CustomProps extends CardProps {
@@ -34,6 +38,8 @@ const CustomCard = (props: CustomProps) => {
 
     const [visible, setVisible] = useState(false)
 
+    const theme = useTheme()
+
     const handleClickImage = useCallback(
         (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
             setVisible(true)
@@ -47,7 +53,11 @@ const CustomCard = (props: CustomProps) => {
             <Card
                 bordered
                 hoverable
-                className={`${style.card} ${className}`}
+                className={classNames(
+                    style.card,
+                    style[`card-${theme}`],
+                    className,
+                )}
                 {...otherProps}
             >
                 <Image

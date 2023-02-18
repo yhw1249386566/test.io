@@ -1,7 +1,6 @@
 import React, { memo } from 'react'
 import { Link } from 'umi'
 
-import { Type } from '../text'
 import { Text } from '../index'
 
 type DivProps = React.ClassAttributes<HTMLDivElement> &
@@ -13,11 +12,10 @@ interface Props extends DivProps {
         label: React.ReactNode
         link: string
     }[]
-    type?: Type
 }
 
 const Navigation = (props: Props) => {
-    const { data, type, ...otherProps } = props
+    const { data, ...otherProps } = props
 
     return (
         <div {...otherProps}>
@@ -26,7 +24,7 @@ const Navigation = (props: Props) => {
 
                 return (
                     <Link key={id ?? index} to={`/${link}`}>
-                        <Text type={type}>{label}</Text>
+                        <Text>{label}</Text>
                     </Link>
                 )
             })}
