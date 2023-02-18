@@ -1,0 +1,196 @@
+.todoview {
+    height: 480px;
+    // border: 1px solid;
+    width: 538px;
+    border-radius: 24px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 150px;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+        width: 5px;
+        height: 8px;
+        background-color: #ffffd7; /* or add it to the track */
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #ebd2b8;
+    }
+
+    li {
+        list-style: none;
+        display: flex;
+        height: 105px;
+        position: relative;
+        left: 30px;
+        width: 480px;
+        word-break: break-all;
+        overflow: hidden;
+        color: #38363a;
+        align-items: center;
+        font-size: 20px;
+        border-bottom: 2px solid #bdabc32b;
+        bottom: 10px;
+        &:hover {
+            .deletetodoicon {
+                display: block;
+            }
+        }
+        .circularcheck {
+            cursor: pointer;
+            position: relative;
+            font-size: 20px;
+            visibility: hidden;
+            top: -31px;
+            &::after {
+                content: "";
+                position: absolute;
+                border: 1px solid black;
+                width: 20px;
+                height: 20px;
+                display: inline-block;
+                visibility: visible;
+                padding-left: 0px;
+                text-align: center;
+                top: 0;
+                border-radius: 50%;
+            }
+            &:checked + .todocontent {
+                transition: all 1s 0s ease-out;
+                text-decoration: line-through;
+                color: #d4d4d4;
+            }
+            & + .todocontent {
+                transition: all 0.5s 0s ease-out;
+                color: #38363a;
+            }
+            &:checked::after {
+                content: "✓";
+                font-size: 1px;
+                font-weight: bold;
+                position: relative;
+                top: -9px;
+            }
+        }
+        .todocontent {
+            width: 378px;
+            position: absolute;
+            left: 30px;
+            height: 100%;
+            // cursor: pointer;
+            border: none;
+            background-color: #ffffff00;
+            outline: none;
+            top: 6px;
+            resize: none;
+            overflow: hidden;
+        }
+        .deletetodoicon {
+            width: 1em;
+            height: 1em;
+            overflow: hidden;
+            position: absolute;
+            right: 6%;
+            top: 23%;
+            display: none;
+            font-size: 28px;
+            cursor: pointer;
+            transform: rotateZ(0deg);
+            &:hover {
+                transition: all 2s 0.2s ease;
+                transform: rotateZ(360deg);
+            }
+        }
+        .timer {
+            @keyframes rotatehourglass {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+            position: relative;
+            left: 308px;
+            top: 41px;
+            .userinputtime {
+                position: relative;
+                right: 33px;
+                top: 36px;
+                .durationTime {
+                    position: absolute;
+                    bottom: 29px;
+                    font-size: 10px;
+                    left: 57px;
+                    color: #c2c0c4;
+                }
+                .duetotime {
+                    position: absolute;
+                    right: -3px;
+                    border: none;
+                    outline: none;
+                    background-color: #fae7e7;
+                    width: 40px;
+                    font-size: 8px;
+                    bottom: 31px;
+                    height: 13px;
+                }
+                .duetotimeunit {
+                    position: absolute;
+                    bottom: 29px;
+                    right: -30px;
+                    font-size: 10px;
+                    color: #c2c0c4;
+                }
+            }
+
+            .timehourglass {
+                display: inline-block;
+                background: url("./assets/timehourglass.png") no-repeat;
+                width: 13px;
+                height: 13px;
+                background-size: 13px 13px;
+            }
+
+            .isAboutToExpire {
+                animation: rotatehourglass 5s 0s linear infinite;
+            }
+            .countdown {
+                position: relative;
+                bottom: 3px;
+                left: 5px;
+                font-size: 1px;
+                color: #c2c0c4;
+                cursor: default;
+                &::after {
+                    content: "（正在做）";
+                }
+            }
+            .willExpire {
+                color: #f2e700;
+
+                &::after {
+                    content: "（将过期）";
+                }
+            }
+            .expiredL {
+                color: #ff4b00;
+                text-decoration: line-through;
+                &::after {
+                    content: "（已过期）";
+                }
+            }
+        }
+        .circularcheck_checked ~ .timer > .countdown {
+            text-decoration: none;
+            color: #d4d4d4;
+            &::after {
+                content: "（已完成）";
+            }
+        }
+        // 完成任务，移除沙漏动画
+        .circularcheck_checked ~ .timer > .timehourglass {
+            animation: none;
+        }
+    }
+}

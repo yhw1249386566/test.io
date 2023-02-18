@@ -16,4 +16,5 @@ export default defineConfig({
     dynamicImport: {
         loading: '@/component/loading',
     },
+    title:'Yomua'
 })

@@ -1,10 +1,12 @@
 .header-light {
+    --layouts-header-background-color: var(--global-primary-background-color);
     --layouts-header-theme-icon-color: #f7eead;
-    --layouts-header-background-color: #f9d3e3;
+    --layouts-header-theme-icon-hover-color: #000;
 }
 .header-dark {
+    --layouts-header-background-color: var(--global-primary-background-color);
     --layouts-header-theme-icon-color: #b1d5c8;
-    --layouts-header-background-color: #062c1c;
+    --layouts-header-theme-icon-hover-color: #fff;
 }
 
 .header {
@@ -35,4 +37,19 @@
 .themeIcon {
     color: var(--layouts-header-theme-icon-color);
     font-size: 30px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 1s ease 0s;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    &:hover {
+        // transform: scale(1.5);
+        box-shadow: 0 1px 2px -3px var(--layouts-header-theme-icon-hover-color),
+            0 3px 6px 0 var(--layouts-header-theme-icon-hover-color),
+            0 5px 12px 4px var(--layouts-header-theme-icon-hover-color);
+    }
 }

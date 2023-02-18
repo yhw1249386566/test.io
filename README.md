@@ -44,7 +44,6 @@ https://antdtheme.com/dark
 
 注意：组件必须要高内聚，低耦合！且在封装中的组件中，禁止存在任何全局变量！！！
 
-
 # 流程
 
 https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
@@ -54,3 +53,8 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 -   基于 dev 分支拉出新分支，然后进行修改，最后直接 push 到 dev.
     由于 dev 是保护分支，所以 gitee 将会自动创建一个 pr 到 dev，不需要手动。
 -   dev 有更新后，PR 到 release.
+
+# Todo
+
+这是以前在实习的时候，在紫讯公司写的 todo,
+如果后面要重构，那么 mobx, mobx-react 可以删除，这两个库目前只用于 Todo
