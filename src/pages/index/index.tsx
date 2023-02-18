@@ -1,12 +1,13 @@
-import { faClock, faUserAstronaut } from '@fortawesome/free-solid-svg-icons'
+import { memo } from 'react'
 import { useRouteMatch, history } from 'umi'
+import { faClock, faUserAstronaut } from '@fortawesome/free-solid-svg-icons'
 
-import Cute from '@/assets/img/cute.jpeg'
 import { Card } from '@/component'
+import Cute from '@/assets/img/cute.jpeg'
 
 import style from './index.less'
 
-export default function Index() {
+function Index() {
     const match = useRouteMatch()
 
     function handleSwitchArticle(articleId: string) {
@@ -17,7 +18,7 @@ export default function Index() {
         <div className={style.index} style={{ padding: 50 }}>
             <Card
                 title='Animation'
-                text='Animation'
+                description='Animation'
                 author='Yomua'
                 time='2020年6月22日'
                 img={Cute}
@@ -34,12 +35,22 @@ export default function Index() {
 
             <Card
                 title='Animation'
-                text='动画的的'
+                description='动画的的'
                 author='Yomua'
                 time='2020年6月22日'
                 img={Cute}
                 onClick={handleSwitchArticle('')}
+                tag={[
+                    { name: 'CSS', icon: faClock, color: '#ee7959' },
+                    {
+                        name: '设计模式',
+                        icon: faUserAstronaut,
+                        color: '#ecb0c1',
+                    },
+                ]}
             />
         </div>
     )
 }
+
+export default memo(Index)

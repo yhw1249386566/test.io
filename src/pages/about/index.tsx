@@ -1,8 +1,8 @@
-import React from 'react'
+import { memo } from 'react'
 import style from './index.less'
 
-const Type = () => {
+function Type() {
     return <div className={style.about}>about</div>
 }
 
-export default Type
+export default memo(Type)

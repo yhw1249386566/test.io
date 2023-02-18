@@ -1,25 +1,21 @@
-import { memo, useState } from 'react'
+import { memo, useState, useCallback } from 'react'
 import { Tag, Card, Image, CardProps } from 'antd'
+import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-    faClock,
-    faUserAstronaut,
-    IconDefinition,
-} from '@fortawesome/free-solid-svg-icons'
 
+import Text from '../text'
 import style from './index.less'
 
-//
 interface CustomProps extends CardProps {
     img?: string
-    text?: string
     title?: string
     author?: string
     time?: string
-    tag?: {
-        icon: IconDefinition
+    description?: string
+    tag: {
         name: string
         key?: string
+        icon?: IconProp
         color?: string
     }[]
 }
@@ -28,7 +24,7 @@ const CustomCard = (props: CustomProps) => {
     const {
         img,
         time,
-        text,
+        description,
         title,
         author,
         className,
@@ -38,22 +34,67 @@ const CustomCard = (props: CustomProps) => {
 
     const [visible, setVisible] = useState(false)
 
+    const handleClickImage = useCallback(
+        (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+            setVisible(true)
+            event.stopPropagation()
+        },
+        [],
+    )
+
     return (
-        <Card
-            bordered
-            hoverable
-            className={`${style.card} ${className}`}
-            {...otherProps}
-        >
-            <Image
-                src={img}
-                className={style.image}
-                preview={{ visible: false }}
-                onClick={(event) => {
-                    setVisible(true)
-                    event.stopPropagation()
-                }}
-            />
+        <div className='component-ui-card-box'>
+            <Card
+                bordered
+                hoverable
+                className={`${style.card} ${className}`}
+                {...otherProps}
+            >
+                <Image
+                    src={img}
+                    className={style.image}
+                    preview={{ visible: false }}
+                    onClick={handleClickImage}
+                />
+
+                <div className={style.content}>
+                    <Text className={style.title}>{title}</Text>
+
+                    <Text className={style.description}>{description}</Text>
+
+                    <div className={style.info}>
+                        <div>
+                            <FontAwesomeIcon icon='user' />
+                            <Text>{author}</Text>
+                        </div>
+                        <div>
+                            <FontAwesomeIcon icon='clock' />
+                            <Text>{time}</Text>
+                        </div>
+                    </div>
+
+                    <div className={style.tags}>
+                        {tag.map((tag, index) => {
+                            const { name, key, icon, color } = tag
+
+                            return (
+                                <Tag
+                                    className={style.tag}
+                                    key={key ?? index}
+                                    color={color ?? '#55acee'}
+                                    icon={
+                                        icon ? (
+                                            <FontAwesomeIcon icon={icon} />
+                                        ) : null
+                                    }
+                                >
+                                    {name}
+                                </Tag>
+                            )
+                        })}
+                    </div>
+                </div>
+            </Card>
 
             <div className={style.preview}>
                 <Image.PreviewGroup
@@ -66,40 +107,7 @@ const CustomCard = (props: CustomProps) => {
                     <Image src={img} />
                 </Image.PreviewGroup>
             </div>
-
-            <div className={style.content}>
-                <div className={style.title}>{title}</div>
-
-                <div className={style.summary}>{text}</div>
-
-                <div className={style.info}>
-                    <div>
-                        <FontAwesomeIcon icon={faUserAstronaut as any} />{' '}
-                        {author}
-                    </div>
-                    <div>
-                        <FontAwesomeIcon icon={faClock as any} /> {time}
-                    </div>
-                </div>
-
-                <div className={style.tags}>
-                    {tag.map((tag, index) => {
-                        return (
-                            <Tag
-                                key={tag?.key ?? index}
-                                icon={
-                                    <FontAwesomeIcon icon={tag?.icon as any} />
-                                }
-                                color={tag?.color ?? '#55acee'}
-                                className={style.tag}
-                            >
-                                {tag?.name}
-                            </Tag>
-                        )
-                    })}
-                </div>
-            </div>
-        </Card>
+        </div>
     )
 }
 

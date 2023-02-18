@@ -1,33 +1,46 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Layout } from 'antd'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import {
+    faLinkedin,
+    faTwitterSquare,
+    faYoutubeSquare,
+    faFacebookSquare,
+} from '@fortawesome/free-brands-svg-icons'
+
+import style from './index.less'
 import Footer from './layouts/footer'
 import Header from './layouts/header'
 import { ThemeProvider } from './contexts'
-import style from './index.less'
 
-const { Content } = Layout
+library.add(fas, faFacebookSquare, faYoutubeSquare, faLinkedin, faTwitterSquare)
 
 const Index = (props: { children: React.ReactNode }) => {
     const [theme, setTheme] = useState<Theme>('light')
 
+    const handleChangeTheme = useCallback(() => {
+        setTheme(theme)
+    }, [])
+
     useEffect(() => {
         const html = document.querySelector('html')
-        if (theme === 'light') {
-            html?.setAttribute('data-theme', theme)
+
+        if (!html) {
             return
         }
-        html?.setAttribute('data-theme', theme)
+
+        html.setAttribute('data-theme', theme)
     }, [theme])
 
     return (
         <ThemeProvider theme={theme}>
             <Layout className={style.layout}>
-                <Header
-                    theme={theme}
-                    onToggleTheme={(theme) => setTheme(theme)}
-                />
+                <Header theme={theme} onToggleTheme={handleChangeTheme} />
 
-                <Content>{props.children}</Content>
+                <Layout.Content className={style.content}>
+                    {props.children}
+                </Layout.Content>
 
                 <Footer />
             </Layout>

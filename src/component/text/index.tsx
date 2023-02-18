@@ -3,28 +3,27 @@ import classnames from 'classnames'
 
 import style from './index.less'
 
-// type ReactHTMLDivElement = Omit<React.HTMLAttributes<HTMLDivElement>, 'css'>
 type Text = React.ClassAttributes<HTMLDivElement> &
     React.HTMLAttributes<HTMLDivElement>
 
-export type Type = 'primary' | 'secondary' | 'title'
+export type Type = 'primary' | 'secondary'
 
 interface TextProps extends Text {
     type?: Type
     children?: React.ReactNode
+    className?: string
 }
 
 const Text = (props: TextProps) => {
-    const { type = 'primary' } = props
+    const { type = 'primary', className = '', ...otherProps } = props
 
-    const className = classnames(style.text, {
+    const textClassName = classnames(style.text, className, {
         [style.primary]: type === 'primary',
         [style.secondary]: type === 'secondary',
-        [style.title]: type === 'title',
     })
 
     return (
-        <div className={className} {...props}>
+        <div className={textClassName} {...otherProps}>
             {props.children}
         </div>
     )
