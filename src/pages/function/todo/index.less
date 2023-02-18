@@ -1,0 +1,32 @@
+.todolistbox {
+  width: 600px;
+  height: 700px;
+  background-color: #f6eafba8;
+  position: absolute;
+  border-radius: 40px;
+  /* x偏移量 | y偏移量 | 阴影模糊半径 | 阴影扩散半径 | 阴影颜色 */
+  box-shadow: none;
+  transition: all 1s 0s ease;
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 2px -2px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px,
+      rgba(0, 0, 0, 0.09) 0px 5px 12px 4px;
+      background-color: #f9f1fc;
+  }
+  .mask {
+    height: 120%;
+    width: 120%;
+    background-color: rgba(255, 255, 255, 0);
+    position: relative;
+    bottom: 162px;
+    right: 55px;
+    display: none;
+    &::after {
+      content: "loading...";
+      font-size: 50px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

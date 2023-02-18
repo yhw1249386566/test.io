@@ -1,0 +1,9 @@
+[data-theme='light']:root {
+    --global-primary-background-color: #f9d3e3;
+    --global-secondary-background-color: #f0f2f5;
+}
+
+[data-theme='dark']:root {
+    --global-primary-background-color: #062c1c;
+    --global-secondary-background-color: #0f0d0a;
+}
