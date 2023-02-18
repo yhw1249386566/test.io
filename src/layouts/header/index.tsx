@@ -1,5 +1,6 @@
-import { memo } from 'react'
+import { memo, useCallback } from 'react'
 import { useHistory } from 'umi'
+import classNames from 'classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 
@@ -25,31 +26,30 @@ const Header = (props: HeaderProps) => {
 
     const history = useHistory()
 
-    const handleClickTitle = () => history.push('/index')
+    const handleClickTitle = useCallback(() => {
+        history.push('/index')
+    }, [])
 
-    const handleToggleTheme = () => {
-        if (theme === 'light') {
-            onToggleTheme('dark')
-            return
+    const handleToggleTheme = useCallback((theme: Theme) => {
+        return () => {
+            if (theme === 'light') {
+                onToggleTheme('dark')
+                return
+            }
+            onToggleTheme('light')
         }
-        onToggleTheme('light')
-    }
+    }, [])
 
     return (
-        <div className={style.box}>
+        <div className={classNames(style.header, style[`header-${theme}`])}>
             <Direction className={style.titleBox}>
-                <Text
-                    type='primary'
-                    className={style.title}
-                    onClick={handleClickTitle}
-                >
+                <Text className={style.title} onClick={handleClickTitle}>
                     青芽
                 </Text>
             </Direction>
 
             <Direction>
                 <Navigation
-                    type='primary'
                     data={navigationData}
                     className={style.navigation}
                 />
@@ -57,8 +57,8 @@ const Header = (props: HeaderProps) => {
 
             <FontAwesomeIcon
                 className={style.themeIcon}
-                icon={theme === 'light' ? faSun : (faMoon as any)}
-                onClick={handleToggleTheme}
+                icon={theme === 'light' ? faSun : faMoon}
+                onClick={handleToggleTheme(theme)}
             />
         </div>
     )

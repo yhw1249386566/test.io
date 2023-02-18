@@ -12,9 +12,38 @@ Yomua
 
 里面文章内容布局：左边目录，右边正文。可以使用 [antd - menu](https://ant.design/components/menu-cn/)
 
-# theme
+# Theme
 
 https://antdtheme.com/dark
+
+-   为组件添加 theme，请把 css 写在当前组件所在的文件夹中。这个目的是为了达到 [关注点分离](https://zh.wikipedia.org/zh-hans/%E5%85%B3%E6%B3%A8%E7%82%B9%E5%88%86%E7%A6%BB) 的目的。
+
+-   如果一定要存在全局 css 变量，参见 `如何添加 theme 对应的 className 和 变量名` 一节。
+
+## 如何添加 theme 对应的 className 和 变量名
+
+组件中：
+
+-   className => 组件名-{theme}；
+    例如：text-dark, text-light
+
+-   css 变量名 => 所在文件夹名-组件名-{任意要取的 className 名}；
+    例如：--component-text-primary-color
+
+全局变量 \_global.css 中：
+
+-   global-{任意要去的 className 名}；
+    例如：--global-primary-background-color
+
+# 如何为项目封装一个组件
+
+1. 在 component 文件夹中创建组件名
+2. 使用 useTheme() 获取 theme，基于 theme 设置 className-light/dark
+3. 在 className-light/dark 中添加 css theme 变量
+4. 应用 css 变量，为组件提供 light & dark 模式样式
+
+注意：组件必须要高内聚，低耦合！且在封装中的组件中，禁止存在任何全局变量！！！
+
 
 # 流程
 

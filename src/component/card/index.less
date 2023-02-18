@@ -10,59 +10,67 @@
     }
 }
 
+.card-light {
+    --component-card-background-color: #ffffff;
+}
+
+.card-dark {
+    --component-card-background-color: #000000;
+}
+
 .card {
     border-radius: 70px;
     margin: 50px;
     width: 450px;
     height: 514px;
-    background-color: var(--card-background-color);
+    background-color: var(--component-card-background-color);
+}
 
-    .image {
-        border-radius: 70px;
-    }
+.image {
+    border-radius: 70px;
+}
 
-    .content {
-        flex: 1;
-        padding: 25px 0;
+.content {
+    flex: 1;
+    padding: 25px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+}
+.description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-indent: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+.info {
+    display: flex;
+    justify-content: space-between;
+    & > div {
         display: flex;
-        flex-direction: column;
+        align-items: center;
+    }
+    & svg {
+        margin-right: 5px;
+    }
+}
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 0;
+
+    .tag {
+        display: flex;
+        align-items: center;
         justify-content: space-between;
-
-        .title {
-            display: flex;
-            justify-content: center;
-            font-size: 30px;
-        }
-        .description {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            text-indent: 1rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-        }
-        .info {
-            display: flex;
-            justify-content: space-between;
-            & > div {
-                display: flex;
-                align-items: center;
-            }
-            & svg {
-                margin-right: 5px;
-            }
-        }
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px 0;
-
-            .tag {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-        }
     }
 }
 
