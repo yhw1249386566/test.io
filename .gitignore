@@ -1,45 +1,20 @@
-# Numerous always-ignore extensions  
-*.bak  
-*.patch  
-*.diff  
-*.err  
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# temp file for git conflict merging  
-*.orig  
-*.log  
-*.rej  
-*.swo  
-*.swp  
-*.zip  
-*.vi  
-*~  
-*.sass-cache  
-*.tmp.html  
-*.dump  
+# dependencies
+/node_modules
+/npm-debug.log*
+/yarn-error.log
+/yarn.lock
+/package-lock.json
 
-# OS or Editor folders  
-.DS_Store  
-._*  
-.cache  
-.project  
-.settings  
-.tmproj  
-*.esproj  
-*.sublime-project  
-*.sublime-workspace  
-nbproject  
-thumbs.db  
-*.iml  
+# production
+/dist
 
-# Folders to ignore  
-.hg  
-.svn  
-.CVS  
-.idea  
-node_modules/  
-jscoverage_lib/  
-bower_components/  
-dist/  
-————————————————
-版权声明：本文为CSDN博主「不懂小小彬」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/hf123lsk/article/details/79001411
+# misc
+.DS_Store
+
+# umi
+/src/.umi
+/src/.umi-production
+/src/.umi-test
+/.env.local

@@ -1,0 +1,125 @@
+.todoheader {
+    @keyframes changecolor {
+        from {
+            color: #c1adc0;
+            fill: #c1adc0;
+        }
+        to {
+            color: #bd78ba;
+            fill: #bd78ba;
+        }
+    }
+    svg {
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.18em;
+        overflow: hidden;
+        font-size: 16px;
+        fill: #c1adc0;
+    }
+    height: 120px;
+    width: 100%;
+    border-bottom: 2px solid #bdabc32b;
+    position: relative;
+    .todoheaderform {
+        height: 50px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        .todoheaderlogo {
+            position: absolute;
+            z-index: 999;
+            top: 36px;
+            left: 17px;
+            svg {
+                font-size: 27px;
+            }
+        }
+        div {
+            position: relative;
+            top: 38%;
+            width: 538px;
+            height: 60px;
+            background-color: #ffe1e1;
+            border-radius: 15px;
+            transition: all 1s 0s ease;
+            &:hover {
+                box-shadow: #f1d0d0 0px 1px 2px -2px, #f1d0d0 0px 3px 6px 0px, #f1d0d0 0px 5px 12px 4px;
+            }
+            input {
+                height: 100%;
+                width: 400px;
+                position: absolute;
+                left: 57px;
+                border: none;
+                outline: none;
+                background-color: #ffbaba00;
+                font-size: 24px;
+                &:focus + .addicon {
+                    display: block !important;
+                }
+            }
+            @keyframes changerotate {
+                from {
+                    transform: scale(1);
+                }
+                to {
+                    transform: scale(2);
+                }
+            }
+            .addicon {
+                width: 1em;
+                height: 1em;
+                vertical-align: -0.15em;
+                overflow: hidden;
+                position: absolute;
+                right: 6%;
+                top: 31%;
+                transform: translateY(-50%);
+                font-size: 28px;
+                cursor: pointer;
+                transform: rotateZ(0deg);
+                &:hover {
+                    transition: all 2s 0.2s ease;
+                    transform: rotateZ(360deg);
+                    display: block !important;
+                }
+            }
+
+            .stereo {
+                position: absolute;
+                width: 529px;
+                height: 53px;
+                background: #f1d0d0;
+                border-radius: 20px;
+                z-index: -9999;
+                top: 6%;
+                right: 1%;
+                box-shadow: none;
+            }
+        }
+    }
+
+    .todoheaderdiv {
+        position: absolute;
+        display: flex;
+        top: 85%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        div {
+            color: #c1adc0;
+            &:hover {
+                color: #bd78ba;
+                cursor: pointer;
+                animation: changecolor 1s 0s 1;
+            }
+            &:hover svg {
+                fill: #bd78ba;
+                animation: changecolor 1s 0s 1;
+            }
+        }
+    }
+}
