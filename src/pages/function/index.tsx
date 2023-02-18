@@ -5,15 +5,37 @@ import ReactMarkdown from 'react-markdown'
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 
-import designPatterns from '/Users/yanghongwei/Desktop/all/own/privatenotes/1_front_end/0_base/JS设计模式/设计模式.md'
+import Todo from './todo'
+import style from './index.less'
+
+enum FunctionName {
+    Todo = 'todo',
+}
+
+function renderFunctionComponent(name: FunctionName) {
+    switch (name) {
+        case FunctionName.Todo:
+            return (
+                <div className={style.todo}>
+                    <Todo />
+                </div>
+            )
+        default:
+            return <div>Error</div>
+    }
+}
 
 function Article() {
-    const params = useParams()
-    console.log('_params', params)
+    const { name } = useParams() as { name: FunctionName }
+    
+    console.log('function_name', name)
 
     return (
-        <div className='className_article'>
-            <ReactMarkdown
+        <div className={style.section}>
+            {renderFunctionComponent(name)}
+
+            {/* <ReactMarkdown
+                // .md 文件
                 children={designPatterns}
                 components={{
                     code({ node, inline, className, children, ...props }) {
@@ -33,7 +55,7 @@ function Article() {
                         )
                     },
                 }}
-            />
+            /> */}
         </div>
     )
 }

@@ -58,8 +58,7 @@ const CustomCard = (props: CustomProps) => {
                     style[`card-${theme}`],
                     className,
                 )}
-                {...otherProps}
-            >
+                {...otherProps}>
                 <Image
                     src={img}
                     className={style.image}
@@ -94,10 +93,12 @@ const CustomCard = (props: CustomProps) => {
                                     color={color ?? '#55acee'}
                                     icon={
                                         icon ? (
-                                            <FontAwesomeIcon icon={icon} />
+                                            <FontAwesomeIcon
+                                                icon={icon}
+                                                style={{ marginRight: '5px' }}
+                                            />
                                         ) : null
-                                    }
-                                >
+                                    }>
                                     {name}
                                 </Tag>
                             )
@@ -112,8 +113,7 @@ const CustomCard = (props: CustomProps) => {
                         visible,
                         maskClosable: false,
                         onVisibleChange: (vis) => setVisible(vis),
-                    }}
-                >
+                    }}>
                     <Image src={img} />
                 </Image.PreviewGroup>
             </div>

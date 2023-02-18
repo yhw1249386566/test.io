@@ -15,10 +15,10 @@ interface HeaderProps {
 }
 
 const navigationData = [
-    { id: 'index', label: RouteName.Index, link: RouteLink.Index },
-    { id: 'type', label: RouteName.Type, link: RouteLink.Type },
-    { id: 'mood', label: RouteName.Mood, link: RouteLink.Mood },
-    { id: 'about', label: RouteName.About, link: RouteLink.About },
+    // { id: 'index', label: RouteName.Index, link: RouteLink.Index },
+    // { id: 'type', label: RouteName.Type, link: RouteLink.Type },
+    // { id: 'mood', label: RouteName.Mood, link: RouteLink.Mood },
+    // { id: 'about', label: RouteName.About, link: RouteLink.About },
 ]
 
 const Header = (props: HeaderProps) => {

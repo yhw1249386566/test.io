@@ -32,6 +32,7 @@ Listed here are features or bugfixed planned but not yet scheduled in any releas
 
 ### Changed
 
+-   add todo from zixun
 -   update theme
 
 ## [0.0.1]

@@ -22,8 +22,8 @@ const BASE_ROUTES = [
 
 const EXTRACT_ROUTES = [
     {
-        path: '/article/:id',
-        component: '@/pages/article',
+        path: '/function/:name',
+        component: '@/pages/function',
         exact: true,
     },
 ]

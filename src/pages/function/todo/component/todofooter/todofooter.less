@@ -1,0 +1,59 @@
+.todofooter {
+    @keyframes changecolor {
+        from {
+            color: #c1adc0;
+            fill: #c1adc0;
+        }
+        to {
+            color: #bd78ba;
+            fill: #bd78ba;
+        }
+    }
+    border-top: 2px solid #bdabc32b;
+    height: 40px;
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0px;
+    bottom: -4px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .taskleft {
+        cursor: default;
+        span {
+            font-weight: bold;
+            font-size: 22px;
+        }
+    }
+
+    .all {
+        cursor: pointer;
+        color: #c1adc0;
+        &:hover {
+            color: #bd78ba;
+            animation: changecolor 0.3s 0s 1;
+        }
+    }
+    .unfinished {
+        cursor: pointer;
+        color: #c1adc0;
+        &:hover {
+            color: #bd78ba;
+            animation: changecolor 0.3s 0s 1;
+        }
+    }
+    .finished {
+        cursor: pointer;
+        color: #c1adc0;
+        &:hover {
+            color: #bd78ba;
+            animation: changecolor 0.3s 0s 1;
+        }
+    }
+
+    .active {
+        color: #b363af;
+    }
+}
