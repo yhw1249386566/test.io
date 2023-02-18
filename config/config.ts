@@ -13,4 +13,7 @@ export default defineConfig({
     history: {
         type: 'hash',
     },
+    dynamicImport: {
+        loading: '@/component/loading',
+    },
 })

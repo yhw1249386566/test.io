@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { useHistory } from 'umi'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
@@ -38,7 +39,7 @@ const Header = (props: HeaderProps) => {
         <div className={style.box}>
             <Direction className={style.titleBox}>
                 <Text
-                    type='title'
+                    type='primary'
                     className={style.title}
                     onClick={handleClickTitle}
                 >
@@ -48,7 +49,7 @@ const Header = (props: HeaderProps) => {
 
             <Direction>
                 <Navigation
-                    type='title'
+                    type='primary'
                     data={navigationData}
                     className={style.navigation}
                 />
@@ -63,4 +64,4 @@ const Header = (props: HeaderProps) => {
     )
 }
 
-export default Header
+export default memo(Header)

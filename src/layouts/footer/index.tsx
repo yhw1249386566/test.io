@@ -1,12 +1,15 @@
-import style from './index.less'
+import { memo } from 'react'
+
 import { Text, Direction } from '@/component'
+
+import style from './index.less'
 
 const DefaultFooter = () => {
     return (
         <Direction className={style.footer}>
-            <Text type='title'>©2021 Created by Yomua</Text>
+            <Text type='primary'>©2021 Created by Yomua</Text>
         </Direction>
     )
 }
 
-export default DefaultFooter
+export default memo(DefaultFooter)

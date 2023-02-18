@@ -1,4 +1,5 @@
 /* eslint-disable react/no-children-prop */
+import { memo } from 'react'
 import { useParams } from 'umi'
 import ReactMarkdown from 'react-markdown'
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism'
@@ -6,7 +7,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 
 import designPatterns from '/Users/yanghongwei/Desktop/all/own/privatenotes/1_front_end/0_base/JS设计模式/设计模式.md'
 
-export default function Article() {
+function Article() {
     const params = useParams()
     console.log('_params', params)
 
@@ -36,3 +37,5 @@ export default function Article() {
         </div>
     )
 }
+
+export default memo(Article)

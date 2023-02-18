@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import { memo } from 'react'
 import { Empty } from 'antd'
 
-export default function NotFound() {
+export default memo(function NotFound() {
     return (
         <div>
             <Empty />
         </div>
     )
-}
+})

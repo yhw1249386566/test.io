@@ -1,7 +1,7 @@
-import React from 'react';
+import { memo } from 'react'
 
-const Type = () => {
-  return <div>Type</div>;
-};
+function Type() {
+    return <div>Type</div>
+}
 
-export default Type;
+export default memo(Type)

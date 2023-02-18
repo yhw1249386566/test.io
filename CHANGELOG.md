@@ -30,6 +30,10 @@ Listed here are features or bugfixed planned but not yet scheduled in any releas
 
 ### Added
 
+### Changed
+
+-   update theme
+
 ## [0.0.1]
 
 -   initial project

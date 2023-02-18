@@ -1,6 +1,7 @@
+import { memo } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 
-const Mood = () => {
+function Mood() {
     function onChange(value) {
         console.log('Captcha value:', value)
     }
@@ -15,4 +16,4 @@ const Mood = () => {
     )
 }
 
-export default Mood
+export default memo(Mood)
