@@ -30,6 +30,7 @@ Listed here are features or bugfixed planned but not yet scheduled in any releas
 
 ### Added
 
+- add cicd
 ### Changed
 
 -   add todo from zixun
