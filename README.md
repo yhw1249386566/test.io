@@ -4,9 +4,7 @@ Author: Yomua
 
 # md -> html
 
-可以将 .md（文章）内容直接复制并存储到一个个 txt 中，然后获取 txt 的内容并存储到数组中，然后再渲染这个数组前，使用 [markdown](https://github.com/millerblack/markdown-js).js 库将内容编译成 html，最后再渲染到页面。
-
-这样就成功把 .md 搞到了页面上。
+直接将 .md 导出成 html 即可
 
 # 要用什么
 

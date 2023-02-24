@@ -22,8 +22,8 @@ const BASE_ROUTES = [
 
 const EXTRACT_ROUTES = [
     {
-        path: '/function/:name',
-        component: '@/pages/function',
+        path: '/feature/:name',
+        component: '@/pages/feature',
         exact: true,
     },
 ]
@@ -36,7 +36,7 @@ export default [
             { path: '/', redirect: '/index', exact: true },
             ...BASE_ROUTES,
             ...EXTRACT_ROUTES,
-            { component: '@/pages/404' },
         ],
     },
+    { component: '@/pages/404' },
 ]

@@ -1,35 +1,39 @@
 import { memo } from 'react'
 import { useRouteMatch, history } from 'umi'
 
-import Cute from '@/assets/img/cute.jpeg'
 import { Card } from '@/component'
 
+import { FeatureList } from './data'
 import style from './index.less'
+
+function handleGotoFeature(featureName: string) {
+    return () => {
+        history.push(`/feature/${featureName}`)
+    }
+}
 
 function Index() {
     const match = useRouteMatch()
 
-    function handleSwitchFunction(functionName: string) {
-        return () => history.push(`/function/${functionName}`)
-    }
-
     return (
         <div className={style.index} style={{ padding: 50 }}>
-            <Card
-                img={Cute}
-                title='Todo'
-                author='Yomua'
-                time='2023年2月18日'
-                description='一个来自远古的待办事项'
-                onClick={handleSwitchFunction('todo')}
-                tag={[
-                    {
-                        name: 'Todo',
-                        icon: 'bars',
-                        color: '#ecb0c1',
-                    },
-                ]}
-            />
+            {FeatureList.map((card, index) => {
+                const { target, img, title, author, time, description, tag } =
+                    card
+
+                return (
+                    <Card
+                        key={`${index}-${time}`}
+                        tag={tag}
+                        img={img}
+                        time={time}
+                        title={title}
+                        author={author}
+                        description={description}
+                        onClick={handleGotoFeature(target)}
+                    />
+                )
+            })}
         </div>
     )
 }

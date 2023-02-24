@@ -1,0 +1,122 @@
+import { useRef, useState, memo, useEffect } from 'react'
+
+import { getLocalStorage, saveLocalStorage } from '@/utils'
+import { Text, Direction } from '@/component'
+
+import request from './request'
+
+import style from './index.less'
+
+enum Sequence {
+    Start = 'You: ',
+    Stop = 'AI: ',
+}
+
+function GPT3() {
+    const [loading, setLoading] = useState(false)
+    const [value, setValue] = useState<string>(Sequence.Start)
+    const [apiKey, setApiKey] = useState('')
+
+    const textareaRef = useRef({ scrollTop: 0, scrollHeight: 0, focus })
+
+    function handleScrollBottomTextarea() {
+        textareaRef.current.scrollTop = textareaRef.current.scrollHeight
+        textareaRef.current.focus()
+    }
+
+    function handleChangeTextarea(e: React.ChangeEvent<HTMLTextAreaElement>) {
+        setValue(e.target.value)
+    }
+
+    function handleChangeApiKey(e: React.ChangeEvent<HTMLInputElement>) {
+        setApiKey(e.target.value)
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault()
+
+        setLoading(true)
+        try {
+            const response = await request({
+                apiKey,
+                inputText: value,
+                stop: [Sequence.Start, Sequence.Stop],
+            })
+            const { success, error, data } = response
+
+            if (!success) {
+                alert(error?.message ?? '异常请求。')
+                return
+            }
+
+            const textareaValue = `${value}${data}\n${Sequence.Start}`
+
+            setValue(textareaValue)
+
+            saveLocalStorage({
+                key: 'gpt3_chat_information',
+                value: textareaValue,
+            })
+
+            handleScrollBottomTextarea()
+        } catch (error) {
+            alert('失败的请求。')
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        const gpt3Info = getLocalStorage('gpt3_chat_information')
+
+        if (gpt3Info) {
+            setValue(gpt3Info)
+        }
+    }, [])
+
+    return (
+        <div className={style.gpt3}>
+            <Direction className={style.extraInfo} mode='column'>
+                <input
+                    placeholder='Api Key'
+                    className={style.apiKey}
+                    value={apiKey}
+                    onChange={handleChangeApiKey}
+                />
+
+                <Text className={style.warning}>
+                    请注意：{' '}
+                    <a
+                        href='https://platform.openai.com/docs/models/gpt-3'
+                        rel='noreferrer'
+                        target='_blank'
+                    >
+                        Gpt3
+                    </a>{' '}
+                    最多只支持记忆 4096 个 token 的上下文。
+                </Text>
+
+                <div className={style.submitBox}>
+                    <div onClick={handleSubmit} className={style.submit}>
+                        <Text>Submit</Text>
+                    </div>
+                </div>
+            </Direction>
+
+            <div className={style.gpt3Chat}>
+                <textarea
+                    className={style.textarea}
+                    ref={textareaRef as any}
+                    rows={20}
+                    placeholder='Start Chat'
+                    value={value}
+                    onChange={handleChangeTextarea}
+                />
+            </div>
+
+            {loading && <Text>...请稍等</Text>}
+        </div>
+    )
+}
+
+export default memo(GPT3)

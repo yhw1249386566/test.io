@@ -16,7 +16,7 @@ interface CustomProps extends CardProps {
     author?: string
     time?: string
     description?: string
-    tag: {
+    tag?: {
         name: string
         key?: string
         icon?: IconProp
@@ -58,7 +58,8 @@ const CustomCard = (props: CustomProps) => {
                     style[`card-${theme}`],
                     className,
                 )}
-                {...otherProps}>
+                {...otherProps}
+            >
                 <Image
                     src={img}
                     className={style.image}
@@ -98,7 +99,8 @@ const CustomCard = (props: CustomProps) => {
                                                 style={{ marginRight: '5px' }}
                                             />
                                         ) : null
-                                    }>
+                                    }
+                                >
                                     {name}
                                 </Tag>
                             )
@@ -113,7 +115,8 @@ const CustomCard = (props: CustomProps) => {
                         visible,
                         maskClosable: false,
                         onVisibleChange: (vis) => setVisible(vis),
-                    }}>
+                    }}
+                >
                     <Image src={img} />
                 </Image.PreviewGroup>
             </div>
