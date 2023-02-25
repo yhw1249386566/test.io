@@ -2,6 +2,8 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 import Cute from '@/assets/img/cute.jpeg'
 
+import { invertColor } from '@/utils'
+
 import { FeatureName } from '../index.d'
 
 type FeatureType = {
@@ -42,5 +44,22 @@ export const FeatureList: FeatureType[] = [
         author: 'Yomua',
         time: '2023年2月19日 23:22',
         description: 'gpt3 chat',
+        tag: [
+            {
+                name: 'Open AI',
+                icon: 'earth-americas',
+                color: '#ecb0c1',
+            },
+            {
+                name: 'Chat Gpt',
+                icon: 'brain',
+                color: '#ecb0c1',
+            },
+            {
+                name: 'Gpt3',
+                icon: 'certificate',
+                color: '#ecb0c1',
+            },
+        ],
     },
 ]

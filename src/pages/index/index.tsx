@@ -1,4 +1,5 @@
 import { memo } from 'react'
+import _ from 'lodash'
 import { useRouteMatch, history } from 'umi'
 
 import { Card } from '@/component'
@@ -17,7 +18,7 @@ function Index() {
 
     return (
         <div className={style.index} style={{ padding: 50 }}>
-            {FeatureList.map((card, index) => {
+            {_.orderBy(FeatureList, 'time', 'desc').map((card, index) => {
                 const { target, img, title, author, time, description, tag } =
                     card
 

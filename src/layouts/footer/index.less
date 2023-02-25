@@ -1,8 +1,14 @@
+/** 全局 css 已在入口 css 文件导入，即： src/index.less */
+
 .footer-light {
-    --layouts-footer-primary-background-color: #f9d3e3;
+    --layouts-footer-primary-background-color: var(
+        --global-primary-background-color
+    );
 }
 .footer-dark {
-    --layouts-footer-primary-background-color: #062c1c;
+    --layouts-footer-primary-background-color: var(
+        --global-primary-background-color
+    );
 }
 
 .footer {

@@ -5,6 +5,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { useTheme } from '@/hooks'
+import { invertColor } from '@/utils'
 
 import Text from '../text'
 
@@ -74,11 +75,17 @@ const CustomCard = (props: CustomProps) => {
 
                     <div className={style.info}>
                         <div>
-                            <FontAwesomeIcon icon='user' />
+                            <FontAwesomeIcon
+                                icon='user'
+                                className={style.author}
+                            />
                             <Text>{author}</Text>
                         </div>
                         <div>
-                            <FontAwesomeIcon icon='clock' />
+                            <FontAwesomeIcon
+                                icon='clock'
+                                className={style.time}
+                            />
                             <Text>{time}</Text>
                         </div>
                     </div>
@@ -91,7 +98,11 @@ const CustomCard = (props: CustomProps) => {
                                 <Tag
                                     className={style.tag}
                                     key={key ?? index}
-                                    color={color ?? '#55acee'}
+                                    color={
+                                        theme === 'light'
+                                            ? color
+                                            : invertColor(color ?? '#55acee')
+                                    }
                                     icon={
                                         icon ? (
                                             <FontAwesomeIcon

@@ -1,4 +1,5 @@
 import { useRef, useState, memo, useEffect } from 'react'
+import classnames from 'classnames'
 
 import { getLocalStorage, saveLocalStorage } from '@/utils'
 import { Text, Direction } from '@/component'
@@ -6,6 +7,7 @@ import { Text, Direction } from '@/component'
 import request from './request'
 
 import style from './index.less'
+import { useTheme } from '@/hooks'
 
 enum Sequence {
     Start = 'You: ',
@@ -13,9 +15,11 @@ enum Sequence {
 }
 
 function GPT3() {
+    const [apiKey, setApiKey] = useState('')
     const [loading, setLoading] = useState(false)
     const [value, setValue] = useState<string>(Sequence.Start)
-    const [apiKey, setApiKey] = useState('')
+
+    const theme = useTheme()
 
     const textareaRef = useRef({ scrollTop: 0, scrollHeight: 0, focus })
 
@@ -75,7 +79,7 @@ function GPT3() {
     }, [])
 
     return (
-        <div className={style.gpt3}>
+        <div className={classnames(style.gpt3, style[`gpt3-${theme}`])}>
             <Direction className={style.extraInfo} mode='column'>
                 <input
                     placeholder='Api Key'
@@ -112,9 +116,11 @@ function GPT3() {
                     value={value}
                     onChange={handleChangeTextarea}
                 />
-            </div>
 
-            {loading && <Text>...请稍等</Text>}
+                {loading && (
+                    <Text className={style.loading}>数据请求中，请稍等...</Text>
+                )}
+            </div>
         </div>
     )
 }

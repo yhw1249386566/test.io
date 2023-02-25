@@ -1,28 +1,39 @@
+.card-light {
+    --component-card-icon-color: #000000;
+    --component-card-background-color: #ffffff;
+    --component-card-hoverable: 0 1px 2px -2px #000000d6,
+        0 3px 6px 0 rgb(0 0 0 / 12%), 0 5px 12px 4px rgb(0 0 0 / 9%);
+}
+
+.card-dark {
+    --component-card-icon-color: #ffffff;
+    --component-card-background-color: #000000;
+    --component-card-hoverable: 0 1px 2px -2px #ffffffd6,
+        0 3px 6px 0 rgb(255 255 255 / 12%), 0 5px 12px 4px rgb(255 255 255 / 9%);
+}
+
 :global {
     .ant-image-mask {
         background-color: transparent;
     }
+
     .ant-card-body {
         height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
     }
-}
 
-.card-light {
-    --component-card-background-color: #ffffff;
-}
-
-.card-dark {
-    --component-card-background-color: #000000;
+    .ant-card-hoverable:hover {
+        box-shadow: var(--component-card-hoverable);
+    }
 }
 
 .card {
-    border-radius: 70px;
     margin: 50px;
     width: 450px;
     height: 514px;
+    border-radius: 70px;
     background-color: var(--component-card-background-color);
 }
 
@@ -32,40 +43,63 @@
 
 .content {
     flex: 1;
-    padding: 25px 0;
+    gap: 10px;
     display: flex;
+    padding: 25px 0;
     flex-direction: column;
     justify-content: space-between;
 }
 
 .title {
     display: flex;
-    justify-content: center;
     font-size: 30px;
+    justify-content: center;
 }
+
 .description {
+    height: 85px;
     overflow: hidden;
-    text-overflow: ellipsis;
     text-indent: 1rem;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
 }
+
 .info {
+    gap: 10px;
     display: flex;
     justify-content: space-between;
+
     & > div {
+        gap: 5px;
         display: flex;
         align-items: center;
+        flex: 1;
+        overflow: hidden;
+        white-space: nowrap;
+
+        & > div {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
-    & svg {
-        margin-right: 5px;
+
+    & > div:last-child {
+        justify-content: end;
     }
 }
+
+.author,
+.time {
+    color: var(--component-card-icon-color);
+}
+
 .tags {
+    gap: 10px 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px 0;
+    max-height: 50px;
+    overflow: scroll;
 
     .tag {
         display: flex;
