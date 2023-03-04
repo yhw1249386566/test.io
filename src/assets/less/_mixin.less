@@ -1,0 +1,26 @@
+.boxShadowHover(@color) {
+    transition: all @transitionDuration ease 0s;
+    box-shadow: 0 1px 2px -3px @color, 0 3px 6px 0 @color, 0 5px 12px 4px @color;
+}
+
+.absoluteHorizontalVerticalCenter {
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.marginHorizontalVerticalCenter {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+}
+
+.textOverflowEllipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

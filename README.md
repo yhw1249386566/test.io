@@ -32,7 +32,7 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 
 全局变量 \_global.css 中：
 
--   global-{任意要去的 className 名}；
+-   global-{任意要取的 className 名}；
     例如：--global-primary-background-color
 
 # 如何为项目封装一个组件
@@ -75,21 +75,34 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 
     最后我们使用 Custom Domain，让 www.whyhw.com 作为代理，这样访问 whyhw.com 时，将能看到部署成功的项目。
 
-# Function
+# Feature
 
 ## Todo
+
+这是以前在实习的时候，在紫讯公司写的 todo,
+如果后面要重构，那么 mobx, mobx-react 可以删除，这两个库目前只用于 Todo
 
 # 流程
 
 https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 
-# PR 合并流程
+## PR 合并流程
 
 -   基于 dev 分支拉出新分支，然后进行修改，最后直接 push 到 dev.
     由于 dev 是保护分支，所以 gitee 将会自动创建一个 pr 到 dev，不需要手动。
 -   dev 有更新后，PR 到 release.
 
-# Todo
+# 如何添加 Feature
 
-这是以前在实习的时候，在紫讯公司写的 todo,
-如果后面要重构，那么 mobx, mobx-react 可以删除，这两个库目前只用于 Todo
+1. src/pages/constant - FeatureList 添加对应对象
+2. src/pages/feature 中添加此对象应该渲染哪个组件
+
+注意：我们可以将 src/pages/feature 改为动态加载 Feature，但这会造成页面闪烁问题 —— 此问题是由于第一次渲染没数据，update() 后才有数据造成的。Reference: src/pages/feature - dynamicFeature.tsx
+
+# 如何添加 Feature - Article
+
+目前添加 Article 的方法为：
+
+1. src/pages/feature - data.ts - ArticleCardList 中添加对应数据
+
+2. src/article 在对应文件夹/创建文件夹 中添加对应 .html 文件即可

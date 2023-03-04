@@ -9,7 +9,7 @@ import {
     faFacebookSquare,
 } from '@fortawesome/free-brands-svg-icons'
 
-import { SideBar } from '@/component'
+import { Sidebar } from '@/component'
 
 import style from './index.less'
 import Footer from './layouts/footer'
@@ -41,7 +41,7 @@ const Index = (props: { children: React.ReactNode }) => {
                 <Header theme={theme} onToggleTheme={handleChangeTheme} />
 
                 <Layout.Content className={style.content}>
-                    <SideBar />
+                    <Sidebar />
 
                     {props.children}
                 </Layout.Content>

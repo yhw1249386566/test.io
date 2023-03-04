@@ -15,10 +15,10 @@ interface HeaderProps {
 }
 
 const navigationData = [
-    // { id: 'index', label: RouteName.Index, link: RouteLink.Index },
-    // { id: 'type', label: RouteName.Type, link: RouteLink.Type },
-    // { id: 'mood', label: RouteName.Mood, link: RouteLink.Mood },
-    // { id: 'about', label: RouteName.About, link: RouteLink.About },
+    { id: 'index', label: RouteName.Index, link: RouteLink.Index },
+    { id: 'type', label: RouteName.Type, link: RouteLink.Type },
+    { id: 'mood', label: RouteName.Mood, link: RouteLink.Mood },
+    { id: 'about', label: RouteName.About, link: RouteLink.About },
 ]
 
 const Header = (props: HeaderProps) => {
@@ -40,26 +40,41 @@ const Header = (props: HeaderProps) => {
         }
     }, [])
 
+    const handleBack = useCallback(() => {
+        history.goBack()
+    }, [])
+
     return (
         <div className={classNames(style.header, style[`header-${theme}`])}>
-            <Direction className={style.titleBox}>
+            <Direction
+                alignItems='center'
+                justifyContent='space-between'
+                className={style.headerInfo}
+            >
+                <FontAwesomeIcon
+                    className={style.back}
+                    icon='chevron-left'
+                    onClick={handleBack}
+                />
+
                 <Text className={style.title} onClick={handleClickTitle}>
                     青芽
                 </Text>
+
+                <FontAwesomeIcon
+                    className={style.themeIcon}
+                    icon={theme === 'light' ? faSun : faMoon}
+                    onClick={handleToggleTheme(theme)}
+                />
             </Direction>
 
-            <Direction>
+            {/* 暂时不需要 Index Type Mood About 这些 */}
+            {/*  <Direction>
                 <Navigation
                     data={navigationData}
                     className={style.navigation}
                 />
-            </Direction>
-
-            <FontAwesomeIcon
-                className={style.themeIcon}
-                icon={theme === 'light' ? faSun : faMoon}
-                onClick={handleToggleTheme(theme)}
-            />
+            </Direction> */}
         </div>
     )
 }

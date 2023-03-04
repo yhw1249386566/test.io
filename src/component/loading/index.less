@@ -1,0 +1,26 @@
+@keyframes loading {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading {
+    top: 0;
+    opacity: 1;
+    z-index: 9999;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background: var(--global-secondary-background-color);
+}
+
+.loadingIcon {
+    .marginHorizontalVerticalCenter;
+
+    font-size: 30px;
+    animation: loading @animationDuration infinite normal 0s ease-in-out running none;
+}

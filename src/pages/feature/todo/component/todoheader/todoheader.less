@@ -42,7 +42,7 @@
             height: 60px;
             background-color: #ffe1e1;
             border-radius: 15px;
-            transition: all 1s 0s ease;
+            transition: all @transitionDuration 0s ease;
             &:hover {
                 box-shadow: #f1d0d0 0px 1px 2px -2px, #f1d0d0 0px 3px 6px 0px, #f1d0d0 0px 5px 12px 4px;
             }
@@ -114,11 +114,11 @@
             &:hover {
                 color: #bd78ba;
                 cursor: pointer;
-                animation: changecolor 1s 0s 1;
+                animation: changecolor @transitionDuration 0s 1;
             }
             &:hover svg {
                 fill: #bd78ba;
-                animation: changecolor 1s 0s 1;
+                animation: changecolor @transitionDuration 0s 1;
             }
         }
     }

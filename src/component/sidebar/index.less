@@ -1,21 +1,36 @@
 .sidebar-light {
-    --component-sidebar-top-icon-color: #000;
+    --component-sidebar-top-icon-color: var(--global-primary-background-color);
 }
 
 .sidebar-dark {
-    --component-sidebar-top-icon-color: #fff;
+    --component-sidebar-top-icon-color: #87c0ca;
 }
 
 .sidebar {
     top: 80%;
+    opacity: 1;
     z-index: 1;
-    right: 20px;
+    right: 16px;
     display: flex;
     position: fixed;
     align-items: center;
     justify-content: center;
     transform: translateY(-50%);
+    transition: opacity 300ms ease-in-out 0s;
     color: var(--component-sidebar-top-icon-color);
+
+    border-radius: 50%;
+    transition: all @transitionDuration ease 0s;
+    &:hover {
+        .boxShadowHover(@color:rgba(139, 138, 138, 0.463));
+    }
+}
+
+.sidebarHide {
+    opacity: 0;
+    // top: -9999px;
+    cursor: default;
+    pointer-events: none;
 }
 
 .goTop {

@@ -1,6 +1,6 @@
 export { default as Text } from './text'
 export { default as Card } from './card'
 export { default as TopBar } from './topbar'
-export { default as SideBar } from './sidebar'
+export { default as Sidebar } from './sidebar'
 export { default as Direction } from './direction'
 export { default as Navigation } from './navigation'

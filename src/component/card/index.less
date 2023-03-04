@@ -1,15 +1,13 @@
 .card-light {
     --component-card-icon-color: #000000;
     --component-card-background-color: #ffffff;
-    --component-card-hoverable: 0 1px 2px -2px #000000d6,
-        0 3px 6px 0 rgb(0 0 0 / 12%), 0 5px 12px 4px rgb(0 0 0 / 9%);
+    --component-card-hoverable: #00000029;
 }
 
 .card-dark {
     --component-card-icon-color: #ffffff;
     --component-card-background-color: #000000;
-    --component-card-hoverable: 0 1px 2px -2px #ffffffd6,
-        0 3px 6px 0 rgb(255 255 255 / 12%), 0 5px 12px 4px rgb(255 255 255 / 9%);
+    --component-card-hoverable: #ffffff29;
 }
 
 :global {
@@ -25,7 +23,7 @@
     }
 
     .ant-card-hoverable:hover {
-        box-shadow: var(--component-card-hoverable);
+        .boxShadowHover(@color:var(--component-card-hoverable));
     }
 }
 
@@ -71,16 +69,15 @@
     justify-content: space-between;
 
     & > div {
+        .textOverflowEllipsis;
+
         gap: 5px;
         display: flex;
         align-items: center;
         flex: 1;
-        overflow: hidden;
-        white-space: nowrap;
 
         & > div {
-            overflow: hidden;
-            text-overflow: ellipsis;
+            .textOverflowEllipsis;
         }
     }
 
@@ -98,8 +95,7 @@
     gap: 10px 0;
     display: flex;
     flex-wrap: wrap;
-    max-height: 50px;
-    overflow: scroll;
+    max-height: 55px;
 
     .tag {
         display: flex;

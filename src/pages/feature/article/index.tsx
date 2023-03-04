@@ -1,24 +1,23 @@
 import { memo } from 'react'
 import _ from 'lodash'
-import { useRouteMatch, history } from 'umi'
+import { history } from 'umi'
 
 import { Card } from '@/component'
 
-import { FeatureList } from '../constant'
+import { ArticleCardList } from './data'
 import style from './index.less'
 
-function handleGotoFeature(featureName: string) {
+// e.g. articlePath: css/定位, js/js设计模式, js/promise/promise的使用
+function handleGotoArticle(articlePath: string) {
     return () => {
-        history.push(`/feature/${featureName}`)
+        history.push(`/article/${articlePath}`)
     }
 }
 
-function Index() {
-    const match = useRouteMatch()
-
+function Article() {
     return (
-        <div className={style.index}>
-            {_.orderBy(FeatureList, 'time', 'desc').map((card, index) => {
+        <div className={style.article}>
+            {_.orderBy(ArticleCardList, 'time', 'desc').map((card, index) => {
                 const { target, img, title, author, time, description, tag } =
                     card
 
@@ -31,7 +30,7 @@ function Index() {
                         title={title}
                         author={author}
                         description={description}
-                        onClick={handleGotoFeature(target)}
+                        onClick={handleGotoArticle(target)}
                     />
                 )
             })}
@@ -39,4 +38,4 @@ function Index() {
     )
 }
 
-export default memo(Index)
+export default memo(Article)

@@ -6,6 +6,7 @@ declare module '*.scss'
 declare module 'umi'
 declare module 'axios'
 declare module '*.md'
+declare module '*.html'
 declare module '*.svg' {
     export function ReactComponent(
         props: React.SVGProps<SVGSVGElement>,

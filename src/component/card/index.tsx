@@ -1,6 +1,7 @@
 import { memo, useState, useCallback } from 'react'
 import classNames from 'classnames'
 import { Tag, Card, Image, CardProps } from 'antd'
+import { Scrollbars } from 'react-custom-scrollbars-2'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -90,33 +91,39 @@ const CustomCard = (props: CustomProps) => {
                         </div>
                     </div>
 
-                    <div className={style.tags}>
-                        {tag.map((tag, index) => {
-                            const { name, key, icon, color } = tag
+                    <Scrollbars style={{ maxHeight: 55 }}>
+                        <div className={style.tags}>
+                            {tag.map((tag, index) => {
+                                const { name, key, icon, color } = tag
 
-                            return (
-                                <Tag
-                                    className={style.tag}
-                                    key={key ?? index}
-                                    color={
-                                        theme === 'light'
-                                            ? color
-                                            : invertColor(color ?? '#55acee')
-                                    }
-                                    icon={
-                                        icon ? (
-                                            <FontAwesomeIcon
-                                                icon={icon}
-                                                style={{ marginRight: '5px' }}
-                                            />
-                                        ) : null
-                                    }
-                                >
-                                    {name}
-                                </Tag>
-                            )
-                        })}
-                    </div>
+                                return (
+                                    <Tag
+                                        className={style.tag}
+                                        key={key ?? index}
+                                        color={
+                                            theme === 'light'
+                                                ? color
+                                                : invertColor(
+                                                      color ?? '#55acee',
+                                                  )
+                                        }
+                                        icon={
+                                            icon ? (
+                                                <FontAwesomeIcon
+                                                    icon={icon}
+                                                    style={{
+                                                        marginRight: '5px',
+                                                    }}
+                                                />
+                                            ) : null
+                                        }
+                                    >
+                                        {name}
+                                    </Tag>
+                                )
+                            })}
+                        </div>
+                    </Scrollbars>
                 </div>
             </Card>
 
