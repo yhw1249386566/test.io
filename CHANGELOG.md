@@ -30,6 +30,7 @@ Listed here are features or bugfixed planned but not yet scheduled in any releas
 
 ### Added
 
+-   upgrade version: react 18.x, react-dom 18.x; add @types/node
 -   add cicd
 
 ### Changed

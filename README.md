@@ -63,24 +63,43 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 
 若此若做，我们就成功将项目部署到 whyhw.com 上，经过的步骤有：
 
-1. Gitee yomua 仓库将会同步到 Github yomua 仓库，
+1.  Gitee yomua 仓库将会同步到 Github yomua 仓库，
 
-2. release 有更新时，将会自动触发工作流
-
+2.  release 有更新时，将会自动触发工作流
+    ◊
     因为 Github yomua 仓库中设置了 workflow（即：github action）
 
-    workflow 触发将自动将项目打包编译到 github gh-pages 分支，
+        workflow 触发将自动将项目打包编译到 github gh-pages 分支，
 
-3. Github Pages 将会使用 gh-pages 作为基分支，将它部署到线上，
+3.  Github Pages 将会使用 gh-pages 作为基分支，将它部署到线上，
 
     最后我们使用 Custom Domain，让 www.whyhw.com 作为代理，这样访问 whyhw.com 时，将能看到部署成功的项目。
 
 # Feature
 
+## 如何添加 Feature
+
+1. src/pages/constant - FeatureList 添加对应对象
+2. src/pages/feature 中添加此对象应该渲染哪个组件
+
+注意：我们可以将 src/pages/feature 改为动态加载 Feature，但这会造成页面闪烁问题 —— 此问题是由于第一次渲染没数据，update() 后才有数据造成的。Reference: src/pages/feature - dynamicFeature.tsx
+
+## 如何添加 Feature - Article
+
+目前添加 Article 的方法为：
+
+1. src/pages/feature - data.ts - ArticleCardList 中添加对应数据
+
+2. src/article 在对应文件夹/创建文件夹 中添加对应 .html 文件即可
+
 ## Todo
 
 这是以前在实习的时候，在紫讯公司写的 todo,
 如果后面要重构，那么 mobx, mobx-react 可以删除，这两个库目前只用于 Todo
+
+## Gpt3
+
+这是使用 OpenAI 的一个开放 AI 接口: [gpt3](https://platform.openai.com/docs/models/gpt-3-5) 完成的一个 demo.
 
 # 流程
 
@@ -92,17 +111,7 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
     由于 dev 是保护分支，所以 gitee 将会自动创建一个 pr 到 dev，不需要手动。
 -   dev 有更新后，PR 到 release.
 
-# 如何添加 Feature
+# TODO
 
-1. src/pages/constant - FeatureList 添加对应对象
-2. src/pages/feature 中添加此对象应该渲染哪个组件
-
-注意：我们可以将 src/pages/feature 改为动态加载 Feature，但这会造成页面闪烁问题 —— 此问题是由于第一次渲染没数据，update() 后才有数据造成的。Reference: src/pages/feature - dynamicFeature.tsx
-
-# 如何添加 Feature - Article
-
-目前添加 Article 的方法为：
-
-1. src/pages/feature - data.ts - ArticleCardList 中添加对应数据
-
-2. src/article 在对应文件夹/创建文件夹 中添加对应 .html 文件即可
+-   将 umi 框架从项目移除，更改为手动搭建项目流程（基于 webpack）
+-   React 已经升级到 18.x, 将为现有代码和后续代码渐进式升级到 18.x
