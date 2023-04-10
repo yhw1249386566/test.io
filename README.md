@@ -6,10 +6,6 @@ Author: Yomua
 
 直接将 .md 导出成 html 即可
 
-# 要用什么
-
-里面文章内容布局：左边目录，右边正文。可以使用 [antd - menu](https://ant.design/components/menu-cn/)
-
 # Theme
 
 https://antdtheme.com/dark
@@ -46,15 +42,20 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 
 # 开发流程
 
-1.  基于 dev 分支拉出新分支，然后进行修改，最后直接 push 到 dev.
+1.  切换到 dev 分支，pull release
+
+2.  基于 dev 分支拉出新分支，然后进行修改，最后直接 push 到 dev.
+    或： push 当前分支，并手动使当前分支 PR 到 dev.
 
     由于 dev 是保护分支，所以 gitee 将会自动创建一个 pr 到 dev，不需要手动。
 
-2.  dev 有更新后，PR 到 release
+3.  PR 合并后，使 dev PR 到 release
+
+4.  合并 PR，将自动开始执行 <a href='#Build & Deploy'>Build & Deploy</a>.
 
 # Build & Deploy
 
-项目设置了 github action, 且 gitee 上设置了仓库镜像（push 到 github yomua 仓库），
+项目设置了 github action, 且 gitee 上设置了仓库镜像（这个功能会让 gitee 帮忙 push 到 github yomua 仓库），
 
 我们只需要在 gitee 上做以下操作，即可自动将更新推送到 Github Pages，
 
@@ -66,10 +67,12 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 1.  Gitee yomua 仓库将会同步到 Github yomua 仓库，
 
 2.  release 有更新时，将会自动触发工作流
-    ◊
-    因为 Github yomua 仓库中设置了 workflow（即：github action）
+
+    因为 Github yomua 仓库中设置了 <a href='https://docs.github.com/en/actions/using-workflows/about-workflows'>workflow</a>（即：<a href='https://docs.github.com/en/actions/quickstart'>github action</a>）
 
         workflow 触发将自动将项目打包编译到 github gh-pages 分支，
+
+    -   NOTICE: action 包含 workflow
 
 3.  Github Pages 将会使用 gh-pages 作为基分支，将它部署到线上，
 
@@ -88,7 +91,7 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 
 目前添加 Article 的方法为：
 
-1. src/pages/feature - data.ts - ArticleCardList 中添加对应数据
+1. src/pages/feature/article - data.ts - ArticleCardList 中添加对应数据
 
 2. src/article 在对应文件夹/创建文件夹 中添加对应 .html 文件即可
 
@@ -112,6 +115,6 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 -   dev 有更新后，PR 到 release.
 
 # TODO
-
 -   将 umi 框架从项目移除，更改为手动搭建项目流程（基于 webpack）
 -   React 已经升级到 18.x, 将为现有代码和后续代码渐进式升级到 18.x
+-   为移动端适配 UI
