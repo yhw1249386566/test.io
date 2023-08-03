@@ -1,4 +1,4 @@
-.boxShadowHover(@color) {
+.boxShadowHover(@color:black) {
     transition: all @transitionDuration ease 0s;
     box-shadow: 0 1px 2px -3px @color, 0 3px 6px 0 @color, 0 5px 12px 4px @color;
 }
@@ -23,4 +23,20 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.scrollStyle() {
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+        opacity: 0;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #0000004d;
+        opacity: 0.2;
+        border-radius: 25px;
+    }
 }

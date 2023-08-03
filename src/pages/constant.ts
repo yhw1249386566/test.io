@@ -24,20 +24,20 @@ type FeatureType = {
 }
 
 export const FeatureList: FeatureType[] = [
-    // {
-    //     target: FeatureName.Article,
-    //     img: Cute,
-    //     title: 'Article',
-    //     author: 'Yomua',
-    //     time: '2023年2月25日',
-    //     description: '个人笔记',
-    //     tag: [
-    //         {
-    //             name: 'Article',
-    //             color: '#ecb0c1',
-    //         },
-    //     ],
-    // },
+    {
+        target: FeatureName.Article,
+        img: Cute,
+        title: 'Article',
+        author: 'Yomua',
+        time: '2023年2月25日',
+        description: '个人笔记',
+        tag: [
+            {
+                name: 'Article',
+                color: '#ecb0c1',
+            },
+        ],
+    },
 
     {
         target: FeatureName.Gpt3,

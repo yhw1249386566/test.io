@@ -13,7 +13,7 @@ function Sidebar() {
 
     const handleTop = useCallback((event) => {
         event.preventDefault()
-        const scrollSpeed = 20
+        const scrollSpeed = 500
 
         let currentLocation = document.documentElement.scrollTop
 

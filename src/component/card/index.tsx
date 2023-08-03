@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTheme } from '@/hooks'
 import { invertColor } from '@/utils'
 
-import Text from '../text'
+import { Text } from '@/base_component'
 
 import style from './index.less'
 
@@ -60,8 +60,7 @@ const CustomCard = (props: CustomProps) => {
                     style[`card-${theme}`],
                     className,
                 )}
-                {...otherProps}
-            >
+                {...otherProps}>
                 <Image
                     src={img}
                     className={style.image}
@@ -116,8 +115,7 @@ const CustomCard = (props: CustomProps) => {
                                                     }}
                                                 />
                                             ) : null
-                                        }
-                                    >
+                                        }>
                                         {name}
                                     </Tag>
                                 )
@@ -133,8 +131,7 @@ const CustomCard = (props: CustomProps) => {
                         visible,
                         maskClosable: false,
                         onVisibleChange: (vis) => setVisible(vis),
-                    }}
-                >
+                    }}>
                     <Image src={img} />
                 </Image.PreviewGroup>
             </div>

@@ -1,0 +1,27 @@
+.markdown {
+    display: flex;
+}
+
+.markNavbarBox {
+    padding: 20px;
+}
+
+.markNavbar {
+    overflow: auto;
+    position: sticky;
+    top: 50%;
+    height: 500px;
+    transform: translateY(-50%);
+    border-radius: 10px;
+    transition: all @transitionDuration ease 0s;
+
+    .scrollStyle();
+
+    &:hover {
+        .boxShadowHover(@color:#0000004d);
+    }
+}
+
+.markdownBody {
+  padding: 16px;
+}

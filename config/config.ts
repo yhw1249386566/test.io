@@ -21,7 +21,7 @@ export default defineConfig({
     nodeModulesTransform: {
         type: 'none',
     },
-    // 将 from 目录复制到 to 目录
+    // build 时，将 from 目录复制到 to 目录
     // copy: [
     //     {
     //         from: 'src/article',

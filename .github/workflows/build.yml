@@ -19,6 +19,7 @@ jobs:
         run: |
           npm install yarn
           npx yarn install
+          npx yarn build-article
           npx yarn build
 
       - name: Deploy 🚀
