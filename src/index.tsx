@@ -9,14 +9,21 @@ import {
     faFacebookSquare,
 } from '@fortawesome/free-brands-svg-icons'
 
-import { Sidebar } from '@/component'
-
 import style from './index.less'
+import { indexedDB } from './class'
 import Footer from './layouts/footer'
+import { Sidebar } from './component'
 import Header from './layouts/header'
 import { ThemeProvider } from './contexts'
 
 library.add(fas, faFacebookSquare, faYoutubeSquare, faLinkedin, faTwitterSquare)
+
+indexedDB.open({
+    dbName: 'yomuaDB',
+    dbVersion: 1,
+    dbStoreName: 'yomua',
+    specifyKey: 'filepath',
+})
 
 const Index = (props: { children: React.ReactNode }) => {
     const [theme, setTheme] = useState<Theme>('light')

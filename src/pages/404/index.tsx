@@ -1,10 +1,22 @@
-import { memo } from 'react'
-import { Empty } from 'antd'
+import { memo, useCallback } from 'react'
+import { useHistory } from 'umi'
+import { Button } from 'antd'
+
+import { RouteLink } from '@/constant'
 
 export default memo(function NotFound() {
+    const history = useHistory()
+
+    const handleClick = useCallback(() => {
+        history.push(`/${RouteLink.Index}`)
+    }, [])
+
     return (
         <div>
-            <Empty />
+            404
+            <Button type='primary' onClick={handleClick}>
+                Back Home
+            </Button>
         </div>
     )
 })

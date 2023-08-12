@@ -4,30 +4,32 @@ import classNames from 'classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 
+import { Text, Direction } from '@/component'
 import { RouteName, RouteLink } from '@/constant'
-import { Text, Navigation, Direction } from '@/component'
 
 import style from './index.less'
+import { useLocation } from 'umi'
 
 interface HeaderProps {
     theme?: Theme
     onToggleTheme?: (theme: Theme) => void
 }
 
-const navigationData = [
-    { id: 'index', label: RouteName.Index, link: RouteLink.Index },
-    { id: 'type', label: RouteName.Type, link: RouteLink.Type },
-    { id: 'mood', label: RouteName.Mood, link: RouteLink.Mood },
-    { id: 'about', label: RouteName.About, link: RouteLink.About },
-]
+// const navigationData = [
+//     { id: 'index', label: RouteName.Index, link: RouteLink.Index },
+//     { id: 'type', label: RouteName.Type, link: RouteLink.Type },
+//     { id: 'mood', label: RouteName.Mood, link: RouteLink.Mood },
+//     { id: 'about', label: RouteName.About, link: RouteLink.About },
+// ]
 
 const Header = (props: HeaderProps) => {
     const { theme = 'light', onToggleTheme = () => null } = props
 
     const history = useHistory()
+    const location = useLocation()
 
     const handleClickTitle = useCallback(() => {
-        history.push('/index')
+        history.push(`/${RouteLink.Index}`)
     }, [])
 
     const handleToggleTheme = useCallback((theme: Theme) => {
@@ -49,14 +51,15 @@ const Header = (props: HeaderProps) => {
             <Direction
                 alignItems='center'
                 justifyContent='space-between'
-                className={style.headerInfo}
-            >
+                className={style.headerInfo}>
                 <FontAwesomeIcon
-                    className={style.back}
+                    className={classNames(style.back, {
+                        [style.hideLeftIcon]:
+                            location.pathname === `/${RouteLink.Index}`,
+                    })}
                     icon='chevron-left'
                     onClick={handleBack}
                 />
-
                 <Text className={style.title} onClick={handleClickTitle}>
                     青芽
                 </Text>

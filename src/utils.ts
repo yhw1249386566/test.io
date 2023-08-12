@@ -1,3 +1,21 @@
+type DirData = {
+    [fileName: string]: string | DirData
+}
+
+type JSType =
+    | 'string'
+    | 'number'
+    | 'boolean'
+    | 'null'
+    | 'undefined'
+    | 'bigInt'
+    | 'symbol'
+    | 'object'
+    | 'array'
+
+export const delay = async (time: number) =>
+    new Promise((resolve) => setTimeout(resolve, time))
+
 export const equal = (a: string | number, b: string | number) => {
     if (a === b) {
         return true
@@ -13,7 +31,7 @@ export const invertColor = (color: string) => {
 
 export const saveLocalStorage = (
     data: { key: string; value: string },
-    config?,
+    // config?,
 ) => {
     const { key, value } = data
 
@@ -45,4 +63,65 @@ export const getChatLengthFromString = (str: string) => {
         }
     }
     return length
+}
+
+export const getDataType = <T>(data: T): JSType => {
+    const type = Object.prototype.toString
+        .call(data)
+        .replace(/\[?\]?/g, '') // 'object String'
+        .replace('object ', '') // String
+        .replace(/\w/, (r) => r.toLowerCase()) as JSType // string
+
+    return type
+}
+
+export const createFileTree = (
+    dirData: DirData,
+    options?: {
+        parentPath?: string
+    },
+) => {
+    if (getDataType(dirData) !== 'object') return []
+
+    const { parentPath = '' } = options ?? {}
+
+    type FileTree = {
+        type: 'file' | 'directory'
+        title: string
+        path: string
+        key: string
+        children?: FileTree[] // when directory
+    }
+
+    const fileTree: FileTree[] = []
+
+    for (const [title, value] of Object.entries(dirData)) {
+        const fullPath = parentPath ? `${parentPath}/${title}` : title
+
+        const isObject = getDataType(value) === 'object'
+
+        if (isObject) {
+            const subTree = createFileTree(value as DirData, {
+                parentPath: fullPath,
+            })
+            fileTree.push({
+                type: 'directory',
+                title,
+                key: fullPath,
+                path: fullPath,
+                children: subTree,
+            })
+        } else {
+            const path = value as string
+
+            fileTree.push({
+                type: 'file',
+                title,
+                key: path,
+                path: path,
+            })
+        }
+    }
+
+    return fileTree
 }

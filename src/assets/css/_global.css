@@ -1,9 +1,12 @@
 [data-theme='light']:root {
     --global-primary-background-color: #b1d5c8;
     --global-secondary-background-color: #f0f2f5;
+    --global-box-shadow-hover-color: #00000011;
 }
 
 [data-theme='dark']:root {
     --global-primary-background-color: rgb(0, 0, 0);
     --global-secondary-background-color: #0f0d0a;
+    --global-box-shadow-hover-color: #ffffff10;
+
 }

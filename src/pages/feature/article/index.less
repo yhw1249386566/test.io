@@ -1,2 +1,57 @@
 .article {
+    position: relative;
+}
+
+.articleFileTree {
+    top: 50%;
+    right: 0;
+    display: flex;
+    position: fixed;
+    align-items: center;
+}
+
+.switchTreeIcon {
+    width: 30px;
+    height: 30px;
+    font-size: 25px;
+    cursor: pointer;
+    position: relative;
+    border-radius: 50%;
+    background-color: #fff;
+    transition: @boxShadowTransition;
+
+    & > svg {
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+    }
+
+    &:hover {
+        .boxShadowHover(@color:var(--global-box-shadow-hover-color));
+    }
+}
+
+.directoryTree {
+    width: 200px;
+    border-radius: 15px;
+    border: 1px solid #00000011;
+    transition: @boxShadowTransition;
+    &:hover {
+        .boxShadowHover(@color:var(--global-box-shadow-hover-color));
+    }
+}
+
+.showDirectoryTree {
+    transition: transform 1s;
+    transform: translate(0, -50%);
+}
+
+.hideDirectoryTree {
+    transition: transform 1s;
+    transform: translate(200px, -50%);
+}
+
+.skeleton {
+    padding: 16px;
 }

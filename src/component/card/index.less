@@ -1,13 +1,11 @@
 .card-light {
     --component-card-icon-color: #000000;
     --component-card-background-color: #ffffff;
-    --component-card-hoverable: #00000029;
 }
 
 .card-dark {
     --component-card-icon-color: #ffffff;
     --component-card-background-color: #000000;
-    --component-card-hoverable: #ffffff29;
 }
 
 :global {
@@ -23,12 +21,11 @@
     }
 
     .ant-card-hoverable:hover {
-        .boxShadowHover(@color:var(--component-card-hoverable));
+        .boxShadowHover(@color:var(--global-box-shadow-hover-color));
     }
 }
 
 .card {
-    margin: 50px;
     width: 450px;
     height: 514px;
     border-radius: 70px;
@@ -71,10 +68,10 @@
     & > div {
         .textOverflowEllipsis;
 
+        flex: 1;
         gap: 5px;
         display: flex;
         align-items: center;
-        flex: 1;
 
         & > div {
             .textOverflowEllipsis;
@@ -106,4 +103,11 @@
 
 .preview {
     display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .card {
+        width: 300px;
+        height: 400px;
+    }
 }

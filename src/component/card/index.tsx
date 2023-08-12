@@ -14,15 +14,15 @@ import style from './index.less'
 
 interface CustomProps extends CardProps {
     img?: string
+    time?: string
     title?: string
     author?: string
-    time?: string
     description?: string
     tag?: {
         name: string
         key?: string
-        icon?: IconProp
         color?: string
+        icon?: IconProp
     }[]
 }
 
@@ -51,7 +51,7 @@ const CustomCard = (props: CustomProps) => {
     )
 
     return (
-        <div className='component-ui-card-box'>
+        <div className={style.cardBox}>
             <Card
                 bordered
                 hoverable

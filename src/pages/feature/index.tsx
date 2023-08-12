@@ -1,6 +1,8 @@
 /* eslint-disable react/no-children-prop */
-import { memo } from 'react'
-import { useParams, useRouteMatch } from 'umi'
+import { ReactNode, memo } from 'react'
+import { useParams } from 'umi'
+
+import Error404 from '@/pages/404'
 
 import { FeatureName } from '../constant'
 
@@ -9,7 +11,7 @@ import Gpt3 from './gpt3'
 import Article from './article'
 import style from './index.less'
 
-function renderFeature(name: FeatureName) {
+function renderFeature(name: FeatureName): ReactNode {
     switch (name) {
         case FeatureName.Article:
             return <Article />
@@ -25,7 +27,7 @@ function renderFeature(name: FeatureName) {
             )
 
         default:
-            return <div>Error</div>
+            return <Error404 />
     }
 }
 

@@ -1,14 +1,11 @@
-
 .header-light {
     --layouts-header-back-icon-color: #f7eead;
     --layouts-header-theme-icon-color: #f7eead;
-    --layouts-header-theme-icon-hover-color: #00000011;
     --layouts-header-background-color: var(--global-primary-background-color);
 }
 .header-dark {
     --layouts-header-back-icon-color: #f7eead;
     --layouts-header-theme-icon-color: #87c0ca;
-    --layouts-header-theme-icon-hover-color: #ffffff10;
     --layouts-header-background-color: var(--global-primary-background-color);
 }
 
@@ -20,14 +17,24 @@
     padding: 0 16px 0 16px;
 }
 
+.back,
+.themeIcon {
+    cursor: pointer;
+    transition: @boxShadowTransition;
+    color: var(--layouts-header-theme-icon-color);
+
+    &:hover {
+        .boxShadowHover(@color: var(--global-box-shadow-hover-color));
+    }
+}
+
 .back {
     font-size: 32px;
-    cursor: pointer;
-    color: var(--layouts-header-theme-icon-color);
-    transition: all @transitionDuration ease 0s;
-    &:hover {
-        .boxShadowHover(@color:var(--layouts-header-theme-icon-hover-color));
-    }
+}
+
+.hideLeftIcon {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .title {
@@ -49,11 +56,5 @@
     height: 50px;
     padding: 10px;
     font-size: 30px;
-    cursor: pointer;
     border-radius: 50%;
-    transition: all @transitionDuration ease 0s;
-    color: var(--layouts-header-theme-icon-color);
-    &:hover {
-        .boxShadowHover(@color:var(--layouts-header-theme-icon-hover-color));
-    }
 }

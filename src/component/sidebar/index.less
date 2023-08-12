@@ -13,22 +13,20 @@
     right: 16px;
     display: flex;
     position: fixed;
+    border-radius: 50%;
     align-items: center;
     justify-content: center;
     transform: translateY(-50%);
+    transition: @boxShadowTransition;
     transition: opacity 300ms ease-in-out 0s;
     color: var(--component-sidebar-top-icon-color);
-
-    border-radius: 50%;
-    transition: all @transitionDuration ease 0s;
     &:hover {
-        .boxShadowHover(@color:rgba(139, 138, 138, 0.463));
+        .boxShadowHover(@color:var(--global-box-shadow-hover-color));
     }
 }
 
 .sidebarHide {
     opacity: 0;
-    // top: -9999px;
     cursor: default;
     pointer-events: none;
 }
