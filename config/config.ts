@@ -5,15 +5,17 @@ import routes from './routes'
 export default defineConfig({
     publicPath: '/',
     title: 'Yomua',
-    favicon: 'src/assets/favicon.png',
+    favicon: '/assets/favicon.png',
     devtool: 'source-map',
     routes,
     fastRefresh: {},
     // mfsu 可能会造成一些 bug
+    hash: true,
     mfsu: {},
-    // history: {
-    //     type: 'hash',
-    // },
+    // 使用 hash: 避免部署到 github pages 时，当地址为 /feature/article 或其他没有 html 的路由时，刷新页面 404 的问题。
+    history: {
+        type: 'hash',
+    },
     // 加载时显示的 loading
     dynamicImport: {
         loading: '@/component/loading',
@@ -24,7 +26,6 @@ export default defineConfig({
     // 使用 webpack 5
     webpack5: {},
     chainWebpack(config, { env, webpack, createCSSRule }) {
-        config.module
         // 配置 Markdown Loader
         config.module
             .rule('compile')
