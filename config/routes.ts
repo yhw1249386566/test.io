@@ -26,6 +26,11 @@ const EXTRACT_ROUTES = [
         component: '@/pages/feature',
         exact: true,
     },
+    // 在 article 选择标题时会更换地址类似为：/#/heading-1，导致路由不能匹配，所以这里加个匹配的路由，跳回 article
+    {
+        path: '/heading-*',
+        component: '@/pages/feature',
+    },
 ]
 
 export default [
