@@ -1,3 +1,4 @@
+/* eslint-disable react/no-children-prop */
 import { memo } from 'react'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'

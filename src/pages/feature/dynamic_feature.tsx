@@ -1,3 +1,5 @@
+/** eslint-disabled */
+
 /** 注意：此文件是 index.tsx 的另一种实现，即：根据 constant/FeatureList 动态加载组件 */
 
 /* eslint-disable react/no-children-prop */

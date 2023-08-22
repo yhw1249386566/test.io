@@ -3,7 +3,7 @@ import path from 'path'
 
 // 递归获取文件夹结构
 function generateArticleFolderStructure(
-    dir: string, // 某个目录
+    dir: string, // 某个目录，如：/yomua/src/scripts/index.ts
     options?: {
         includeFile?: string[]
     },

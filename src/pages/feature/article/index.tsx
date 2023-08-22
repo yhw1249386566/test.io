@@ -4,13 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { indexedDB } from '@/class'
 import { Markdown } from '@/component'
-import articleDir from '@/articleDir.js'
-import {
-    delay,
-    createFileTree,
-    getLocalStorage,
-    saveLocalStorage,
-} from '@/utils'
+import articleDir from '@/article_dir.js'
+import { delay, createFileTree, storage } from '@/utils'
 
 import style from './index.less'
 import classNames from 'classnames'
@@ -27,7 +22,7 @@ function Article() {
     const [prevSelectedFilePath, setPrevSelectedFilePath] = useState('')
 
     const isHaveSkeleton = useMemo(
-        () => getLocalStorage('activeFilePath') && !markdownData,
+        () => storage.getLocalStorage('activeFilePath') && !markdownData,
         [markdownData],
     )
 
@@ -49,14 +44,18 @@ function Article() {
             }
 
             setPrevSelectedFilePath(activePath)
-            saveLocalStorage({ key: 'activeFilePath', value: activePath })
+            storage.saveLocalStorage({
+                key: 'activeFilePath',
+                value: activePath,
+            })
 
             const importFilePath = (activePath as string)
                 ?.split('article')[1]
                 ?.replace('.md', '')
                 ?.replaceAll('\\', '/') // '/css/缓存'
 
-            // 对于动态导入,必须要让 webpack 未编译前就知道它是什么类型的文件，
+            // https://webpack.docschina.org/api/module-methods/#dynamic-expressions-in-import
+            // import() 必须至少包含一些关于模块的路径信息。
             // 如果是在运行时，webpack 才知道路径，文件类型，那么是找不到这个文件的，比如：
             // 直接使用 path: H:/username/yomua/src/article/css/缓存.md
             const data = await import(`@/assets/article${importFilePath}.md`)
@@ -76,7 +75,7 @@ function Article() {
 
     // 刷新/切换路由，然后再点进来时，加载最后一次点击的目录的文件数据
     useEffect(() => {
-        const filepath = getLocalStorage('activeFilePath') as string
+        const filepath = storage.getLocalStorage('activeFilePath') as string
 
         if (!filepath) return
 
@@ -108,7 +107,8 @@ function Article() {
                 className={classNames(style.articleFileTree, {
                     [style.showDirectoryTree]: isShowDirectoryTree,
                     [style.hideDirectoryTree]: !isShowDirectoryTree,
-                })}>
+                })}
+            >
                 <div className={style.switchTreeIcon}>
                     <FontAwesomeIcon
                         icon='circle-chevron-left'
@@ -132,7 +132,7 @@ function Article() {
                 />
             )}
 
-            {markdownData && <Markdown children={markdownData} />}
+            {markdownData && <Markdown>{markdownData}</Markdown>}
         </div>
     )
 }
