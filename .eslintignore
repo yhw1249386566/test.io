@@ -1,8 +1,12 @@
 # {
 #     "ignorePatterns": [".eslintrc.js"]
 # }
-.eslintrc.js
-src/assets/**
-*.less
 *.ejs
+*.less
 *.html
+.eslintrc.js
+
+dist/
+src/assets/
+node_modules/
+src/article_dir.js

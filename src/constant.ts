@@ -11,5 +11,3 @@ export enum RouteLink {
     Mood = 'mood',
     About = 'about',
 }
-
-const user = { test: '' }

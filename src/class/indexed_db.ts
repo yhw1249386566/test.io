@@ -1,9 +1,13 @@
+import { storage } from '@/utils'
+
 const IndexedDBSymbol = Symbol()
 
 type Data = { filepath: string; file: string }
 
 class SingletonIndexedDB {
+    /* eslint-disable no-use-before-define */
     static indexedDBInstance: SingletonIndexedDB
+    /* eslint-disable no-use-before-define */
     private db: IDBDatabase
     private dbName: string
     private dbVersion: number
@@ -34,7 +38,16 @@ class SingletonIndexedDB {
         dbStoreName: string,
         mode: 'readonly' | 'readwrite' | 'versionchange',
     ) {
-        return this.db.transaction(dbStoreName, mode).objectStore(dbStoreName)
+        if (!this.db?.transaction) {
+            storage.saveSessionStorage({
+                key: 'indexedDB_this',
+                value: JSON.stringify(this),
+            })
+            location.reload()
+            console.info('已尝试刷新页面，查看 session 找错误原因')
+        }
+
+        return this.db?.transaction(dbStoreName, mode)?.objectStore(dbStoreName)
     }
 
     open(options?: {
@@ -89,11 +102,7 @@ class SingletonIndexedDB {
         const store = this.getObjectStore(this.dbStoreName, 'readonly')
         const index = store.index(this.specifyKey)
 
-        try {
-            return index.get(filepath)
-        } catch (e) {
-            throw e
-        }
+        return index.get(filepath)
     }
 
     addDataFromStore(filepath: string, data: Data) {
@@ -101,14 +110,10 @@ class SingletonIndexedDB {
 
         const store = this.getObjectStore(this.dbStoreName, 'readwrite')
 
-        try {
-            return store?.add({
-                ...data,
-                filepath,
-            })
-        } catch (e) {
-            throw e
-        }
+        return store?.add({
+            ...data,
+            filepath,
+        })
     }
 
     deleteDataFromStore(filepath: string) {

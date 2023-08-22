@@ -13,23 +13,8 @@ type JSType =
     | 'object'
     | 'array'
 
-export const delay = async (time: number) =>
-    new Promise((resolve) => setTimeout(resolve, time))
-
-export const equal = (a: string | number, b: string | number) => {
-    if (a === b) {
-        return true
-    }
-    return false
-}
-
-export const invertColor = (color: string) => {
-    const colorValue: any = '0x' + color.replace(/#/g, '')
-    const str = '000000' + (0xffffff - colorValue).toString(16)
-    return '#' + str.substring(str.length - 6, str.length)
-}
-
-export const saveLocalStorage = (
+/** start --- 不需要导出 --- start */
+const saveLocalStorage = (
     data: { key: string; value: string },
     // config?,
 ) => {
@@ -43,13 +28,53 @@ export const saveLocalStorage = (
     localStorage.setItem(key, value)
 }
 
-export const getLocalStorage = (key: string) => {
+const getLocalStorage = (key: string) => {
     if (!key) {
         console.error('getLocalStorage: key 不存在')
+        return ''
+    }
+
+    return localStorage.getItem(key) ?? ''
+}
+
+const saveSessionStorage = (
+    data: { key: string; value: string },
+    // config?,
+) => {
+    const { key, value } = data
+
+    if (!key) {
+        console.error('saveSessionStorage: key 不存在')
         return
     }
 
-    return localStorage.getItem(key)
+    sessionStorage.setItem(key, value)
+}
+
+const getSessionStorage = (key: string) => {
+    if (!key) {
+        console.error('getSessionStorage: key 不存在')
+        return ''
+    }
+
+    return sessionStorage.getItem(key) ?? ''
+}
+/** end --- 不需要导出 --- end */
+
+export const storage = {
+    saveLocalStorage,
+    getLocalStorage,
+    saveSessionStorage,
+    getSessionStorage,
+}
+
+export const delay = async (time: number) =>
+    new Promise((resolve) => setTimeout(resolve, time))
+
+export const invertColor = (color: string) => {
+    const colorValue: any = '0x' + color.replace(/#/g, '')
+    const str = '000000' + (0xffffff - colorValue).toString(16)
+    return '#' + str.substring(str.length - 6, str.length)
 }
 
 export const getChatLengthFromString = (str: string) => {
