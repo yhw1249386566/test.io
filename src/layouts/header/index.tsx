@@ -1,8 +1,9 @@
 import { memo, useCallback } from 'react'
 import { useHistory } from 'umi'
-import classNames from 'classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
+
+import classnames from '~/packages/classnames'
 
 import { Text, Direction } from '@/component'
 import { RouteName, RouteLink } from '@/constant'
@@ -47,13 +48,14 @@ const Header = (props: HeaderProps) => {
     }, [])
 
     return (
-        <div className={classNames(style.header, style[`header-${theme}`])}>
+        <div className={classnames(style.header, style[`header-${theme}`])}>
             <Direction
                 alignItems='center'
                 justifyContent='space-between'
-                className={style.headerInfo}>
+                className={style.headerInfo}
+            >
                 <FontAwesomeIcon
-                    className={classNames(style.back, {
+                    className={classnames(style.back, {
                         [style.hideLeftIcon]:
                             location.pathname === `/${RouteLink.Index}`,
                     })}

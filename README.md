@@ -142,10 +142,27 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
     最后我们使用 Custom Domain，让 www.whyhw.com 作为代理，这样访问 whyhw.com 时，将能看到部署成功的项目。
 
 
+# Module 
+
+对于 npm 的包来说，其实有些包不需要下载，可以自己写在 /packages 中，比如：
+
+- classnames
+
+- eventEmit3
+
+注意，packages/ 下面的文件夹名字如果要分割，使用 '-' 分割，为什么？每个 npm 包都是这样的，比如：react-native
+
+等等
+
 # TODO
 -   将 umi 框架从项目移除，更改为手动搭建项目流程（基于 webpack）
--   React 已经升级到 18.x, 将为现有代码和后续代码渐进式升级到 18.x
--   实时更新已有文章，并且更新完成之后可以下载已有文章成为 md 文件，但是刷新之后不保留此文件。
 -   使用 WebGL 尝试修改首页，比如：一个打开的 3d 书，每一页一个功能，有个目录之类的
--   搞一个 SDK 包，比如：yhook
+-   使用 .env 这种配置文件，去配置变量。比如：页面滚动速度等。
+-   文章的 UI 界面可以参考 react 官方的，比如：[React](https://zh-hans.react.dev/reference/react-dom/findDOMNode)
+-   为 article 添加搜索目录功能，可以根据关键词搜索对应路径、文件。
 -   三端：PC(网页 + 手机端适配) + Mobile(ios, Android) + 小程序，可使用 taro
+-   搞一个 SDK 包，比如：yhook，直接使用 monorepo 项目管理方式
+-   实时更新已有文章，并且更新完成之后可以下载已有文章成为 md 文件，但是刷新之后不保留此文件。
+-   React 已经升级到 18.x, 将为现有代码和后续代码渐进式升级到 18.x
+
+

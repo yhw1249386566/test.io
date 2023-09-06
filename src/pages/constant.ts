@@ -1,8 +1,10 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 import Cute from '@/assets/img/cute.jpeg'
+import CompressCute from '@/assets/img/compress_cute.jpeg'
 
 export enum FeatureName {
+    Three = 'three',
     Article = 'article',
     Gpt3 = 'gpt3',
     Todo = 'todo',
@@ -11,6 +13,7 @@ export enum FeatureName {
 type FeatureType = {
     target: FeatureName
     img?: string
+    previewImg?: string
     title?: string
     author?: string
     time?: string
@@ -25,11 +28,29 @@ type FeatureType = {
 
 export const FeatureList: FeatureType[] = [
     {
+        target: FeatureName.Three,
+        img: CompressCute,
+        previewImg: Cute,
+        title: 'Three',
+        author: 'Yomua',
+        time: '2023年08月22日',
+        description: 'Three.js',
+        tag: [
+            {
+                name: 'Three',
+                icon: 'cube',
+                color: '#ecb0c1',
+            },
+        ],
+    },
+
+    {
         target: FeatureName.Article,
-        img: Cute,
+        img: CompressCute,
+        previewImg: Cute,
         title: 'Article',
         author: 'Yomua',
-        time: '2023年2月25日',
+        time: '2023年02月25日',
         description: '个人笔记',
         tag: [
             {
@@ -41,10 +62,11 @@ export const FeatureList: FeatureType[] = [
 
     {
         target: FeatureName.Gpt3,
-        img: Cute,
+        img: CompressCute,
+        previewImg: Cute,
         title: 'GPT3',
         author: 'Yomua',
-        time: '2023年2月19日 23:22',
+        time: '2023年02月19日 23:22',
         description: 'gpt3 chat',
         tag: [
             {
@@ -66,10 +88,11 @@ export const FeatureList: FeatureType[] = [
     },
     {
         target: FeatureName.Todo,
-        img: Cute,
+        img: CompressCute,
+        previewImg: Cute,
         title: 'Todo',
         author: 'Yomua',
-        time: '2023年2月18日',
+        time: '2023年02月18日',
         description: '一个来自远古的待办事项',
         tag: [
             {

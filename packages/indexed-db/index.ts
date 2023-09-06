@@ -1,12 +1,10 @@
-import { storage } from '@/utils'
+type Data = { filepath: string; file: string }
 
 const IndexedDBSymbol = Symbol()
 
-type Data = { filepath: string; file: string }
-
-class SingletonIndexedDB {
+class IndexedDB {
     /* eslint-disable no-use-before-define */
-    static indexedDBInstance: SingletonIndexedDB
+    static indexedDBInstance: IndexedDB
     /* eslint-disable no-use-before-define */
     private db: IDBDatabase
     private dbName: string
@@ -14,8 +12,18 @@ class SingletonIndexedDB {
     private dbStoreName: string
     private specifyKey: string
 
-    constructor(symbol: symbol) {
-        if (symbol !== IndexedDBSymbol) {
+    constructor(symbol?: symbol) {
+        /**
+         * 以下方法允许开发者即使多次使用 new 也能创建单实例
+         * 坏处是：用户不能创建多实例了，由于这是一个 package
+         * 所以不使用此方法，而是提供 singleInstance 让用户选择单实例或多实例（多次 new）
+         */
+        // if (IndexedDB.indexedDBInstance) {
+        //     return IndexedDB.indexedDBInstance
+        // }
+        // IndexedDB.indexedDBInstance = this
+
+        if (symbol && symbol !== IndexedDBSymbol) {
             throw new Error('意外的重复初始化 IndexedDB')
         }
 
@@ -26,9 +34,9 @@ class SingletonIndexedDB {
         this.specifyKey = ''
     }
 
-    static get instance() {
+    static get singleInstance() {
         if (!this.indexedDBInstance) {
-            this.indexedDBInstance = new SingletonIndexedDB(IndexedDBSymbol)
+            this.indexedDBInstance = new IndexedDB(IndexedDBSymbol)
         }
 
         return this.indexedDBInstance
@@ -39,10 +47,7 @@ class SingletonIndexedDB {
         mode: 'readonly' | 'readwrite' | 'versionchange',
     ) {
         if (!this.db?.transaction) {
-            storage.saveSessionStorage({
-                key: 'indexedDB_this',
-                value: JSON.stringify(this),
-            })
+            sessionStorage.setItem('indexedDB_this', JSON.stringify(this))
             location.reload()
             console.info('已尝试刷新页面，查看 session 找错误原因')
         }
@@ -50,6 +55,7 @@ class SingletonIndexedDB {
         return this.db?.transaction(dbStoreName, mode)?.objectStore(dbStoreName)
     }
 
+    // 初始化请求
     open(options?: {
         specifyKey?: string // 用来通过此 key 进行 get, delete
         dbName?: string
@@ -161,4 +167,4 @@ class SingletonIndexedDB {
     }
 }
 
-export default SingletonIndexedDB.instance
+export default IndexedDB

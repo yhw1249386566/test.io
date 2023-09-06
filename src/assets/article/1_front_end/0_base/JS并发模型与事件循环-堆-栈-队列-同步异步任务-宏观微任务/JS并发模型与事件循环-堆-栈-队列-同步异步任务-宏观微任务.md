@@ -920,6 +920,11 @@ JavaScript的事件循环模型与许多其他语言不同的一个非常有趣�
 
 当[调用堆栈](https://vimeo.com/96425312)为空时(主线程已经执行完script中的所有同步任务了)，且已经执行过微任务队列中的所有微任务了，
 
+即，先执行：
+
+1. 执行同步代码。
+2. 检查微任务队列，如果有微任务，按顺序执行所有微任务，直到清空
+
 那么就会请执行以下步骤：
 
 1. 选择宏任务队列中最旧的(先入的)任务（任务A）
@@ -983,12 +988,12 @@ JavaScript的事件循环模型与许多其他语言不同的一个非常有趣�
 
 ## 参考资料
 
-- [并发模型与事件循环-MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/EventLoop)
+- [并发模型与事件循环-MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/EventLoop) 
 
-- [Tasks, microtasks, queues and schedules](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/?utm_source=html5weekly#why-this-happens)以及它的[译文](https://segmentfault.com/a/1190000014940904)
+- [Tasks, microtasks, queues and schedules](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/?utm_source=html5weekly#why-this-happens)以及它的[译文](https://segmentfault.com/a/1190000014940904) 
 
-- [Difference between microtask and macrotask within an event loop context-StackOverflow](https://stackoverflow.com/questions/25915634/difference-between-microtask-and-macrotask-within-an-event-loop-context/30910084#30910084)
+- [Difference between microtask and macrotask within an event loop context-StackOverflow](https://stackoverflow.com/questions/25915634/difference-between-microtask-and-macrotask-within-an-event-loop-context/30910084#30910084) 
 
-- [全方位理解JavaScript的Event Loop-掘金](https://juejin.im/post/5bc2a2d9f265da0ab915edd8#heading-2)
+- [全方位理解JavaScript的Event Loop-掘金](https://juejin.im/post/5bc2a2d9f265da0ab915edd8#heading-2) 
 
-- [JavaScript 运行机制详解：再谈Event Loop-阮一峰](http://www.ruanyifeng.com/blog/2014/10/event-loop.html)
+- [JavaScript 运行机制详解：再谈Event Loop-阮一峰](http://www.ruanyifeng.com/blog/2014/10/event-loop.html) 

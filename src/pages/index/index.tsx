@@ -1,26 +1,37 @@
 import { memo } from 'react'
-import _ from 'lodash'
-import { useRouteMatch, history } from 'umi'
+import { history } from 'umi'
 
 import { Card } from '@/component'
 
 import { FeatureList } from '../constant'
 import style from './index.less'
 
+const cache = {}
+
 function handleGotoFeature(featureName: string) {
-    return () => {
-        history.push(`/feature/${featureName}`)
+    if (!cache[featureName]) {
+        cache[featureName] = () => {
+            history.push(`/feature/${featureName}`)
+        }
     }
+
+    return cache[featureName]
 }
 
 function Index() {
-    const match = useRouteMatch()
-
     return (
         <div className={style.index}>
-            {_.orderBy(FeatureList, 'time', 'desc').map((card, index) => {
-                const { target, img, title, author, time, description, tag } =
-                    card
+            {FeatureList.map((card, index) => {
+                const {
+                    tag,
+                    img,
+                    time,
+                    title,
+                    author,
+                    target,
+                    previewImg,
+                    description,
+                } = card
 
                 return (
                     <Card
@@ -30,6 +41,7 @@ function Index() {
                         time={time}
                         title={title}
                         author={author}
+                        previewImg={previewImg}
                         description={description}
                         onClick={handleGotoFeature(target)}
                     />

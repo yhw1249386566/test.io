@@ -7,6 +7,7 @@
 .eslintrc.js
 
 dist/
+config/
 src/assets/
 node_modules/
 src/article_dir.js

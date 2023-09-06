@@ -12,6 +12,7 @@ type JSType =
     | 'symbol'
     | 'object'
     | 'array'
+    | 'function'
 
 /** start --- 不需要导出 --- start */
 const saveLocalStorage = (
@@ -149,4 +150,46 @@ export const createFileTree = (
     }
 
     return fileTree
+}
+
+export const compressImg = (imgPath: string) => {
+    const img = new Image()
+    const canvas = document.createElement('canvas')
+    const context = canvas.getContext('2d')
+    img.src = imgPath
+    img.onload = function () {
+        // 图片原始尺寸
+        const originWidth = (this as any).width
+        const originHeight = (this as any).height
+        // 最大尺寸限制
+        const maxWidth = 400,
+            maxHeight = 400
+        // 目标尺寸
+        let targetWidth = originWidth,
+            targetHeight = originHeight
+        // 图片尺寸超过400x400的限制
+        if (originWidth > maxWidth || originHeight > maxHeight) {
+            if (originWidth / originHeight > maxWidth / maxHeight) {
+                // 更宽，按照宽度限定尺寸
+                targetWidth = maxWidth
+                targetHeight = Math.round(
+                    maxWidth * (originHeight / originWidth),
+                )
+            } else {
+                targetHeight = maxHeight
+                targetWidth = Math.round(
+                    maxHeight * (originWidth / originHeight),
+                )
+            }
+        }
+
+        // canvas对图片进行缩放
+        canvas.width = targetWidth
+        canvas.height = targetHeight
+        // 清除画布
+        context?.clearRect(0, 0, targetWidth, targetHeight)
+        // 图片压缩
+        context?.drawImage(img, 0, 0, targetWidth, targetHeight)
+        console.log(canvas.toDataURL('image/jpeg'))
+    }
 }

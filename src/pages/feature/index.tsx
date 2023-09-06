@@ -10,6 +10,7 @@ import { FeatureName } from '../constant'
 import Todo from './todo'
 import Gpt3 from './gpt3'
 import Article from './article'
+import Three from './three'
 import style from './index.less'
 
 function renderFeature(
@@ -28,6 +29,9 @@ function renderFeature(
     }
 
     switch (name) {
+        case FeatureName.Three:
+            return <Three />
+
         case FeatureName.Article:
             return <Article />
 
