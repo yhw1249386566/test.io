@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
-import debounce from 'lodash/debounce'
+
+import { debounce } from '~/packages/screw'
 
 const DEFAULT_OPTIONS = {
     delay: 300,
@@ -9,10 +10,10 @@ const DEFAULT_OPTIONS = {
 export default function useWindowEventListen(
     eventName: string,
     listenCallback: EventListenerOrEventListenerObject,
+    effect: React.DependencyList = [],
     options: {
         delay?: number // 单位：毫秒
     } = DEFAULT_OPTIONS,
-    effect: React.DependencyList = [],
 ) {
     if (!eventName) {
         return

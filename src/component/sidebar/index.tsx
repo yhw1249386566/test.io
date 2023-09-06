@@ -1,37 +1,47 @@
 import { memo, useCallback, useState } from 'react'
-import classNames from 'classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import classnames from '~/packages/classnames'
 
 import { useTheme, useWindowEventListen } from '@/hooks'
 
 import style from './index.less'
+
+const SCROLL_SPEED = 500
 
 function Sidebar() {
     const [isShowSidebar, setIsShowSidebar] = useState(false)
 
     const theme = useTheme()
 
-    const handleTop = useCallback((event) => {
-        event.preventDefault()
-        const scrollSpeed = 500
+    const handleTop: React.MouseEventHandler<SVGSVGElement> = useCallback(
+        (event) => {
+            event.preventDefault()
 
-        let currentLocation = document.documentElement.scrollTop
+            let currentLocation = document.documentElement.scrollTop
 
-        const task = setInterval(function () {
-            if (currentLocation > 0) {
+            function slider() {
+                if (currentLocation < 0) {
+                    window.scrollTo(0, 0)
+                    return
+                }
+
+                currentLocation -= SCROLL_SPEED
                 window.scrollTo(0, currentLocation)
-                currentLocation -= scrollSpeed
-            } else {
-                window.scrollTo(0, 0)
-                clearInterval(task)
+                window.requestAnimationFrame(slider)
             }
-        }, 1)
-    }, [])
 
-    useWindowEventListen('scroll', () => {
-        if (document.documentElement.scrollTop === 0) {
-            setIsShowSidebar(false)
-            return
+            slider()
+        },
+        [],
+    )
+
+    useWindowEventListen('scroll', (event) => {
+        if (event.target instanceof Document) {
+            if (event.target?.documentElement?.scrollTop === 0) {
+                setIsShowSidebar(false)
+                return
+            }
         }
 
         setIsShowSidebar(true)
@@ -39,7 +49,7 @@ function Sidebar() {
 
     return (
         <div
-            className={classNames(style.sidebar, style[`sidebar-${theme}`], {
+            className={classnames(style.sidebar, style[`sidebar-${theme}`], {
                 [style.sidebarHide]: !isShowSidebar,
             })}
         >

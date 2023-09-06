@@ -1,4 +1,4 @@
-# nullish合并运算符
+# `??` nullish合并运算符
 
 ## 描述
 
@@ -102,3 +102,13 @@ console.log(x); //UncaughtSyntaxError:Unexpectedtoken '??'
 - ***userInf.details?.love?.one ?? 'me';***
 
   这个赋值语句巧妙的使用了 `??`和 `?.`运算符,表示: 若在这条链上的引用的属性有一个为null或undefined,则这个语句的值将会返回me这个默认值.
+
+# `??=` 逻辑空赋值
+
+当表达式的值为 `null` 或 `undefined` 时，进行赋值。
+
+```js
+let a = null
+a ??= 'yomua' // a 的值现在为 yomua
+```
+

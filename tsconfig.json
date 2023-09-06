@@ -11,6 +11,7 @@
         "baseUrl": "./",
         "strict": true,
         "paths": {
+            "~/*": ["./*"],
             "@/*": ["src/*"],
             "@@/*": ["src/.umi/*"]
         },
@@ -19,14 +20,16 @@
         "emitDecoratorMetadata": true,
         "removeComments": true,
         "noImplicitAny": false,
-        "noImplicitThis": false
+        "noImplicitThis": false,
+        
     },
     "include": [
         "mock/**/*",
         "src/**/*",
         "config/**/*",
         ".umirc.ts",
-        "typings.d.ts"
+        "typings.d.ts",
+        "packages/"
     ],
     "exclude": [
         "node_modules",

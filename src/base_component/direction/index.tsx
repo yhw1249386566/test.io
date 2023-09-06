@@ -1,5 +1,6 @@
 import React, { memo } from 'react'
-import classNames from 'classnames'
+
+import classnames from '~/packages/classnames'
 
 import style from './index.less'
 
@@ -26,7 +27,7 @@ const Direction = (props: DirectionProps) => {
 
     return (
         <div
-            className={classNames(style[mode], className)}
+            className={classnames(style[mode], className)}
             style={{
                 justifyContent,
                 alignItems,

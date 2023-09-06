@@ -178,7 +178,18 @@ dispatch(action): (action:any(doSomething)) => newState
 
 ## [uesMemo()](https://zh-hans.reactjs.org/docs/hooks-reference.html#usememo)
 
-## [useImperativeHandle()](https://zh-hans.reactjs.org/docs/hooks-reference.html#useimperativehandle)
+## [useImperativeHandle()](https://zh-hans.reactjs.org/docs/hooks-reference.html#useimperativehandle) 
+
+## [useDeferredValue()](https://zh-hans.react.dev/reference/react/useDeferredValue) 
+
+## 概念
+
+此 hook 可以延迟更新 UI 的某些部分。
+
+当此 hook 安排了一个后台渲染时，如果此时又有新事件导出此 hook 又需要被重新执行，那么它会中断前一个后台渲染，从头开始重新启动一个新的后台渲染，如此直到更新完。
+
+- 注意：被中断的每个前一个渲染是被缓存下来的，当再次使用的 deferred 结果是被缓存的，那么此结果所对应的输入再次被重新输入时，不会重新触发渲染（如：重新发送请求、获取数据等）
+  可以参考例子：[例子](https://zh-hans.react.dev/reference/react/useDeferredValue#showing-stale-content-while-fresh-content-is-loading)，以及[结论](https://zh-hans.react.dev/reference/react/useDeferredValue#how-does-deferring-a-value-work-under-the-hood)。
 
 # 从 Class 迁移到 Hook
 

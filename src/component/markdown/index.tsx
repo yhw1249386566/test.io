@@ -2,13 +2,13 @@
 import { memo } from 'react'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
-import classNames from 'classnames'
 import MarkNavbar from 'markdown-navbar'
 import ReactMarkdown from 'react-markdown'
 
-import 'github-markdown-css'
+import classnames from '~/packages/classnames'
 
 import style from './index.less'
+import 'github-markdown-css'
 import './base.css'
 
 type MarkdownProps = {
@@ -31,7 +31,7 @@ const Markdown = (props: MarkdownProps) => {
 
             <ReactMarkdown
                 // markdown-body 是导入 github-markdown-css
-                className={classNames('markdown-body', style.markdownBody)}
+                className={classnames('markdown-body', style.markdownBody)}
                 children={children as string}
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeRaw]}

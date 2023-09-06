@@ -101,7 +101,7 @@ HTTP/2 二进制框架机制被设计为不需要改动任何API或配置文件�
 整个 header（包括值）由一行组成，这一行可以相当长，并且有许多请求头可用，它们可以分为几组：
 
 - *Request headers，*例如 [`User-Agent`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/User-Agent)，[`Accept-Type`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Accept-Type)，通过进一步的定义(例如 [`Accept-Language`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Accept-Language))，或者给定上下文(例如 [`Referer`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Referer))，或者进行有条件的限制 (例如 [`If-None`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/If-None)) 来修改请求。
-- *General headers，*例如 [`Via`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Via)，适用于整个报文。
+- *General headers，*例如 [`Via`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Via), [`Connection`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Connection)，适用于整个报文。
 - *Entity headers，*例如 [`Content-Length`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Length)，适用于请求的 body。显然，如果请求中没有任何 body，则不会发送这样的头文件。
 
 ![](picture/HTTP 可用请求头的种类.png)
@@ -145,8 +145,8 @@ HTTP 响应的起始行被称作 *状态行* *(status line)*，你或许也可�
 
 整个 header（包括其值）表现为单行形式，且有许多响应头可用，这些响应头可以分为几组：（这和 HTTP 请求的 请求头也是类似的）
 
-- *General headers，*例如 [`Via`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Via)，适用于整个报文。
 - *Response headers，*例如 [`Vary`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Vary) 和 [`Accept-Ranges`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Accept-Ranges)，提供其它不符合状态行的关于服务器的信息。
+- *General headers，*例如 [`Via`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Via)，适用于整个报文。
 - *Entity headers*，例如 [`Content-Length`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Length)，适用于请求的 body。显然，如果请求中没有任何 body，则不会发送这样的头文件。
 
 ![](picture/HTTP 可用响应头的种类.png)
@@ -205,7 +205,7 @@ HTTP 帧现在对 Web 开发人员是透明的；在 HTTP/2 中，这是一个�
 
 Web 开发人员不需要在他们使用的 API 中做任何更改来利用 HTTP 帧；当浏览器和服务器都可用时，HTTP/2 将被打开并使用。
 
-## [HTTP/1.x 和 HTTP/2 的关键（报文和帧的关系）](HTTP/1.x 和 HTTP/2 的关键（报文和帧的关系）)
+## [HTTP/1.x 和 HTTP/2 的关键（报文和帧的关系）](HTTP/1.x 和 HTTP/2 的关键（报文和帧的关系）) 
 
 HTTP 报文是使用 HTTP 的关键；它们的结构简单，并且具有高可扩展性。
 

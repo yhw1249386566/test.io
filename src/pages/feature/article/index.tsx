@@ -1,14 +1,15 @@
-import React, { memo, useMemo, useCallback, useState, useEffect } from 'react'
+import { memo, useMemo, useCallback, useState, useEffect } from 'react'
 import { Tree, Skeleton } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { indexedDB } from '@/class'
+import classnames from '~/packages/classnames'
+import IndexedDB from '~/packages/indexed-db'
+
 import { Markdown } from '@/component'
 import articleDir from '@/article_dir.js'
 import { delay, createFileTree, storage } from '@/utils'
 
 import style from './index.less'
-import classNames from 'classnames'
 
 const { DirectoryTree } = Tree
 
@@ -61,8 +62,11 @@ function Article() {
             const data = await import(`@/assets/article${importFilePath}.md`)
 
             // 保留最后一次点击的文件数据
-            indexedDB.clearDataFromStore()
-            indexedDB.updateDataFromStore(activePath, data?.default)
+            IndexedDB.singleInstance.clearDataFromStore()
+            IndexedDB.singleInstance.updateDataFromStore(
+                activePath,
+                data?.default,
+            )
 
             setMarkdownData(data?.default)
         },
@@ -82,7 +86,7 @@ function Article() {
         const startTime = Date.now()
 
         async function getArticleDataFromStore() {
-            const req = indexedDB.getDataFromStore(filepath)
+            const req = IndexedDB.singleInstance.getDataFromStore(filepath)
             req.onsuccess = async (event: any) => {
                 const result: { filepath: string; file: string } =
                     event?.target?.result
@@ -104,7 +108,7 @@ function Article() {
     return (
         <div className={style.article}>
             <div
-                className={classNames(style.articleFileTree, {
+                className={classnames(style.articleFileTree, {
                     [style.showDirectoryTree]: isShowDirectoryTree,
                     [style.hideDirectoryTree]: !isShowDirectoryTree,
                 })}

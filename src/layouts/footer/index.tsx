@@ -1,21 +1,22 @@
 import { memo } from 'react'
-import classNames from 'classnames'
+
+import classnames from '~/packages/classnames'
 
 import { useTheme } from '@/hooks'
 import { Text, Direction } from '@/component'
 
 import style from './index.less'
 
-const DefaultFooter = () => {
+const Footer = () => {
     const theme = useTheme()
 
     return (
         <Direction
-            className={classNames(style.footer, style[`footer-${theme}`])}
+            className={classnames(style.footer, style[`footer-${theme}`])}
         >
             <Text>©2021 Created by Yomua</Text>
         </Direction>
     )
 }
 
-export default memo(DefaultFooter)
+export default memo(Footer)

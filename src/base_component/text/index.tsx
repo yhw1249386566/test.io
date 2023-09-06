@@ -1,5 +1,6 @@
 import React, { memo } from 'react'
-import classnames from 'classnames'
+
+import classnames from '~/packages/classnames'
 
 import { useTheme } from '@/hooks'
 

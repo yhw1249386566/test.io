@@ -9,8 +9,9 @@ import {
     faFacebookSquare,
 } from '@fortawesome/free-brands-svg-icons'
 
+import IndexedDB from '~/packages/indexed-db'
+
 import style from './index.less'
-import { indexedDB } from './class'
 import Footer from './layouts/footer'
 import { Sidebar } from './component'
 import Header from './layouts/header'
@@ -18,7 +19,7 @@ import { ThemeProvider } from './contexts'
 
 library.add(fas, faFacebookSquare, faYoutubeSquare, faLinkedin, faTwitterSquare)
 
-indexedDB.open({
+IndexedDB.singleInstance.open({
     dbName: 'yomuaDB',
     dbVersion: 1,
     dbStoreName: 'yomua',

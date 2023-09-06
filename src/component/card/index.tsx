@@ -1,9 +1,10 @@
-import { memo, useState, useCallback } from 'react'
-import classNames from 'classnames'
+import { memo, useState, useCallback, useEffect } from 'react'
 import { Tag, Card, Image, CardProps } from 'antd'
 import { Scrollbars } from 'react-custom-scrollbars-2'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import classnames from '~/packages/classnames'
 
 import { useTheme } from '@/hooks'
 import { invertColor } from '@/utils'
@@ -17,6 +18,7 @@ interface CustomProps extends CardProps {
     time?: string
     title?: string
     author?: string
+    previewImg?: string
     description?: string
     tag?: {
         name: string
@@ -29,6 +31,7 @@ interface CustomProps extends CardProps {
 const CustomCard = (props: CustomProps) => {
     const {
         img,
+        previewImg,
         time,
         description,
         title,
@@ -55,12 +58,13 @@ const CustomCard = (props: CustomProps) => {
             <Card
                 bordered
                 hoverable
-                className={classNames(
+                className={classnames(
                     style.card,
                     style[`card-${theme}`],
                     className,
                 )}
-                {...otherProps}>
+                {...otherProps}
+            >
                 <Image
                     src={img}
                     className={style.image}
@@ -115,7 +119,8 @@ const CustomCard = (props: CustomProps) => {
                                                     }}
                                                 />
                                             ) : null
-                                        }>
+                                        }
+                                    >
                                         {name}
                                     </Tag>
                                 )
@@ -131,8 +136,9 @@ const CustomCard = (props: CustomProps) => {
                         visible,
                         maskClosable: false,
                         onVisibleChange: (vis) => setVisible(vis),
-                    }}>
-                    <Image src={img} />
+                    }}
+                >
+                    <Image src={previewImg} />
                 </Image.PreviewGroup>
             </div>
         </div>
