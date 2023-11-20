@@ -1,8 +1,28 @@
-# Hook
 
-## [useReducer()](https://zh-hans.reactjs.org/docs/hooks-reference.html#usereducer)
 
-### 语法
+# [useState](https://zh-hans.react.dev/reference/react/useState) 
+
+## [FAQ](https://zh-hans.react.dev/reference/react/useState#troubleshooting) 
+
+### [我已经更新了状态，但是屏幕没有更新](https://zh-hans.react.dev/reference/react/useState#ive-updated-the-state-but-the-screen-doesnt-update) 
+
+```tsx
+const [state, setState] = useState([]);
+
+useEffect(() => {
+  state.push({ item: 1 });
+  setState(state); // 这样是不会触发更新的，你必须创建一个新数组给 setState'
+  seState([...state]); // 正确更新
+}, []);
+```
+
+
+
+
+
+# [useReducer()](https://zh-hans.reactjs.org/docs/hooks-reference.html#usereducer)
+
+## 语法
 
 ```tsx
 const [state, dispatch] = useReducer(reducer, initState, init?)
@@ -56,13 +76,13 @@ const [state, dispatch] = useReducer(reducer, initState, init?)
   
   **TIP： 每一次调用 `dispatch` 都会使得组件重新渲染，即：重新执行一次渲染函数，**其原因是：`dispatch` 中将会调用 useState() 返回的函数（setXX），详见：<a href='#[useReducer 的简单原理](https://zh-hans.reactjs.org/docs/hooks-custom.html#useyourimagination)'>useReducer 的简单原理</a>
 
-### 作用
+## 作用
 
 用来根据 initState，调用 dispatch(action) 得到一个【基于上 1 个 dispacth(action) 的 state 的】newState 值，
 
 其中首次调用 dispatch(action) 时，返回的 newState 是基于 initState 得到的。
 
-### [useReducer 的简单原理](https://zh-hans.reactjs.org/docs/hooks-custom.html#useyourimagination)
+## [useReducer 的简单原理](https://zh-hans.reactjs.org/docs/hooks-custom.html#useyourimagination)
 
 reducer（自定义函数：(state, action)=>newState）去得到一个
 
@@ -118,7 +138,7 @@ const Button = () => {
 }
 ```
 
-### 简单示例
+## 简单示例
 
 ```tsx
 import React, { useReducer } from 'react';
@@ -158,7 +178,7 @@ export default Index;
 
 TIP：每一次调用 `dispatch` 都会使得组件重新渲染，即：重新执行一次渲染函数。
 
-### 总结
+## 总结
 
 调用 useReducer(reduce, initState); 将会返回一个 dispatch(action)，
 
@@ -176,11 +196,11 @@ initStae: inital state | object | [] | any...
 dispatch(action): (action:any(doSomething)) => newState
 ```
 
-## [uesMemo()](https://zh-hans.reactjs.org/docs/hooks-reference.html#usememo)
+# [uesMemo()](https://zh-hans.reactjs.org/docs/hooks-reference.html#usememo)
 
-## [useImperativeHandle()](https://zh-hans.reactjs.org/docs/hooks-reference.html#useimperativehandle) 
+# [useImperativeHandle()](https://zh-hans.reactjs.org/docs/hooks-reference.html#useimperativehandle) 
 
-## [useDeferredValue()](https://zh-hans.react.dev/reference/react/useDeferredValue) 
+# [useDeferredValue()](https://zh-hans.react.dev/reference/react/useDeferredValue) 
 
 ## 概念
 
@@ -194,3 +214,151 @@ dispatch(action): (action:any(doSomething)) => newState
 # 从 Class 迁移到 Hook
 
 ## [生命周期方法要如何对应到 Hook？](https://zh-hans.reactjs.org/docs/hooks-faq.html#how-do-lifecycle-methods-correspond-to-hooks)
+
+# React Hook 之间的差异
+
+## [React.memo VS useMemo](https://stackoverflow.com/questions/54963248/whats-the-difference-between-usecallback-and-usememo-in-practice/54963730) 
+
+React.memo：一个高阶组件，返回一个新组件。
+
+useMemo：返回一个记忆值。
+
+## [useCallback VS useMemo](https://stackoverflow.com/questions/54963248/whats-the-difference-between-usecallback-and-usememo-in-practice/54963730) 
+
+useCallback：记忆一个回调函数。
+
+useMemo：记忆一个值。
+
+# FAQ
+
+## useEffect 竞态锁 - [Codeline](https://codesandbox.io/s/useeffectjing-tai-suo-oe4936?file=/src/App.js)
+
+### 为什么会有 useEffect 竞态锁 这个概念？
+
+如果一个 useEffect 中存在发送请求这类任务，且多次使得此 useEffect 执行，那么由于请求返回的时间是不确定的 —— 先发送的请求，可能最后返回；最后发送的请求，可能最先返回。
+
+那么这会导致一个问题：【先发送请求，最后返回】得出的数据会**覆盖** 【后发送请求，最先返回】的数据，
+
+这样旧数据覆盖新数据不是我们想要的结果，我们想要的结果是：最后发送请求，得出的结果；而不是最先发送请求/其他时候请求的结果，
+
+于是为了解决此类问题，就出现了“锁”概念。
+
+### 如何使用竞态锁
+
+既然我们是想要获取最后一次的数据，那么存在两种方式：
+
+1. 防抖
+
+   ~~可以实现，但是防抖的使用场景明显不是这里。~~
+
+   基本没用。如果防抖 1s, 但是请求返回的时间超过 1s，即：
+
+   发送 A 请求到返回需要 2s，开始防抖 1s,  我在防抖结束后继续发送 B 请求，但是此时 A 请求还未返回（差 1s），那么仍然可能造成数据错误。
+
+2. 竞态锁
+
+我们这里讲第二种方法：竞态锁。
+
+------
+
+我们如果要保证同一个 useEffect 执行多次发送多次请求，最后一次请求的数据，不 会被其他时候请求的数据覆盖，那么我们需要利用到 [清除函数](https://zh-hans.reactjs.org/docs/hooks-effect.html#%E4%BD%BF%E7%94%A8-hook-%E7%9A%84%E7%A4%BA%E4%BE%8B)。
+
+- 清除函数：除了会在组件卸载时执行，
+
+  在每一次重新渲染组件时，
+
+  **先执行上一次** [useEffect A] 中的清除函数，
+
+  **再执行本次**的 [useEffect A] 函数。
+
+于是我们可以得到以下代码：
+
+```jsx
+useEffect(() => {
+  // 默认解锁
+  let useLock = false;
+
+  async function fetchData() {
+    await delay(id);
+
+    // 如果此次传递给 useEffect 的回调函数被上锁了，则不执行后续操作。
+    if (useLock) {
+      return;
+    }
+
+    setValue(id);
+  }
+
+  fetchData(); 
+
+  return () => {
+    // 多次重复执行 useEffect 时，
+    // 为上一个 useEffect 的回调函数加锁，防止多次执行副作用操作。
+    useLock = true;
+  };
+}, [id]);
+```
+
+更多参见：[Codeline - useEffect 竞态锁](https://codesandbox.io/s/useeffectjing-tai-suo-oe4936?file=/src/App.js) 
+
+### 一个应用简单场景
+
+在一个 Table 中，存在过滤器和切换页码：
+
+- 当先切换到第 2 页，然后选择过滤
+
+  注意：选择过滤时，我们会默认切换到第 1 页，因为这是后端过滤，我们事先不知道过滤后的数据有多少条。
+
+若此若做，我们希望此次**数据是过滤后的**；但是由于切换页码也会导致发送请求给后端，所以此次发送了两个请求：
+
+1. 过滤参数发送请求
+
+2. 页码改变时发送请求
+
+而这就可能导致竞争条件的出现：**过滤请求先发送成功，然后页码改变时的请求才姗姗返回**，从而此次数据只包含切换页码到第一页的数据，而没有过滤参数的数据。
+所以为了防止竞争，我们设置一把锁，保证多次连续的请求中，只让最后一次的请求发送成功，终止前面的所有请求。
+
+### 自定义一个 useLockEffect
+
+```ts
+const useLockEffect = (
+    callback: (config: { lock: boolean }) => void,
+    deps = [],
+    returnEffect: () => void = () => null
+) => {
+    useEffect(() => {
+        const config = { lock: false }
+
+        callback(config)
+
+        return () => {
+            config.lock = true
+
+            returnEffect && returnEffect()
+        }
+    }, deps)
+}
+```
+
+```ts
+// 例子
+useLockEffect((config) => {
+  async function run() {
+    const data = await fetch("");
+
+    if (config.lock) {
+      return;
+    }
+
+    // do something
+  }
+
+  run();
+});
+```
+
+
+
+### Reference
+
+- [英文讲解 - 竞态锁](https://maxrozen.com/race-conditions-fetching-data-react-with-useeffect)

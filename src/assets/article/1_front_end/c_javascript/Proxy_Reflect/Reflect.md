@@ -98,6 +98,12 @@ var loggedObj = new Proxy(obj, {
 
 保证原生行为能够正常执行。而添加的额外工作，就是将每一个操作输出一行日志，当然你还可以做一些其他的。
 
+以及以下原因：
+
+1. Reflect提供的所有静态方法和Proxy第2个handle参数方法是一模一样的。具体见后面的对比描述。
+2. Proxy get/set()方法需要的返回值正是Reflect的get/set方法的返回值，可以天然配合使用，比直接对象赋值/获取值要更方便和准确。
+3. receiver参数具有不可替代性。
+
 ## Reflect 对象的静态方法
 
 - Reflect.apply(target, thisArg, args)
@@ -118,7 +124,9 @@ var loggedObj = new Proxy(obj, {
 
 而且它与 `Proxy `对象的方法是一一对应的，其作用也是相同的。
 
+# Reference
 
+- [张鑫旭](https://www.zhangxinxu.com/wordpress/2021/07/js-proxy-reflect/) 
 
 
 

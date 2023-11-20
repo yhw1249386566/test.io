@@ -41,13 +41,15 @@ HTTP/2 二进制框架机制被设计为不需要改动任何API或配置文件�
    这个起始行总是单行的。
    
    **称之为：请求/响应 行**
-
+   `HTTP/1.1 200 OK`
+   
 2. 一个可选的HTTP头集合指明请求
    
    或描述消息正文。
    
    **称之为：请求/响应 头**
-
+   `Cache-Control: max-age=60`
+   
 3. 一个空行指示所有关于请求的元数据已经发送完毕。
 
 4. 一个可选的包含请求相关数据的正文 (比如HTML表单内容), 
@@ -55,6 +57,15 @@ HTTP/2 二进制框架机制被设计为不需要改动任何API或配置文件�
    或者响应相关的文档。 正文的大小有起始行的HTTP头来指定。
    
    **称之为：请求/响应 体**
+   
+   ```json
+   {
+   	username: 'yomua',
+   	age: '9999'
+   }
+   ```
+   
+   
 
 ## [HTTP 请求（报文）](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Messages#HTTP_%E8%AF%B7%E6%B1%82)
 
@@ -127,7 +138,7 @@ Body 大致可分为两类：
 
 HTTP 的响应报文和请求报文的结构式类似的。
 
-### [状态行（响应行）](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Messages#%E7%8A%B6%E6%80%81%E8%A1%8C)
+### [响应行](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Messages#%E7%8A%B6%E6%80%81%E8%A1%8C)
 
 HTTP 响应的起始行被称作 *状态行* *(status line)*，你或许也可以称之为 *响应行*，这样可以和 HTTP 请求的 请求行 相呼应，状态行包含以下信息：
 
