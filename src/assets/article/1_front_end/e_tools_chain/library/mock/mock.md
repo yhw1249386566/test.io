@@ -108,9 +108,13 @@ request.onreadystatechange = function () {
 
 3. 当访问 `/risk_profiles` 时，将被拦截，执行我们实现的 handler
 
-注意：如果想要接口拦截生效，需要把 `xx.js` 倒入到使用的地方，这样在导入 mockjs 时，将会自动拦截请求，这是因为 [mockjs 的实现原理](https://blog.csdn.net/weixin_43459866/article/details/111407896#:~:text=%E6%9C%80%E5%90%8E%EF%BC%8Cmockjs%E6%98%AF%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86,%E7%82%B9%E8%BF%98%E6%98%AF%E5%80%BC%E5%BE%97%E6%B3%A8%E6%84%8F%E7%9A%84%E3%80%82)（替换 XMLHTTPRequest），[源码在此处](https://github.com/nuysoft/Mock/blob/refactoring/src/mock/xhr/xhr.js) 
+注意：如果想要非 umi 项目的接口拦截生效，需要把 `xx.js` 导入到使用的地方，这样在导入 mockjs 时，将会自动拦截请求，这是因为 [mockjs 的实现原理](https://blog.csdn.net/weixin_43459866/article/details/111407896#:~:text=%E6%9C%80%E5%90%8E%EF%BC%8Cmockjs%E6%98%AF%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86,%E7%82%B9%E8%BF%98%E6%98%AF%E5%80%BC%E5%BE%97%E6%B3%A8%E6%84%8F%E7%9A%84%E3%80%82)（替换 XMLHTTPRequest），[源码在此处](https://github.com/nuysoft/Mock/blob/refactoring/src/mock/xhr/xhr.js) 
 
-TIP: 如果是 umi 项目，只需要在项目根目录创建 mock，然后将 xx.js 放入 mock 文件夹，umi 将会自动去执行 mock 文件夹下的文件。
+如果是 umi 项目，只需要在项目根目录创建 mock，然后将 xx.js 放入 mock 文件夹，umi 将会自动去执行 mock 文件夹下的文件。
+
+Reference
+
+- [UMI 约定式 Mock 文件](https://v3.umijs.org/zh-CN/docs/mock#%E7%BA%A6%E5%AE%9A%E5%BC%8F-mock-%E6%96%87%E4%BB%B6) 
 
 # [模拟数据](http://mockjs.com/examples.html) 
 

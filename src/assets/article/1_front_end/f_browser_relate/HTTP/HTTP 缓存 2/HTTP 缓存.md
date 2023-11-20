@@ -12,14 +12,14 @@
 1. [私有缓存](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching#%E7%A7%81%E6%9C%89%E7%BC%93%E5%AD%98) 
    浏览器缓存，每个用户的缓存存储在本地，不与他人共享。
 2. [共享缓存](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching#%E5%85%B1%E4%BA%AB%E7%BC%93%E5%AD%98) 
-   用户之间可以共享的缓存吗，位置在客户端与服务器之间，即：代理服务器上，而非用户本地。
+   用户之间可以共享的缓存，位置在客户端与服务器之间，即：代理服务器上，而非用户本地。
    可以细分为：
    - 代理缓存
      通常不由服务端开发者管理，一些代理自己实现的缓存以减少网络流量。
    - 托管缓存
      由服务端开发者实现，以降低服务器负载。
 
-为了便于理解，我们可以将浏览器缓存人为分为两种类型：
+为了便于理解私有缓存，我们可以将**浏览器缓存（私有缓存）**人为分为两种类型：
 
 1. 强缓存
    浏览器不向服务器发送请求，直接使用存储在本地的数据。
@@ -28,7 +28,7 @@
 
 # 什么叫做存储到本地或服务器？
 
-当浏览器对一个资源（比如：图片，数据等）进行缓存的时候，它所缓存的地方实在用户本地计算机的文件系统中。
+当浏览器对一个资源（比如：图片，数据等）进行缓存的时候，私有缓存它所缓存的地方实在用户本地计算机的文件系统中。
 
 - 对于私有缓存：
   如：local storage，session storage，cookie 开发主动进行缓存；
@@ -37,14 +37,16 @@
   比如：Google 浏览器进行缓存的时候，在 Windows 上， 它将数据存在用户本地计算机的文件系统中，路径可能为： `C:\Users\\AppData\Local\Google\Chrome\User Data\Default\cache` 。
 - 对于共享缓存：
   由于需要让不同用户之间进行缓存共享，所以此缓存是存在代理服务器上的。
+  服务器就不需要重复计算，而是直接返回结果。
 
 # 浏览器缓存有几种缓存策略可以缓存到本地
 
 1. `local storage`，`session storage`，`cookie ` 
-2. HTTP 标头：`Expires`, `Cache-Control`, `ETag`, `Last-Modified` 
-3.  浏览器数据库：[IndexedDB](https://developer.mozilla.org/zh-CN/docs/Web/API/IndexedDB_API) 
+2. HTTP 标头：
+   `Expires`, `Cache-Control`：强缓存
+   `If-None-Match/ETag`, `If-Modified-Since/Last-Modified` ：协商缓存
+3. 浏览器数据库：[IndexedDB](https://developer.mozilla.org/zh-CN/docs/Web/API/IndexedDB_API) ，[WebSQL](https://www.runoob.com/html/html5-web-sql.html) 
 4. [Service Worker](https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API) 
-5. [WebSQL](https://www.runoob.com/html/html5-web-sql.html) 
 
 # 私有缓存
 
@@ -91,7 +93,8 @@ HTTP 尽可能的去对响应进行一个缓存，因此即使没有 `Cache-Cont
 指定请求的有效期
 
 1. 浏览器通过请求访问服务端
-2. 服务端主动设置请求返回的一个响应头为 `Cache-Control:max-age`，
+2. 服务端主动设置请求返回的一个响应头为 `Cache-Control:max-age=<seconds>`，
+   `Cache-Control: max-age=3600` 表示资源在被缓存后将在 3600 秒（1 小时）后过期。
 3. 对于有 `Cache-Control` 响应头的请求，浏览器将会缓存此请求的数据。
    当第一次访问请求得到 Cache-Control 设置的有效期，浏览器在下一次访问此请求时，如果此请求的缓存仍然是有效期，那么浏览器将不访问服务器，而是直接使用缓存的数据。
 
@@ -102,10 +105,18 @@ HTTP 尽可能的去对响应进行一个缓存，因此即使没有 `Cache-Cont
 1. 浏览器通过请求访问服务端
 
 2. 服务端主动设置请求返回的一个响应头为 `Expires`
+   `Expires: Tue, 15 Nov 2077 08:12:31 GMT`，资源将在 2077 年 11 月 15 日的 08:12:31 GMT 之后被视为过期。
 
 3. 对于有 `Expires` 响应头的请求，的浏览器将会缓存此请求的数据。
 
    当 **当前时间 < Expires 设置的过期时间** 时，浏览器将会在下一次访问此请求时，不访问服务器，而是使用缓存的数据。
+
+注意：Expires 指定过期时间，浏览器怎么判断过期的？浏览器会通过本地客户端时间判断是否过期，所以这是有风险的行为：
+
+- 它依赖于服务器和客户端的时钟同步。如果客户端的时间与服务器的时间不一致，可能会导致缓存不正常地过期或未过期。
+- 它不支持灵活的缓存控制，因为它只提供了一个固定的过期时间点，而不能根据资源的实际情况来动态调整。
+
+现代的 Web 开发更倾向于使用 `Cache-Control` 头部，其中 `max-age=<seconds>`  `<seconds>` 指的是请求从第一次发起作为 0 秒开始计算。
 
 ## [协商缓存](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching#%E9%AA%8C%E8%AF%81%E5%93%8D%E5%BA%94) 
 
@@ -113,7 +124,7 @@ HTTP 尽可能的去对响应进行一个缓存，因此即使没有 `Cache-Cont
 
 协商缓存，也可以称之为[验证响应](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching#%E9%AA%8C%E8%AF%81%E5%93%8D%E5%BA%94)。
 
-### ETag / If-None-Matche
+###  If-None-Match / ETag
 
 1. 浏览器通过请求访问服务端
 
@@ -131,7 +142,7 @@ HTTP 尽可能的去对响应进行一个缓存，因此即使没有 `Cache-Cont
 
 6. 浏览器端就可以通过状态码是不是 304，从而决定是否使用缓存数据。
 
-### Last-Modified / If-Modified-Since
+###  If-Modified-Since / Last-Modified
 
 1. 浏览器通过请求访问服务端
 
@@ -222,7 +233,7 @@ Cache-Control: no-cache, private
 
 `Cache-Control: max-age=31536000, immutable`
 
-这可以防止被【缓存破坏】时，进行不必要的重新验证。
+这可以防止被【缓存破坏】（下面的节）时，进行不必要的重新验证。
 
 ## [删除通过max-age存储的缓存](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching#%E5%88%A0%E9%99%A4%E5%AD%98%E5%82%A8%E7%9A%84%E5%93%8D%E5%BA%94) 
 
@@ -251,7 +262,7 @@ Cache-Control: max-age=31536000
 
 ## [缓存破坏](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching#%E7%BC%93%E5%AD%98%E7%A0%B4%E5%9D%8F)  
 
-对于每个版本会变化的，但资源在当前版本需要缓存的资源，通常的最佳实践是每次内容变化时都改变 URL，这样 URL   的改变会使得浏览器重新发送请求，而不需要让用户主动强制清空缓存这种操作（..以前公司好像有这么做过）
+对于每个版本会变化的，但资源在当前版本需要缓存的资源，通常的最佳实践是每次内容变化时都改变 URL（整个），这样 URL   的改变会使得浏览器重新发送请求，而不需要让用户主动强制清空缓存这种操作（..以前公司好像有这么做过）
 
 简单的做法是：使用包含基于版本号或哈希值的更改部分的 URL 来提供 JavaScript 和 CSS。一些方法如下所示。
 

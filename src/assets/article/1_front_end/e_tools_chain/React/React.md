@@ -177,7 +177,7 @@ yarn create react-app my-app --template typescript
 
 注：你应该可以为任何不同的图片后缀名使用这种方式，使得图片可以导入。
 
-### [Property 'xxx' does not exist on type 'Readonly<{}>'](https://stackoverflow.com/questions/47561848/property-value-does-not-exist-on-type-readonly)
+### [Property 'xxx' does not exist on type 'Readonly<{}>'](https://stackoverflow.com/questions/47561848/property-value-does-not-exist-on-type-readonly) 
 
 # 注意项
 

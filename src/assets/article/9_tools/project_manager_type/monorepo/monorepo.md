@@ -12,6 +12,14 @@ Monorepo 是一种用来管理项目代码（不仅是前端）的方案，它�
 
 Tips：在 React 中，每个项目都是	 src/package/ 的一个包，每个包都是一个完整的项目，[看这](https://zh-hans.reactjs.org/docs/codebase-overview.html#multiple-packages)。
 
+# 什么时候用 monorepo
+
+你有一个项目，比如：`react`，但是此项目需要的东西很多，于是你将一些功能拆分成包方便维护：`react-dom`, `react-client ` 等，
+
+`react` 需要依赖于这些包，而这些包又可能相互依赖；
+
+对于这种相互依赖、有关系的包，就可以使用 monorepo 这种方式来管理。
+
 # 利与弊
 
 ## [利](https://danluu.com/monorepo/) 
@@ -37,24 +45,6 @@ Tips：在 React 中，每个项目都是	 src/package/ 的一个包，每个包
 <u>安装依赖的依赖导致的错误</u>：<a href='#yarn 如何管理 monorepo 方案的'>yarn 如何管理 monorepo 方案的？</a> 
 
 <u>代码易泄漏</u>：由于所有项目都在一个仓库，那么如果一个人具有该仓库权限，意味着每个项目TA都可以看见。简单的解决方法是：分配权限。（但是只要开发者需要编写代码，你就无法阻止代码泄漏，因为TA必须看代码）
-
-# yarn 如何管理 monorepo 方案的？
-
-配置参见：[yarn](https://classic.yarnpkg.com/en/docs/workspaces/) 
-
-使用 monorepo 方案时，各个包之间都存在各自的依赖，有些依赖可能是多个包都需要的，我们肯定是希望相同的依赖能提升到 root 目录下安装，其它的依赖装哪都行。
-
-此时我们可以通过 yarn 来解决问题（npm 7 之前不行），需要在 package.json 中加上 `workspaces` 字段表明多包目录，通常为 `packages`。
-
-之后当我们安装依赖的时候，yarn 会尽量把依赖拍平装在根目录下，存在版本不同情况的时候会把使用最多的版本安装在根目录下，其它的就装在各自目录里。
-
-这种看似正确的做法，可能又会带来更恶心的问题。
-
-=> 比如多个 package 都依赖了 React，但是它们版本并不都相同。此时 node_modules 里可能就会存在这种情况：根目录下存在这个 React 的一个版本，包的目录中又存在另一个依赖的版本，
-
-由于 node 寻找包的时候都是从最近目录开始寻找的，所以此时在开发的过程中可能就会出现多个 React 实例的问题，熟悉 React 开发的读者肯定知道这就会报错了。
-
-遇到这种情况的时候，我们就得用 `resolutions` 去解决问题，当然也可以通过阻止 yarn 提升共同依赖来解决（更麻烦了）。笔者已经不止一次遇到过这种问题，多是安装**依赖的依赖**造成的多版本问题
 
 # Reference
 
