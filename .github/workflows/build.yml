@@ -23,9 +23,7 @@ jobs:
           npx yarn build
 
       - name: Deploy 🚀
-        uses: crazy-max/ghaction-github-pages@v4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          target_branch: gh-pages
-          build_dir: dist
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          folder: dist # The folder the action should deploy.
+          token: ${{ secrets.ACCESS_TOKEN }}
