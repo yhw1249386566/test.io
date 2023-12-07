@@ -169,7 +169,10 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
     可以做一个代理，当访问 article/ 目录或访问 .md 文件，则代理到 xxx
 -   让图片解决方法更通用，即：找 article/ 下的所有图片（而非只是 picture/ 的目录），
     如果在非 picture/ 目录下发现的图片，就将此目录（如：目录 img/test.png）同样提取到 /public/ 中（比如：/public/img/test.png）
+    TIP: 将 article 放到 public/article 并不能解决 http://www.whyhw.com/article/0_base/xxx.md 数据获取不到的问题，因为本质上我们是让 github 帮忙托管网站，可能 github 托管网站时并不是放到根目录？尝试使用 __dirname.
 -   src/article_dir.js 应该是 CI/CD 流程时自动生成，而非手动生成；
     现在虽然 github workflows 中有 yarn build-article, 但是这个 article_dir.js 仍然不是部署时生成，因为使用了 @/article_dir.js 导入，而不是用类似于 __dirname 这样作为路径；
     那么使用 @/article_dir.js, 在 webpack 进行打包编译时，会识别它，然后此文件将会被编译，最终放入到编译的结果 dist/ 中。
     如果在非 picture/ 目录下发现的图片，就将此目录（如：目录 img/test.png）同样提取到 /public/ 中（比如：/public/img/test.png）
+-   采用微前端架构，每一个 item 都是一个独立应用，可采用 [qiankun](https://qiankun.umijs.org/zh),
+    或其他框架: [Single-spa](https://github.com/single-spa/single-spa), [Garfish](https://www.garfishjs.org/) 等。
