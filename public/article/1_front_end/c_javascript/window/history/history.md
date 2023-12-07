@@ -48,7 +48,7 @@ History 接口不继承任何方法。
 
 ##### 示例
 
-![](picture\History\History.length.png)
+![](picture/History\History.length.png)
 
 #### [`History.scrollRestoration`](https://developer.mozilla.org/zh-CN/docs/Web/API/History/scrollRestoration) 实验性功能
 
@@ -64,7 +64,7 @@ History 接口不继承任何方法。
 
 在这里提前使用了 history.pushState() 方法,但是不影响你们知道 state 只读属性的用处.
 
-![](picture\History\History.state.png)
+![](picture/History\History.state.png)
 
 ### 方法
 
@@ -123,7 +123,7 @@ history.go(-2);// 从当前页面开始计算,回退 2 页
 
 ##### 示例
 
-![](picture\History\History.pushState().png)
+![](picture/History\History.pushState().png)
 
 请注意: pushState() 的第三个参数: url.
 
@@ -165,7 +165,7 @@ history.go(-2);// 从当前页面开始计算,回退 2 页
 
 当使用以下图示例的操作时,页面地址将被改为:`https://www.google.com.hk/replace-address`
 
-![](picture\History\History.replaceState().png)
+![](picture/History\History.replaceState().png)
 
 请注意: 这和 pushState() 方法不同,这个方法是在当前会话历史记录中添加新的地址并且立即显示该地址却不跳转过去,原来的地址还存在;
 

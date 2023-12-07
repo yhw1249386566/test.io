@@ -57,7 +57,7 @@
 
 以下是HTML结构生成的DOM树*(并不一定要以这种方式呈现DOM树,可以呈现为类似二叉树那种形态,这就是互联网,允许不同)*:
 
-![](picture\DOM-Tree.png)
+![](picture/DOM-Tree.png)
 
 ---
 
@@ -67,7 +67,7 @@ shadow DOM则可以通过DOM API附加到一个实际元素*(可以是自定义,
 
 **shadow Root则是一个虚拟概念**,它不是一个实际存在的元素,它类似于#document-fragments那样***(参见:<iframe.md>)***,请看以下图片:
 
-![](picture\Shadow-Root.png)
+![](picture/Shadow-Root.png)
 
 红色线圈起来的#shadow-root就是这里所说的shadow  DOM的shadow Root.
 
@@ -89,7 +89,7 @@ Element.attachShadow()=>这表示为Element附加一个shadow Root,所以这也�
 
 让我省略掉这些繁琐的代码,现在让我们瞧瞧最终呈现在浏览器中的源码:
 
-![](picture\shadowRoot-shadowHost-shadowDOM.png)
+![](picture/shadowRoot-shadowHost-shadowDOM.png)
 
 显然的,这已经解释的非常明白了.
 
@@ -410,7 +410,7 @@ light DOM分布到shadow DOM中——slot插槽(占位)元素.
 
 最后渲染结果为:
 
-![](picture\host-context()基于情景设定样式.png)
+![](picture/host-context()基于情景设定样式.png)
 
 这也就是我们所说的为什么host-context()伪类常用于根据组件的环境进行主题化的原因,
 
@@ -520,9 +520,9 @@ light DOM分布到shadow DOM中——slot插槽(占位)元素.
 
 - 前景色指的是字体颜色.
 
-![](picture\host()伪类函数-示例(1).png)
+![](picture/host()伪类函数-示例(1).png)
 
-![](picture\host()伪类函数-示例(2).png)
+![](picture/host()伪类函数-示例(2).png)
 
 ### 为分布式节点设定样式 `::slotted(<selector>)`
 
@@ -624,7 +624,7 @@ shadow root -> shadow DOM中的所有子项的样式进行隔离.
 	<span>我是shadow host(d-j元素)的子项</span>
 ```
 
-![](picture\shadowhost样式会被其子项继承.png)
+![](picture/shadowhost样式会被其子项继承.png)
 
 如果您将d-j的样式修改为以下样式,则span元素将不会继承d-j的colors属性:
 
@@ -637,7 +637,7 @@ shadow root -> shadow DOM中的所有子项的样式进行隔离.
 </style>
 ```
 
-![](picture\CSS的all属性的使用.png)
+![](picture/CSS的all属性的使用.png)
 
 ## 有关shadow DOM的API及事件
 
@@ -676,7 +676,7 @@ shadow root -> shadow DOM中的所有子项的样式进行隔离.
 
 最后得出的结果为:
 
-![](picture\HTMLSlotElement.assignedSlot.png)
+![](picture/HTMLSlotElement.assignedSlot.png)
 
 #### HTMLSlotElement.assignedNodes() 方法
 
@@ -738,7 +738,7 @@ slot.assignedNodes({flatten:true}) => slot元素不存在任何渲染对象时,�
 
 渲染结果为:
 
-![](picture\HTMLSlotElement.assignedNodes().png)
+![](picture/HTMLSlotElement.assignedNodes().png)
 
 #### Event.composedPath() 方法 (Event事件的API)
 
@@ -930,17 +930,17 @@ customElements.define('x-focus', class extends HTMLElement {
 
 **结果**
 
-![img](picture\处理焦点1.png)
+![img](picture/处理焦点1.png)
 
 上面是 获得焦点（用户点击、点按和 focus() 等）、点击“Clickable Shadow DOM text”或内部 获得焦点（包括 autofocus）时的结果.
 
 如果是设置 delegatesFocus: false.下面将是您看到的结果：
 
-![img](picture\处理焦点2.png)delegatesFocus: false 和内部input 获得焦点.
+![img](picture/处理焦点2.png)delegatesFocus: false 和内部input 获得焦点.
 
-![img](picture\处理焦点3.png)delegatesFocus: false 和 x-focus获得焦点（例如.tabindex="0"`）.
+![img](picture/处理焦点3.png)delegatesFocus: false 和 x-focus获得焦点（例如.tabindex="0"`）.
 
-![img](picture\处理焦点4.png)`delegatesFocus: false` 并且点击“Clickable Shadow DOM text”（或点击元素 shadow DOM 内的其他空白区域）.
+![img](picture/处理焦点4.png)`delegatesFocus: false` 并且点击“Clickable Shadow DOM text”（或点击元素 shadow DOM 内的其他空白区域）.
 
 ## 提示与技巧
 
@@ -1189,13 +1189,13 @@ PS:不存在此属性时,该元素的块级框的内容区大小才会是子项�
 
 如果div不存在contain:paint; 则很明显,渲染结果将为: 一个宽度为视区宽度,高度为200px的p元素的灰色矩阵 和存在于p元素中的字体:我是子项.
 
-![](picture\使用contain属性的paint值-不存在contain时.png)
+![](picture/使用contain属性的paint值-不存在contain时.png)
 
 （不存在contain时）
 
 下面如果存在contain:paint样式,则您会发现,p元素即使设置了height:200px,也不会超过div元素的高度100px.
 
-![](picture\使用contain属性的paint值-存在contain时.png)
+![](picture/使用contain属性的paint值-存在contain时.png)
 
 （存在contain时）
 
@@ -1225,13 +1225,13 @@ PS:不存在此属性时,该元素的块级框的内容区大小才会是子项�
 
 由于div元素的尺寸计算不会依赖于子项,所以在此示例中,div元素的高度将会不变,仍然是0.
 
-![](picture\使用contain属性的size值-存在size时.png)
+![](picture/使用contain属性的size值-存在size时.png)
 
 如果正常请情况下(没有contain:size),div的内容区高度将会是子项(p)的内外边距+边框+内容区高度之和***(参见:<视觉格式化基础_块级置换和非置换元素.md>)***.
 
 也就是以下渲染结果:
 
-![](picture\使用contain属性的size值-不存在size时.png)
+![](picture/使用contain属性的size值-不存在size时.png)
 
 ##### 使用contain:style 和 contain:layout
 
