@@ -164,5 +164,8 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 -   搞一个 SDK 包，比如：yhook，直接使用 monorepo 项目管理方式
 -   实时更新已有文章，并且更新完成之后可以下载已有文章成为 md 文件，但是刷新之后不保留此文件。
 -   React 已经升级到 18.x, 将为现有代码和后续代码渐进式升级到 18.x
-
-
+-   解决 history 路由挂载到 github pages 上，访问时出现 404 问题。
+    原因：访问 https://www.whyhw.com/article/test.md 时，路径不匹配，找不到对应文件。
+    可以做一个代理，当访问 article/ 目录或访问 .md 文件，则代理到 xxx
+-   让图片解决方法更通用，即：找 article/ 下的所有图片（而非只是 picture/ 的目录），
+    如果在非 picture/ 目录下发现的图片，就将此目录（如：目录 img/test.png）同样提取到 /public/ 中（比如：/public/img/test.png）

@@ -50,25 +50,42 @@ function Article() {
                 value: activePath,
             })
 
-            const importFilePath = (activePath as string)
-                ?.split('article')[1]
-                ?.replace('.md', '')
-                ?.replaceAll('\\', '/') // '/css/缓存'
-
+            /* 遗留代码，暂时留着 */
+            // const importFilePath = (activePath as string)
+            //     ?.split('article')[1]
+            //     ?.replace('.md', '')
+            //     ?.replaceAll('\\', '/') // 最后得到例如: '/css/缓存'
             // https://webpack.docschina.org/api/module-methods/#dynamic-expressions-in-import
             // import() 必须至少包含一些关于模块的路径信息。
             // 如果是在运行时，webpack 才知道路径，文件类型，那么是找不到这个文件的，比如：
             // 直接使用 path: H:/username/yomua/src/article/css/缓存.md
-            const data = await import(`@/assets/article${importFilePath}.md`)
-
+            // const data
             // 保留最后一次点击的文件数据
-            IndexedDB.singleInstance.clearDataFromStore()
-            IndexedDB.singleInstance.updateDataFromStore(
-                activePath,
-                data?.default,
-            )
+            // IndexedDB.singleInstance.clearDataFromStore()
+            // IndexedDB.singleInstance.updateDataFromStore(
+            //     activePath,
+            //     data?.default,
+            // )
+            // setMarkdownData(data?.default)= await import(`@/assets/article${importFilePath}.md`)
 
-            setMarkdownData(data?.default)
+            const importFilePath = (activePath as string)
+                ?.split('article')[1]
+                ?.replaceAll('\\', '/') // 最后得到例如: '/css/缓存.md', fetch 不需要担心 import() 的情况，即: 必须包含一些路径信息。
+
+            // 通过 fetch 获取根目录下的 article.
+            // 不通过 import(), import() 会造成按需加载时，将每一个动态导入的 .md 文件视为一个路由，从而在 build 后多一个拆分的 js 文件
+            fetch(`/article/${importFilePath}`).then((res) => {
+                res.text().then((text) => {
+                    setMarkdownData(text)
+
+                    // 保留最后一次点击的文件数据
+                    IndexedDB.singleInstance.clearDataFromStore()
+                    IndexedDB.singleInstance.updateDataFromStore(
+                        activePath,
+                        text,
+                    )
+                })
+            })
         },
         [prevSelectedFilePath],
     )
@@ -98,6 +115,7 @@ function Article() {
                 if (endTime - startTime < 500) {
                     await delay(500 - (endTime - startTime))
                 }
+
                 setMarkdownData(result?.file ?? '')
             }
         }
@@ -111,8 +129,7 @@ function Article() {
                 className={classnames(style.articleFileTree, {
                     [style.showDirectoryTree]: isShowDirectoryTree,
                     [style.hideDirectoryTree]: !isShowDirectoryTree,
-                })}
-            >
+                })}>
                 <div className={style.switchTreeIcon}>
                     <FontAwesomeIcon
                         icon='circle-chevron-left'

@@ -10,8 +10,9 @@ export default defineConfig({
     devtool: 'source-map',
     routes,
     fastRefresh: {},
-    // mfsu 可能会造成一些 bug
+    // 开启文件 hash 后缀
     hash: true,
+    // mfsu 可能会造成一些 bug
     mfsu: {},
     // 使用 hash: 避免部署到 github pages 时，当地址为 /feature/article 或其他没有 html 的路由时，刷新页面 404 的问题。
     history: {
