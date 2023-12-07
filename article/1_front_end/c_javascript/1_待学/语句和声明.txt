@@ -1,2 +1,0 @@
-查看左边的语句和声明
-https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/async_function

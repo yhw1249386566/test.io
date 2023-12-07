@@ -1,1 +1,0 @@
-# [Mozilla web 安全引导](https://wiki.mozilla.org/Security/Guidelines/Web_Security)
