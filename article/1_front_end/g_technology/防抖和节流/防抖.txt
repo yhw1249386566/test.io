@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+  <h1>1</h1>
+
+
+</body>
+<script>
+ function debounce(callback, delay) {
+    let timer = null;
+    // 可以换成：const bindCallback = callback.bind(this)
+    var that = this; 获取执行 debounce 的上下文，防止 debounce 返回的函数在使用时，上下文变了。
+    return function () {
+      var args = Array.prototype.slice.call(arguments); // 将 arguments 转为数组 => 各类属性&方法
+
+      if (timer) {
+        clearTimeout(timer);
+      }
+
+      // 若使用 bindCallback，则此替换为：timer = setTimeout(bindCallback, delay)
+      timer = setTimeout(() => {
+        callback.apply(that, args); // 使用指定的上下文和参数执行 callback。
+      }, delay);
+    };
+  }
+  function printLoaction() {
+    var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+    console.log(scrollTop)
+  }
+
+  window.onscroll = debounce(printLoaction, 1000);
+</script>
+
+</html>
