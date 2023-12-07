@@ -2,6 +2,18 @@
 
 Author: Yomua
 
+# 快速开始
+
+1. `yarn`
+
+2. `yarn build-article`
+
+3. `yarn start-dev`
+
+可选
+
+- `yarn build` 生成编译后结果。
+
 # md 
 
 用 react-markdown 解析
@@ -104,8 +116,6 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 2.  基于 dev 分支拉出新分支，然后进行修改，最后直接 push 到 dev.
     或： push 当前分支，并手动使当前分支 PR 到 dev.
 
-    由于 dev 是保护分支，所以 gitee 将会自动创建一个 pr 到 dev，不需要手动。
-
 3.  PR 合并后，使 dev PR 到 release
 
 4.  合并 PR，将自动开始执行 <a href='#Build & Deploy'>Build & Deploy</a>.
@@ -113,7 +123,7 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 ## PR 合并流程
 
 -   基于 dev 分支拉出新分支，然后进行修改，最后直接 push 到 dev.
-    由于 dev 是保护分支，所以 gitee 将会自动创建一个 pr 到 dev，不需要手动。
+
 -   dev 有更新后，PR 到 release.
 
 ## Build & Deploy
@@ -129,13 +139,13 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 
 1.  Gitee yomua 仓库将会同步到 Github yomua 仓库，
 
-2.  release 有更新时，将会自动触发工作流
+2.  release 有更新时，将会自动触发工作流（.github/workflows/build.yml）
 
     因为 Github yomua 仓库中设置了 <a href='https://docs.github.com/en/actions/using-workflows/about-workflows'>workflow</a>（即：<a href='https://docs.github.com/en/actions/quickstart'>github action</a>）
 
         workflow 触发将自动将项目打包编译到 github gh-pages 分支，
 
-    -   NOTICE: action 包含 workflow
+    -   NOTICE: github action 的意思涵盖 github workflow
 
 3.  Github Pages 将会使用 gh-pages 作为基分支，将它部署到线上，
 
@@ -144,15 +154,13 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 
 # Module 
 
-对于 npm 的包来说，其实有些包不需要下载，可以自己写在 /packages 中，比如：
+对于 npm 的包来说，其实有些包不需要下载，可以自己写在 npm 仓库中，比如：
 
-- classnames
+- yscrew
 
-- eventEmit3
+- yenchant
 
-注意，packages/ 下面的文件夹名字如果要分割，使用 '-' 分割，为什么？每个 npm 包都是这样的，比如：react-native
-
-等等
+注意: 目前此仓库中的 /packages 可以完全使用自己的 [npm 仓库](https://www.npmjs.com/settings/yomua/packages)代替。
 
 # TODO
 -   将 umi 框架从项目移除，更改为手动搭建项目流程（基于 webpack）
@@ -161,18 +169,25 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 -   文章的 UI 界面可以参考 react 官方的，比如：[React](https://zh-hans.react.dev/reference/react-dom/findDOMNode)
 -   为 article 添加搜索目录功能，可以根据关键词搜索对应路径、文件。
 -   三端：PC(网页 + 手机端适配) + Mobile(ios, Android) + 小程序，可使用 taro
--   搞一个 SDK 包，比如：yhook，直接使用 monorepo 项目管理方式
+-   搞一个 SDK 包，比如：yhook，直接使用 monorepo 项目管理方式 √ 已经有初始项目了，参见：[npm 仓库](https://www.npmjs.com/settings/yomua/packages)
 -   实时更新已有文章，并且更新完成之后可以下载已有文章成为 md 文件，但是刷新之后不保留此文件。
 -   React 已经升级到 18.x, 将为现有代码和后续代码渐进式升级到 18.x
 -   解决 history 路由挂载到 github pages 上，访问时出现 404 问题。
     原因：访问 https://www.whyhw.com/article/test.md 时，路径不匹配，找不到对应文件。
     可以做一个代理，当访问 article/ 目录或访问 .md 文件，则代理到 xxx
 -   让图片解决方法更通用，即：找 article/ 下的所有图片（而非只是 picture/ 的目录），
+   
     如果在非 picture/ 目录下发现的图片，就将此目录（如：目录 img/test.png）同样提取到 /public/ 中（比如：/public/img/test.png）
-    TIP: 将 article 放到 public/article 并不能解决 http://www.whyhw.com/article/0_base/xxx.md 数据获取不到的问题，因为本质上我们是让 github 帮忙托管网站，可能 github 托管网站时并不是放到根目录？尝试使用 __dirname.
+
+    TIP: 将 article 放到 public/article 并不能解决 http://www.whyhw.com/article/0_base/xxx.md 数据获取不到的问题，
+    
+    因为本质上我们是让 github 帮忙托管网站，可能 github 托管网站时并不是放到根目录？尝试使用 __dirname.
 -   src/article_dir.js 应该是 CI/CD 流程时自动生成，而非手动生成；
+    
     现在虽然 github workflows 中有 yarn build-article, 但是这个 article_dir.js 仍然不是部署时生成，因为使用了 @/article_dir.js 导入，而不是用类似于 __dirname 这样作为路径；
+    
     那么使用 @/article_dir.js, 在 webpack 进行打包编译时，会识别它，然后此文件将会被编译，最终放入到编译的结果 dist/ 中。
+    
     如果在非 picture/ 目录下发现的图片，就将此目录（如：目录 img/test.png）同样提取到 /public/ 中（比如：/public/img/test.png）
 -   采用微前端架构，每一个 item 都是一个独立应用，可采用 [qiankun](https://qiankun.umijs.org/zh),
     或其他框架: [Single-spa](https://github.com/single-spa/single-spa), [Garfish](https://www.garfishjs.org/) 等。
