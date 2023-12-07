@@ -26,13 +26,13 @@ source map 有很多[不同的选项--devtool](https://www.webpackjs.com/configu
 
 **只会显示打包后的文件的错误**
 
-![](picture\devtool未使用时.png)
+![](picture/devtool未使用时.png)
 
 ##### 使用source map(devtool)
 
 **会显示源文件中的错误**
 
-![](picture\devtool使用时.png)
+![](picture/devtool使用时.png)
 
 #### 使用观察者模式
 
@@ -58,7 +58,7 @@ source map 有很多[不同的选项--devtool](https://www.webpackjs.com/configu
 
 ​    PS: 这不是重新编译,而是在前后一次的基础上进行更新,速度会极快,并且解放了你输入命令的时间,这极大的简约了操作和加强开发.
 
-![](picture\观察者模式.png)
+![](picture/观察者模式.png)
 
 - 如上图,将不会被退出,而是一直"观察",一旦被改编,webpack将自动重新更新.
 - PS: 终止"观察"模式,则使用 ctrl + c
