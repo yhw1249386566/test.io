@@ -87,7 +87,7 @@ Set 内部判断两个值是否不同，使用的算法叫做 “Same-value-zero
     set.size // 1
     set.add({})
     set.size // 2
-    console.log(set); // Set(2) {{…}, {…}}
+    console.log(set); // Set(2) 
 ```
 
 ### Set 可以和 Map 一起使用，反之亦然
