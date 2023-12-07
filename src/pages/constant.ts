@@ -27,22 +27,22 @@ type FeatureType = {
 }
 
 export const FeatureList: FeatureType[] = [
-    {
-        target: FeatureName.Three,
-        img: CompressCute,
-        previewImg: Cute,
-        title: 'Three',
-        author: 'Yomua',
-        time: '2023年08月22日',
-        description: 'Three.js',
-        tag: [
-            {
-                name: 'Three',
-                icon: 'cube',
-                color: '#ecb0c1',
-            },
-        ],
-    },
+    // {
+    //     target: FeatureName.Three,
+    //     img: CompressCute,
+    //     previewImg: Cute,
+    //     title: 'Three',
+    //     author: 'Yomua',
+    //     time: '2023年08月22日',
+    //     description: 'Three.js',
+    //     tag: [
+    //         {
+    //             name: 'Three',
+    //             icon: 'cube',
+    //             color: '#ecb0c1',
+    //         },
+    //     ],
+    // },
 
     {
         target: FeatureName.Article,

@@ -9,6 +9,7 @@
 
 # production
 /dist
+/src/article_dir.js
 
 # misc
 .DS_Store
