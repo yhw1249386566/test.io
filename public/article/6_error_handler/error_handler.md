@@ -1,12 +1,6 @@
-# 简介
+# [react](https://zh-hans.reactjs.org/)
 
-包含各种错误管理
-
-# error
-
-## [react](https://zh-hans.reactjs.org/)
-
-### 没有报错，但数据却不正确
+## 没有报错，但数据却不正确
 
 - 没有报错，但数据却是不正确的（或不是最新的），请考虑你是否在某个地方使得当前数据是缓存的
   
@@ -20,7 +14,7 @@
 
 - useMemo, useEffect, useCallback，它们的第二个参数：deps 可能是一个自己定义的函数
 
-### 组件刷新导致 prop 更新，从而导致以来此 prop 的 useEffect 更新
+## 组件刷新导致 prop 更新，从而导致以来此 prop 的 useEffect 更新
 
 ```tsx
 const Table = (props) => {
@@ -48,18 +42,18 @@ const Yomua = () => {
 或者可以在 `Table` 组件中这么做：`const activeDataSource = useMemo( () => dataSource, [dataSource])`；这样记忆 `dataSource`，当 `Table` 组件刷新时，由于 上层组件传递 `dataSource` 没有变化，所以不会导致 `useEffect` 执行。
 
 
-## [react-native](https://www.react-native.cn/)
+# [react-native](https://www.react-native.cn/)
 
-### jest-haste-map: Watchman crawl failed. Retrying once with node crawler.
+## jest-haste-map: Watchman crawl failed. Retrying once with node crawler.
 
 macOS 中：
 
 - [授予 Terminal 和 watchman 完全磁盘访问权限](https://stackoverflow.com/questions/58318341/why-watchman-crawl-failed-error-in-react-native-immediately-after-updating-to) （先用这个）
 - [降级 watchman](https://github.com/facebook/watchman/issues/1030) （不行再用这个）
 
-### 使用 ScrollView 包裹组件然后向下滑动无法滑动到最底部
+## 使用 ScrollView 包裹组件然后向下滑动无法滑动到最底部
 
-#### 为什么？
+### 为什么？
 
 如果
 
@@ -82,7 +76,7 @@ macOS 中：
 
 这是因为 \<ScrollView> 滑动的距离比 Component 高度小，导致  \<ScrollView/> 包裹的内容无法显示全。
 
-#### 解决方法
+### 解决方法
 
 将 \<ScrollView> 提取到外层。
 
@@ -98,20 +92,20 @@ macOS 中：
 </Box>
 ```
 
-## 环境
+# 环境
 
-### Exported variable 'xxx' has or is using name '接口名' from external module "模块路径" but cannot be named.
+## Exported variable 'xxx' has or is using name '接口名' from external module "模块路径" but cannot be named.
 
 - 这错误通常是因为你的 interact 没有 export 就被使用了，就会报错。
 
-### unexception token
+## unexception token
 
 - 当前环境不支持最新的 ES 语法，导致无法识别。如：`??`、`?.`
 - 在不正常的位置添加了符号，如：不小心在 json 中添加了 `,` 等
 
-## [storybook](https://storybook.js.org/docs/react/get-started/introduction)
+# [storybook](https://storybook.js.org/docs/react/get-started/introduction)
 
-### React, less, 映射符(@) 使用 storybook 报错
+## React, less, 映射符(@) 使用 storybook 报错
 
 **报的错误**：this.getOptions is not a function，can't reslove '@/pages '等各种错误。
 
@@ -173,34 +167,34 @@ module.exports = {
 };
 ```
 
-## mac
+# mac
 
-### 在访达中搜索
+## 在访达中搜索
 
 `shift + command + G` 
 
-### watchman 错误
+## watchman 错误
 
-#### 解决方法1
+### 解决方法1
 
 在访达中进行搜索，/usr/local/var/run/watchman/\<user-name>-state/，删除里面的 log, pid, state，再重新跑服务。
 
-#### [How can I resolve "Unable to talk to your watchman" errors](https://stackoverflow.com/questions/69981387/how-can-i-resolve-unable-to-talk-to-your-watchman-errors)
+### [How can I resolve "Unable to talk to your watchman" errors](https://stackoverflow.com/questions/69981387/how-can-i-resolve-unable-to-talk-to-your-watchman-errors)
 
 mobile 打不开项目，可能是因为 watchman 没用启动，打开 `Terminal`，运行命令 `watchman --foreground --logfile=/dev/stdout`，然后重启启动项目即可。
 
-#### Failed to lock pidfile - Resource temporarily unavailable, and my pid = 20314
+### Failed to lock pidfile - Resource temporarily unavailable, and my pid = 20314
 
 删除 /usr/local/var/run/watchman 中的 \<user>-state，然后重新启动 watchman `watchman --foreground --logfile=/dev/stdout`，最后重新启动项目即可。
 
-## [sonarqube](https://docs.sonarqube.org/latest/)
+# [sonarqube](https://docs.sonarqube.org/latest/)
 
-### You must define the following mandatory properties for ‘Unknown’: sonar.projectKey
+## You must define the following mandatory properties for ‘Unknown’: sonar.projectKey
 
 - 你可能根目录不存在 `sonar-project.properties` 文件或没配置 `sonar.projectKey = `
 - 你根目录的 sonarqube 文件的名字错了，如：`snoar-project.properties`，在这里应该是 `son..` 而非 `sno..`
 
-### PR 分析后，报告上传失败
+## PR 分析后，报告上传失败
 
 即：类似于 `https://sonarqube.hxtrader.com/dashboard?id=ms_risk_engine_ui&pullRequest=85` 这样的链接中没有分析报告。
 
@@ -242,11 +236,11 @@ mobile 打不开项目，可能是因为 watchman 没用启动，打开 `Termina
    
    参见：[此处](https://github.com/mc1arke/sonarqube-community-branch-plugin/issues/533#issuecomment-1092381833)。
 
-### npx yarn install 失败
+## npx yarn install 失败
 
 可能是服务器的原因。
 
-## monorepo 的项目中启动某个项目失败
+# monorepo 的项目中启动某个项目失败
 
 1. 到 monorepo 中具体的项目 A，使用 `yarn`
 2. 根据项目 A 中的 package.json 命令启动项目
@@ -259,9 +253,9 @@ mobile 打不开项目，可能是因为 watchman 没用启动，打开 `Termina
    
    注意：别在根目录使用 `yarn`，因为这可能会导致你在启动某个项目时，提示依赖错误
 
-## Browser Error
+# Browser Error
 
-### chrome 您的连接不是私密连接
+## chrome 您的连接不是私密连接
 
 - 点击高级 - 直接敲击键盘输入：`thisisunsafe` - 回车
   
@@ -269,7 +263,7 @@ mobile 打不开项目，可能是因为 watchman 没用启动，打开 `Termina
   
   Reference: [手把手教会你解决 Chrome 访问非受信证书页面时，提示「您的连接不是私密连接」错误的方法..._运维之美的博客-CSDN博客](https://blog.csdn.net/easylife206/article/details/107171565) 
 
-## github 进不去
+# github 进不去
 
 - [连接GitHub提示远程主机关闭连接_git 提示 远程端意外关闭网络连接_week@eight的博客-CSDN博客](https://blog.csdn.net/qq_43431735/article/details/106031021)
 
@@ -281,7 +275,7 @@ mobile 打不开项目，可能是因为 watchman 没用启动，打开 `Termina
 
 - 如果浏览器 Console 中提示你出现了某个错误，但是你去代码中搜索该错误（复制错误字符串）却没有搜索到，你可以尝试直接在 Console 报错的位置那里，点进去查看是那个文件出现的错误，这通常能解决 99% 的问题。
 
-## 解决bug的思路
+# 解决bug的思路
 
 1. bug是什么
 

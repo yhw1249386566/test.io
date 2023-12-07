@@ -1,0 +1,5 @@
+mockjs是一个很好用的接口	
+官方文档为：http://mockjs.com/
+
+
+第三方的文档：https://hellosean1025.github.io/yapi/documents/mock.html

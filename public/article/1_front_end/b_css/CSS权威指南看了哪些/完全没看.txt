@@ -1,0 +1,9 @@
+# 文本属性
+
+1. tab-size 设定制表符的宽度 P247 
+2. hyphens 连字符 P248
+3. work-break 断字换行 P250
+4. writing-mode 设置书写模式 P255
+5. text-orientation 改变文本方向 P258
+6. direction 声明方向 P260
+7. unicode-bidi利用Unicode的部分功能解决书写方向 P260
