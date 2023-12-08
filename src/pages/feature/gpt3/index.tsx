@@ -1,6 +1,6 @@
 import { useRef, useState, memo, useEffect } from 'react'
 
-import classnames from '~/packages/classnames'
+import classnames from '~/packages/y-classnames'
 
 import { storage } from '@/utils'
 import { Text, Direction } from '@/component'

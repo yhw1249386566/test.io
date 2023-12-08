@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { debounce } from '~/packages/screw'
+import { debounce } from '~/packages/y-screw'
 
 const DEFAULT_OPTIONS = {
     delay: 300,

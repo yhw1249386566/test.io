@@ -3,7 +3,7 @@ import { useHistory } from 'umi'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 
-import classnames from '~/packages/classnames'
+import classnames from '~/packages/y-classnames'
 
 import { Text, Direction } from '@/component'
 import { RouteName, RouteLink } from '@/constant'

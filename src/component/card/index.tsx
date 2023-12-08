@@ -4,7 +4,7 @@ import { Scrollbars } from 'react-custom-scrollbars-2'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import classnames from '~/packages/classnames'
+import classnames from '~/packages/y-classnames'
 
 import { useTheme } from '@/hooks'
 import { invertColor } from '@/utils'

@@ -1,7 +1,7 @@
 import { memo, useCallback, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import classnames from '~/packages/classnames'
+import classnames from '~/packages/y-classnames'
 
 import { useTheme, useWindowEventListen } from '@/hooks'
 
