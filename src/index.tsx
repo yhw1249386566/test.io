@@ -52,7 +52,6 @@ const Index = (props: { children: React.ReactNode }) => {
 
                 <Layout.Content className={style.content}>
                     <Sidebar />
-
                     {props.children}
                 </Layout.Content>
 

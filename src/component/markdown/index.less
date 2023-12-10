@@ -1,20 +1,20 @@
+@media screen and (max-width: 1520px) {
+    .increaseWeight .markNavbarBox {
+        display: none;
+    }
+}
+
 .markdown {
     display: flex;
-    // padding: 16px;
     justify-content: center;
 }
 
 .markNavbarBox {
-    // top: 25%;
+    top: 0;
     width: 250px;
-    // height: 500px;
-    // padding: 20px;
+    height: 100vh;
     position: sticky;
     word-break: break-word;
-
-    top: 0;
-    height: 100vh;
-
 }
 
 .markNavbar {
@@ -35,18 +35,15 @@
 .markdownBody {
     flex: 1;
     width: 0;
-    // padding: 16px;
-    // max-width: 800px;
-
     padding: 0 16px;
 }
 
 @media screen and (max-width: 768px) {
-    .markdown {
+    .increaseWeight .markdown {
         padding: 0;
     }
 
-    .markNavbarBox {
+    .increaseWeight .markNavbarBox {
         display: none;
     }
 }

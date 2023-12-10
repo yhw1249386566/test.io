@@ -1,8 +1,9 @@
-import { memo, useMemo, useCallback, useState, useEffect } from 'react'
+import { memo, useMemo, useCallback, useState, useEffect, useRef } from 'react'
 import { Tree, Skeleton } from 'antd'
 
 import IndexedDB from '~/packages/y-indexeddb'
 import classnames from '~/packages/y-classnames'
+import EventEmitter3 from '~/packages/y-eventmitter'
 
 import { Markdown } from '@/component'
 import request from '@/utils/request'
@@ -10,6 +11,7 @@ import articleDir from '@/article_dir.js'
 import { delay, createFileTree, storage } from '@/utils'
 
 import style from './index.less'
+import { useWindowEventListen } from '~/src/hooks'
 
 const { DirectoryTree } = Tree
 
@@ -24,6 +26,15 @@ function Article() {
         () => storage.getLocalStorage('activeFilePath') && !markdownData,
         [markdownData],
     )
+
+    const browserWidthRef = useRef(
+        window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.body.clientWidth,
+    )
+    const isMenuActiveRef = useRef(false)
+    const directoryTreeRef = useRef(null)
+    const articleRef = useRef(null)
 
     const get404Md = useCallback(async () => {
         request(`/article/404.md`).then((res) => {
@@ -107,6 +118,28 @@ function Article() {
                 IndexedDB.singleInstance.clearDataFromStore()
                 IndexedDB.singleInstance.updateDataFromStore(activePath, data)
             })
+
+            if (browserWidthRef.current > 1000) {
+                return
+            }
+
+            // 设置 style
+
+            if (isMenuActiveRef.current === true) {
+                isMenuActiveRef.current = false
+                directoryTreeRef.current.style.display = 'none'
+                directoryTreeRef.current.style.height =
+                    directoryTreeRef.current.style.width = '400px'
+                articleRef.current.style.display = 'flex'
+                return
+            } else {
+                directoryTreeRef.current.style.display = 'block'
+                directoryTreeRef.current.style.height = 'calc(100vh - 200px)'
+                directoryTreeRef.current.style.width = '100%'
+                articleRef.current.style.display = 'none'
+
+                isMenuActiveRef.current = true
+            }
         },
         [prevSelectedFilePath],
     )
@@ -148,9 +181,35 @@ function Article() {
         getArticleDataFromStore()
     }, [])
 
+    useWindowEventListen('resize', () => {
+        browserWidthRef.current =
+            window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.body.clientWidth
+
+        if (browserWidthRef.current > 1000) {
+            directoryTreeRef.current.style.display = 'block'
+            directoryTreeRef.current.style.height = '100%'
+            directoryTreeRef.current.style.width = '400px'
+        }
+
+        console.log('__浏览器宽度', browserWidthRef.current)
+    })
+
+    useEffect(() => {
+        // 要有一个监听机制，当按钮 click 时，就触发对应的 callback
+        EventEmitter3.singleInstance.on('openDirectory', () => {
+            console.log('hello')
+        })
+        return () => {
+            EventEmitter3.singleInstance.off('openDirectory')
+        }
+    }, [])
     return (
         <div className={style.article}>
-            <div className={classnames(style.articleFileTree)}>
+            <div
+                className={classnames(style.articleFileTree)}
+                ref={directoryTreeRef}>
                 <DirectoryTree
                     className={style.directoryTree}
                     treeData={fileTree as any[]}
@@ -165,6 +224,28 @@ function Article() {
                 />
             </div>
 
+            <button
+                className={style.button}
+                onClick={() => {
+                    if (isMenuActiveRef.current === true) {
+                        isMenuActiveRef.current = false
+                        directoryTreeRef.current.style.display = 'none'
+                        directoryTreeRef.current.style.height =
+                            directoryTreeRef.current.style.width = '400px'
+                        articleRef.current.style.display = 'flex'
+                        return
+                    }
+                    directoryTreeRef.current.style.display = 'block'
+                    directoryTreeRef.current.style.height =
+                        'calc(100vh - 200px)'
+                    directoryTreeRef.current.style.width = '100%'
+                    articleRef.current.style.display = 'none'
+
+                    isMenuActiveRef.current = true
+                }}>
+                菜单
+            </button>
+
             {isHaveSkeleton && (
                 <Skeleton
                     active
@@ -174,7 +255,9 @@ function Article() {
             )}
 
             {markdownData && (
-                <Markdown className={style.markdown}>{markdownData}</Markdown>
+                <Markdown ref={articleRef} className={style.markdown}>
+                    {markdownData}
+                </Markdown>
             )}
         </div>
     )

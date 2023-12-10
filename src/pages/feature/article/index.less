@@ -1,3 +1,9 @@
+@media screen and (max-width: 1000px) {
+    .article .articleFileTree {
+        display: none;
+    }
+}
+
 .article {
     display: flex;
     position: relative;
@@ -5,7 +11,7 @@
 
 .articleFileTree {
     top: 0;
-    display: flex;
+    width: 400px;
     height: 100vh;
     position: sticky;
     overflow-y: auto;
@@ -18,8 +24,8 @@
 }
 
 .directoryTree {
+    width: 100%;
     height: 100%;
-    width: 400px;
     border-radius: 15px;
     border: 1px solid #00000011;
     transition: @boxShadowTransition;
@@ -31,4 +37,9 @@
 
 .markdown {
     flex: 1;
+}
+
+.button {
+    position: fixed;
+    top: 20px;
 }
