@@ -3,7 +3,8 @@ import { useHistory } from 'umi'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 
-import classnames from '~/packages/classnames'
+import classnames from '~/packages/y-classnames'
+import EventEmitter from '~/packages/y-eventmitter'
 
 import { Text, Direction } from '@/component'
 import { RouteName, RouteLink } from '@/constant'
@@ -49,6 +50,16 @@ const Header = (props: HeaderProps) => {
 
     return (
         <div className={classnames(style.header, style[`header-${theme}`])}>
+            <FontAwesomeIcon
+                icon='bars'
+                className={style.bars}
+                onClick={() => {
+                    EventEmitter.singleInstance.emit(
+                        'openArticleDirectoryInMobile',
+                    )
+                }}
+            />
+
             <Direction
                 alignItems='center'
                 justifyContent='space-between'

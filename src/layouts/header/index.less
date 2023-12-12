@@ -9,8 +9,22 @@
     --layouts-header-background-color: var(--global-primary-background-color);
 }
 
+@media screen and (min-width: 1000px) {
+    .header .bars {
+        display: none;
+    }
+}
+
 .header {
     background: var(--layouts-header-background-color);
+    position: relative;
+}
+
+.bars {
+    cursor: pointer;
+    font-size: 30px;
+    position: absolute;
+    color: var(--layouts-header-theme-icon-color);
 }
 
 .headerInfo {

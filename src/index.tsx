@@ -9,7 +9,7 @@ import {
     faFacebookSquare,
 } from '@fortawesome/free-brands-svg-icons'
 
-import IndexedDB from '~/packages/indexed-db'
+import IndexedDB from '~/packages/y-indexeddb'
 
 import style from './index.less'
 import Footer from './layouts/footer'
@@ -17,7 +17,7 @@ import { Sidebar } from './component'
 import Header from './layouts/header'
 import { ThemeProvider } from './contexts'
 
-// 添加 fontawesome 免费版
+// 添加 fontawesome 免费版: https://fontawesome.com/search?q=menu&o=r&m=free
 library.add(fas, faFacebookSquare, faYoutubeSquare, faLinkedin, faTwitterSquare)
 
 // 初始化 IndexedDB
@@ -52,7 +52,6 @@ const Index = (props: { children: React.ReactNode }) => {
 
                 <Layout.Content className={style.content}>
                     <Sidebar />
-
                     {props.children}
                 </Layout.Content>
 
