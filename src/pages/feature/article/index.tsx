@@ -119,6 +119,7 @@ function Article() {
                 IndexedDB.singleInstance.clearDataFromStore()
                 IndexedDB.singleInstance.updateDataFromStore(activePath, data)
 
+                // in mobile 时，若打开了文章目录，选中一个文章时，会直接切换到文章。
                 if (isOpenDirectoryInMobile) {
                     setIsOpenDirectoryInMobileInMobile(false)
                 }
@@ -166,11 +167,11 @@ function Article() {
 
     // 监听 Header - 打开菜单按钮点击事件
     useEffect(() => {
-        EventEmitter.singleInstance.on('openDirectory', () => {
+        EventEmitter.singleInstance.on('openArticleDirectoryInMobile', () => {
             setIsOpenDirectoryInMobileInMobile(!isOpenDirectoryInMobile)
         })
         return () => {
-            EventEmitter.singleInstance.off('openDirectory')
+            EventEmitter.singleInstance.off('openArticleDirectoryInMobile')
         }
     }, [isOpenDirectoryInMobile])
     console.log('_isOpenDirectoryInMobile', isOpenDirectoryInMobile)

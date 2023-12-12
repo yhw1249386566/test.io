@@ -54,7 +54,9 @@ const Header = (props: HeaderProps) => {
                 icon='bars'
                 className={style.bars}
                 onClick={() => {
-                    EventEmitter.singleInstance.emit('openDirectory')
+                    EventEmitter.singleInstance.emit(
+                        'openArticleDirectoryInMobile',
+                    )
                 }}
             />
 
