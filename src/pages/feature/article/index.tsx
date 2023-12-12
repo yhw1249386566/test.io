@@ -110,6 +110,9 @@ function Article() {
 
                 if (!success || !data) {
                     get404Md()
+                    if (isOpenDirectoryInMobile) {
+                        setIsOpenDirectoryInMobileInMobile(false)
+                    }
                     return
                 }
 
@@ -180,8 +183,7 @@ function Article() {
             <div
                 className={classnames(style.articleFileTree, {
                     [style.showDirectoryInMobile]: isOpenDirectoryInMobile,
-                })}
-            >
+                })}>
                 <DirectoryTree
                     className={style.directoryTree}
                     treeData={fileTree as any[]}
@@ -202,8 +204,7 @@ function Article() {
                 <Markdown
                     className={classnames(style.markdown, {
                         [style.hideMarkdownInMobile]: isOpenDirectoryInMobile,
-                    })}
-                >
+                    })}>
                     {markdownData}
                 </Markdown>
             )}
