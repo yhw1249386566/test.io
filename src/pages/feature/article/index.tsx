@@ -1,9 +1,9 @@
-import { memo, useMemo, useCallback, useState, useEffect, useRef } from 'react'
+import { memo, useMemo, useCallback, useState, useEffect } from 'react'
 import { Tree, Skeleton } from 'antd'
 
 import IndexedDB from '~/packages/y-indexeddb'
 import classnames from '~/packages/y-classnames'
-import EventEmitter3 from '~/packages/y-eventmitter'
+import EventEmitter from '~/packages/y-eventmitter'
 
 import { Markdown } from '@/component'
 import request from '@/utils/request'
@@ -11,7 +11,14 @@ import articleDir from '@/article_dir.js'
 import { delay, createFileTree, storage } from '@/utils'
 
 import style from './index.less'
-import { useWindowEventListen } from '~/src/hooks'
+
+const DEFAULT_EXPANDED_KEYS = [
+    '0_base',
+    '1_front_end',
+    '6_error_handler',
+    '8_test',
+    '9_tools',
+]
 
 const { DirectoryTree } = Tree
 
@@ -22,22 +29,17 @@ function Article() {
 
     const [prevSelectedFilePath, setPrevSelectedFilePath] = useState('')
 
+    // 注: 这里的 in mobile, 并不代表一定在手机端，即：如果视区宽度 < 1000px, 则认为在手机端(后面会改成正确的语义)
+    const [isOpenDirectoryInMobile, setIsOpenDirectoryInMobileInMobile] =
+        useState(false)
+
     const isHaveSkeleton = useMemo(
         () => storage.getLocalStorage('activeFilePath') && !markdownData,
         [markdownData],
     )
 
-    const browserWidthRef = useRef(
-        window.innerWidth ||
-            document.documentElement.clientWidth ||
-            document.body.clientWidth,
-    )
-    const isMenuActiveRef = useRef(false)
-    const directoryTreeRef = useRef(null)
-    const articleRef = useRef(null)
-
     const get404Md = useCallback(async () => {
-        request(`/article/404.md`).then((res) => {
+        request('/article/404.md').then((res) => {
             const { data, success } = res
 
             if (!success || !data) {
@@ -62,7 +64,6 @@ function Article() {
             info: { node: { type: 'file' | 'directory' } },
         ) => {
             const activePath = path?.[0] ?? ''
-            console.log(path, info)
 
             // 点击文件夹或者文件名都会触发 onSelect 和 onExpand，它们一起触发的
             // 所以当点击文件夹时，onSelect 也会触发，导致动态导入文件出错。
@@ -117,31 +118,13 @@ function Article() {
                 // 保留最后一次点击的文件数据
                 IndexedDB.singleInstance.clearDataFromStore()
                 IndexedDB.singleInstance.updateDataFromStore(activePath, data)
+
+                if (isOpenDirectoryInMobile) {
+                    setIsOpenDirectoryInMobileInMobile(false)
+                }
             })
-
-            if (browserWidthRef.current > 1000) {
-                return
-            }
-
-            // 设置 style
-
-            if (isMenuActiveRef.current === true) {
-                isMenuActiveRef.current = false
-                directoryTreeRef.current.style.display = 'none'
-                directoryTreeRef.current.style.height =
-                    directoryTreeRef.current.style.width = '400px'
-                articleRef.current.style.display = 'flex'
-                return
-            } else {
-                directoryTreeRef.current.style.display = 'block'
-                directoryTreeRef.current.style.height = 'calc(100vh - 200px)'
-                directoryTreeRef.current.style.width = '100%'
-                articleRef.current.style.display = 'none'
-
-                isMenuActiveRef.current = true
-            }
         },
-        [prevSelectedFilePath],
+        [prevSelectedFilePath, isOpenDirectoryInMobile],
     )
 
     // 刷新/切换路由，然后再点进来时，加载最后一次点击的目录的文件数据
@@ -181,70 +164,30 @@ function Article() {
         getArticleDataFromStore()
     }, [])
 
-    useWindowEventListen('resize', () => {
-        browserWidthRef.current =
-            window.innerWidth ||
-            document.documentElement.clientWidth ||
-            document.body.clientWidth
-
-        if (browserWidthRef.current > 1000) {
-            directoryTreeRef.current.style.display = 'block'
-            directoryTreeRef.current.style.height = '100%'
-            directoryTreeRef.current.style.width = '400px'
-        }
-
-        console.log('__浏览器宽度', browserWidthRef.current)
-    })
-
+    // 监听 Header - 打开菜单按钮点击事件
     useEffect(() => {
-        // 要有一个监听机制，当按钮 click 时，就触发对应的 callback
-        EventEmitter3.singleInstance.on('openDirectory', () => {
-            console.log('hello')
+        EventEmitter.singleInstance.on('openDirectory', () => {
+            setIsOpenDirectoryInMobileInMobile(!isOpenDirectoryInMobile)
         })
         return () => {
-            EventEmitter3.singleInstance.off('openDirectory')
+            EventEmitter.singleInstance.off('openDirectory')
         }
-    }, [])
+    }, [isOpenDirectoryInMobile])
+    console.log('_isOpenDirectoryInMobile', isOpenDirectoryInMobile)
     return (
         <div className={style.article}>
             <div
-                className={classnames(style.articleFileTree)}
-                ref={directoryTreeRef}>
+                className={classnames(style.articleFileTree, {
+                    [style.showDirectoryInMobile]: isOpenDirectoryInMobile,
+                })}
+            >
                 <DirectoryTree
                     className={style.directoryTree}
                     treeData={fileTree as any[]}
                     onSelect={handleTreeSelect as any}
-                    defaultExpandedKeys={[
-                        '0_base',
-                        '1_front_end',
-                        '6_error_handler',
-                        '8_test',
-                        '9_tools',
-                    ]}
+                    defaultExpandedKeys={DEFAULT_EXPANDED_KEYS}
                 />
             </div>
-
-            <button
-                className={style.button}
-                onClick={() => {
-                    if (isMenuActiveRef.current === true) {
-                        isMenuActiveRef.current = false
-                        directoryTreeRef.current.style.display = 'none'
-                        directoryTreeRef.current.style.height =
-                            directoryTreeRef.current.style.width = '400px'
-                        articleRef.current.style.display = 'flex'
-                        return
-                    }
-                    directoryTreeRef.current.style.display = 'block'
-                    directoryTreeRef.current.style.height =
-                        'calc(100vh - 200px)'
-                    directoryTreeRef.current.style.width = '100%'
-                    articleRef.current.style.display = 'none'
-
-                    isMenuActiveRef.current = true
-                }}>
-                菜单
-            </button>
 
             {isHaveSkeleton && (
                 <Skeleton
@@ -255,7 +198,11 @@ function Article() {
             )}
 
             {markdownData && (
-                <Markdown ref={articleRef} className={style.markdown}>
+                <Markdown
+                    className={classnames(style.markdown, {
+                        [style.hideMarkdownInMobile]: isOpenDirectoryInMobile,
+                    })}
+                >
                     {markdownData}
                 </Markdown>
             )}

@@ -4,9 +4,24 @@
     }
 }
 
+@media screen and (max-width: 768px) {
+    .increaseWeight.markdown {
+        width: 100%;
+        .markdownBodyBox,
+        .markdownBody {
+            width: 100%;
+        }
+    }
+
+    .increaseWeight .markNavbarBox {
+        display: none;
+    }
+}
+
 .markdown {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    background: #fff;
 }
 
 .markNavbarBox {
@@ -32,18 +47,14 @@
     }
 }
 
-.markdownBody {
-    flex: 1;
-    width: 0;
-    padding: 0 16px;
+.markdownBodyBox {
+    margin: auto;
+    max-width: 900px;
 }
 
-@media screen and (max-width: 768px) {
-    .increaseWeight .markdown {
-        padding: 0;
-    }
-
-    .increaseWeight .markNavbarBox {
-        display: none;
-    }
+.markdownBody {
+    flex: 1;
+    width: 0; // 适配手机端: 可以正确让文章内容宽度和设备宽度一样
+    width: 100%;
+    padding: 0 16px;
 }

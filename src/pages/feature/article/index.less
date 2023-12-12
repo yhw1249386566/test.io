@@ -1,6 +1,12 @@
 @media screen and (max-width: 1000px) {
-    .article .articleFileTree {
+    .articleFileTree {
         display: none;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .article .articleFileTree {
+        display: block;
     }
 }
 
@@ -42,4 +48,14 @@
 .button {
     position: fixed;
     top: 20px;
+}
+
+.showDirectoryInMobile {
+    display: block;
+    width: 100%;
+    height: calc(100vh - 264px);
+}
+
+.hideMarkdownInMobile {
+    display: none;
 }

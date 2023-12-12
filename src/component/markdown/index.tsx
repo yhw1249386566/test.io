@@ -1,5 +1,5 @@
 /* eslint-disable react/no-children-prop */
-import { forwardRef, memo } from 'react'
+import { memo } from 'react'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import MarkNavbar from 'markdown-navbar'
@@ -16,24 +16,26 @@ type MarkdownProps = {
     className?: string
 }
 
-const Markdown = (props: MarkdownProps, ref) => {
+const Markdown = (props: MarkdownProps) => {
     const { className = '', children } = props
 
     return (
         <div
-            ref={ref}
             className={classnames(
                 style.markdown,
                 style.increaseWeight,
                 className,
-            )}>
-            <ReactMarkdown
-                // markdown-body 是导入 github-markdown-css
-                className={classnames('markdown-body', style.markdownBody)}
-                children={children as string}
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeRaw]}
-            />
+            )}
+        >
+            <div className={style.markdownBodyBox}>
+                <ReactMarkdown
+                    // markdown-body 是导入 github-markdown-css
+                    className={classnames('markdown-body', style.markdownBody)}
+                    children={children as string}
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeRaw]}
+                />
+            </div>
 
             <div className={style.markNavbarBox}>
                 <MarkNavbar
@@ -47,4 +49,4 @@ const Markdown = (props: MarkdownProps, ref) => {
     )
 }
 
-export default memo(forwardRef(Markdown))
+export default memo(Markdown)
