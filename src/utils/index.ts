@@ -190,6 +190,5 @@ export const compressImg = (imgPath: string) => {
         context?.clearRect(0, 0, targetWidth, targetHeight)
         // 图片压缩
         context?.drawImage(img, 0, 0, targetWidth, targetHeight)
-        console.log(canvas.toDataURL('image/jpeg'))
     }
 }

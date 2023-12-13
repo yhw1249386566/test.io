@@ -207,4 +207,3 @@ github pages [默认使用 jekyll](https://docs.github.com/zh/pages/setting-up-a
 -   采用微前端架构，每一个 item 都是一个独立应用，可采用 [qiankun](https://qiankun.umijs.org/zh),
     或其他框架: [Single-spa](https://github.com/single-spa/single-spa), [Garfish](https://www.garfishjs.org/) 等。
 -   article 右边的目录结构可以保存用户最后一次所选的位置，可使用 local storage.
--   article 当视区宽度 < 1000 时，< 1520px, < 768 时，对于这些配置可以写成常量，抽离出来（less 就写成全局 less 变量，代码里面就写成常量）

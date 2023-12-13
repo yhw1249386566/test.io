@@ -35,13 +35,11 @@ class SingletonEventemitter extends Eventemitter3 {
         context?: any,
     ): this {
         this.singleEventEmitterInstance?.on(event, fn, context)
-
         return this
     }
 
     // 触发某个注册的事件的监听器
     emit<T extends string | symbol>(event: T, ...args: any[]): boolean {
-        console.log('_this', this)
         return this.singleEventEmitterInstance?.emit(event, ...args) ?? false
     }
 
@@ -66,6 +64,3 @@ class SingletonEventemitter extends Eventemitter3 {
 }
 
 export default SingletonEventemitter
-
-type A = typeof SingletonEventemitter
-let Test: A

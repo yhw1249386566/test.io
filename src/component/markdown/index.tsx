@@ -27,7 +27,12 @@ const Markdown = (props: MarkdownProps) => {
                 className,
             )}
         >
-            <div className={style.markdownBodyBox}>
+            <div
+                className={classnames(
+                    'markdown-body-box',
+                    style.markdownBodyBox,
+                )}
+            >
                 <ReactMarkdown
                     // markdown-body 是导入 github-markdown-css
                     className={classnames('markdown-body', style.markdownBody)}
@@ -37,7 +42,12 @@ const Markdown = (props: MarkdownProps) => {
                 />
             </div>
 
-            <div className={style.markNavbarBox}>
+            <div
+                className={classnames(
+                    'markdown-navbar-box',
+                    style.markNavbarBox,
+                )}
+            >
                 <MarkNavbar
                     className={style.markNavbar}
                     ordered={false}

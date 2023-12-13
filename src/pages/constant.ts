@@ -103,3 +103,11 @@ export const FeatureList: FeatureType[] = [
         ],
     },
 ]
+
+export const DEFAULT_EXPANDED_KEYS = [
+    '0_base',
+    '1_front_end',
+    '6_error_handler',
+    '8_test',
+    '9_tools',
+]

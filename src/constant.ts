@@ -12,3 +12,7 @@ export enum RouteLink {
     About = 'about',
 }
 
+export enum EVENT_EMITTER_NAME {
+    // 只有当仅仅存在文章时，此事件才会被监听和触发。
+    OPEN_ARTICLE_DIRECTORY = 'openArticleDirectoryOnlyArticle',
+}

@@ -73,7 +73,6 @@ export default async function <Result = any>(
         headers,
     }
 
-    // console.log('__url', url, options, token, queryString)
     return fetch(url, options)
         .then(checkResponse)
         .then(handleResponse)

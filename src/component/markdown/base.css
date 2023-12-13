@@ -1,3 +1,9 @@
+.markdown-body {
+    img {
+        max-width: 100%;
+    }
+}
+
 /* 侧边导航栏 */
 .markdown-navigation {
     font-size: 16px;

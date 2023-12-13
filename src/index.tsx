@@ -55,7 +55,7 @@ const Index = (props: { children: React.ReactNode }) => {
                     {props.children}
                 </Layout.Content>
 
-                <Footer />
+                {/* <Footer /> */}
             </Layout>
         </ThemeProvider>
     )

@@ -1,33 +1,61 @@
 .header-light {
     --layouts-header-back-icon-color: #f7eead;
     --layouts-header-theme-icon-color: #f7eead;
-    --layouts-header-background-color: var(--global-primary-background-color);
+    // --layouts-header-background-color: var(--global-primary-background-color);
+    --layouts-header-background-color: rgba(177, 213, 200, 0.5);
 }
 .header-dark {
     --layouts-header-back-icon-color: #f7eead;
     --layouts-header-theme-icon-color: #87c0ca;
-    --layouts-header-background-color: var(--global-primary-background-color);
+    // --layouts-header-background-color: var(--global-primary-background-color); var(--global-primary-background-color);
+    --layouts-header-background-color: rgba(0, 0, 0);
 }
 
-@media screen and (min-width: 1000px) {
+// 若 文章所有目录（左边的目录）存在
+@media screen and (min-width: @showOnlyArticleMaxWidth) {
     .header .bars {
-        display: none;
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+// 若仅仅显示文章
+@media screen and (max-width: @showOnlyArticleMaxWidth) {
+    .header .title,
+    .header .bars {
+        font-size: 26px;
+    }
+
+    .header .themeIcon {
+        width: 26px;
+        height: 26px;
     }
 }
 
 .header {
-    background: var(--layouts-header-background-color);
-    position: relative;
+    top: 0;
+    z-index: 1;
+
+    position: sticky;
+    background-color: var(--layouts-header-background-color);
+    backdrop-filter: blur(12px);
+    // background: rgba(177, 213, 200, 0.5);
+    height: 62px;
 }
 
 .bars {
     cursor: pointer;
     font-size: 30px;
-    position: absolute;
     color: var(--layouts-header-theme-icon-color);
 }
 
+.hideBars {
+    opacity: 0;
+    pointer-events: none;
+}
+
 .headerInfo {
+    height: 100%;
     padding: 0 16px 0 16px;
 }
 
@@ -52,9 +80,9 @@
 }
 
 .title {
-    color: #fff !important;
+    color: #fff;
     display: flex;
-    font-size: 72px;
+    font-size: 40px;
     cursor: pointer;
     justify-content: center;
 }
@@ -66,8 +94,8 @@
 }
 
 .themeIcon {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     padding: 10px;
     font-size: 30px;
     border-radius: 50%;
