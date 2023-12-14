@@ -34,7 +34,7 @@ const Markdown = (props: MarkdownProps) => {
                 )}>
                 <ReactMarkdown
                     // markdown-body 是导入 github-markdown-css
-                    className={classnames(style.markdownBody)}
+                    className={classnames('markdown-body', style.markdownBody)}
                     children={children as string}
                     remarkPlugins={[remarkGfm]}
                     rehypePlugins={[rehypeRaw]}
