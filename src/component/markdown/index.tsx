@@ -10,6 +10,7 @@ import classnames from '~/packages/y-classnames'
 import style from './index.less'
 import 'github-markdown-css'
 import './base.css'
+import './markdown.css'
 
 type MarkdownProps = {
     children: React.ReactNode | string
@@ -25,14 +26,12 @@ const Markdown = (props: MarkdownProps) => {
                 style.markdown,
                 style.increaseWeight,
                 className,
-            )}
-        >
+            )}>
             <div
                 className={classnames(
                     'markdown-body-box',
                     style.markdownBodyBox,
-                )}
-            >
+                )}>
                 <ReactMarkdown
                     // markdown-body 是导入 github-markdown-css
                     className={classnames(style.markdownBody)}
@@ -46,8 +45,7 @@ const Markdown = (props: MarkdownProps) => {
                 className={classnames(
                     'markdown-navbar-box',
                     style.markNavbarBox,
-                )}
-            >
+                )}>
                 <MarkNavbar
                     className={style.markNavbar}
                     ordered={false}

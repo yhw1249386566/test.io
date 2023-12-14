@@ -181,13 +181,11 @@ function Article() {
         <div
             className={classnames(style.article, {
                 [style[`article-${theme}`]]: theme,
-            })}
-        >
+            })}>
             <div
                 className={classnames(style.articleFileTree, {
                     [style.showDirectorOnlyArticle]: isOpenDirectoryOnlyArticle,
-                })}
-            >
+                })}>
                 <DirectoryTree
                     className={style.directoryTree}
                     treeData={fileTree as any[]}
@@ -206,16 +204,10 @@ function Article() {
 
             {markdownData && (
                 <Markdown
-                    className={classnames(
-                        style.markdown,
-                        'article-markdown',
-                        'markdown-body',
-                        {
-                            [style.hideMarkdownOnlyArticle]:
-                                isOpenDirectoryOnlyArticle,
-                        },
-                    )}
-                >
+                    className={classnames(style.markdown, 'article-markdown', {
+                        [style.hideMarkdownOnlyArticle]:
+                            isOpenDirectoryOnlyArticle,
+                    })}>
                     {markdownData}
                 </Markdown>
             )}
