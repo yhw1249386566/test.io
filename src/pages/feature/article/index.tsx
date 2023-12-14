@@ -5,6 +5,7 @@ import IndexedDB from '~/packages/y-indexeddb'
 import classnames from '~/packages/y-classnames'
 import EventEmitter from '~/packages/y-eventmitter'
 
+import { useTheme } from '@/hooks'
 import { Markdown } from '@/component'
 import request from '@/utils/request'
 import articleDir from '@/article_dir.js'
@@ -18,6 +19,8 @@ import './index.less' // 如果需要使用 'article-markdown'(不用 style.xxx)
 const { DirectoryTree } = Tree
 
 function Article() {
+    const theme = useTheme()
+
     const [markdownData, setMarkdownData] = useState('')
 
     const [prevSelectedFilePath, setPrevSelectedFilePath] = useState('')
@@ -175,7 +178,11 @@ function Article() {
     }, [isOpenDirectoryOnlyArticle])
 
     return (
-        <div className={style.article}>
+        <div
+            className={classnames(style.article, {
+                [style[`article-${theme}`]]: theme,
+            })}
+        >
             <div
                 className={classnames(style.articleFileTree, {
                     [style.showDirectorOnlyArticle]: isOpenDirectoryOnlyArticle,
@@ -199,10 +206,15 @@ function Article() {
 
             {markdownData && (
                 <Markdown
-                    className={classnames(style.markdown, 'article-markdown', {
-                        [style.hideMarkdownOnlyArticle]:
-                            isOpenDirectoryOnlyArticle,
-                    })}
+                    className={classnames(
+                        style.markdown,
+                        'article-markdown',
+                        'markdown-body',
+                        {
+                            [style.hideMarkdownOnlyArticle]:
+                                isOpenDirectoryOnlyArticle,
+                        },
+                    )}
                 >
                     {markdownData}
                 </Markdown>

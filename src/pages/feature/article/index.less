@@ -1,3 +1,15 @@
+.article-light {
+    --article-article-text-color: rgb(35, 39, 47);
+    --article-article-bg-color: rgb(246, 247, 249);
+    --article-article-pre-bg-color: #fff;
+}
+
+.article-dark {
+    --article-article-text-color: rgb(246, 247, 249);
+    --article-article-bg-color: rgb(35, 39, 47);
+    --article-article-pre-bg-color: #000;
+}
+
 @media screen and (max-width: @showOnlyArticleMaxWidth) {
     // 隐藏目录
     .articleFileTree {
@@ -74,8 +86,28 @@
     .markdown-navbar-box {
         top: 62px;
     }
-    .markdown-body-box{
+
+    .markdown-body-box {
         margin: 0 auto; // 文章左右居中
+    }
+
+    .markdown-body {
+        color: var(--article-article-text-color);
+        background-color: var(--article-article-bg-color);
+
+        pre {
+            color: var(--article-article-text-color);
+            background-color: var(--article-article-pre-bg-color);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: var(--article-article-text-color);
+        }
     }
 }
 

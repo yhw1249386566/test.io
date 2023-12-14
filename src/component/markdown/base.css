@@ -1,3 +1,4 @@
+/* 此 css 在打包后似乎并不会生效, 可以使用 index.less - markdownBodyBox */
 .markdown-body {
     img {
         max-width: 100%;

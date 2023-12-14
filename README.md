@@ -192,18 +192,9 @@ github pages [默认使用 jekyll](https://docs.github.com/zh/pages/setting-up-a
 
     如果在非 picture/ 目录下发现的图片，就将此目录（如：目录 img/test.png）同样提取到 /public/ 中（比如：/public/img/test.png）
 
-    TIP: 将 article 放到 public/article 并不能解决 http://www.whyhw.com/article/0_base/xxx.md 数据获取不到的问题，
-
-    因为本质上我们是让 github 帮忙托管网站，可能 github 托管网站时并不是放到根目录？尝试使用 \_\_dirname.
-
--   src/article_dir.js 应该是 CI/CD 流程时自动生成，而非手动生成；
-
-    现在虽然 github workflows 中有 yarn build-article, 但是这个 article_dir.js 仍然不是部署时生成，因为使用了 @/article_dir.js 导入，而不是用类似于 \_\_dirname 这样作为路径；
-
-    那么使用 @/article_dir.js, 在 webpack 进行打包编译时，会识别它，然后此文件将会被编译，最终放入到编译的结果 dist/ 中。
-
-    如果在非 picture/ 目录下发现的图片，就将此目录（如：目录 img/test.png）同样提取到 /public/ 中（比如：/public/img/test.png）
-
 -   采用微前端架构，每一个 item 都是一个独立应用，可采用 [qiankun](https://qiankun.umijs.org/zh),
     或其他框架: [Single-spa](https://github.com/single-spa/single-spa), [Garfish](https://www.garfishjs.org/) 等。
--   article 右边的目录结构可以保存用户最后一次所选的位置，可使用 local storage.
+-   article 左边的所有目录可以保存用户最后一次所选的位置，可使用 local storage.
+-   由于在 public 添加了 .nojekyll 导致 github pages 不会使用友好的格式解析 md 文件，
+    导致 md 文件目前格式很一般，如: 代码和普通文字一样等，需要想办法，
+    或可使用 jekyll 配置文件，而不是使用 .nojekyll
