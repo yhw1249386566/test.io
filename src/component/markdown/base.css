@@ -1,3 +1,13 @@
+.markdown-body-box .markdown-body {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: var(--color-fg-default);
+    }
+}
 
 /* 侧边导航栏 */
 .markdown-navigation {
@@ -6,6 +16,8 @@
         'Helvetica', 'Arial', 'PingFang SC', 'Hiragino Sans GB',
         'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
     width: 100%;
+    word-break: break-word;
+    background-color: var(--markdown-bg-color);
 }
 
 .markdown-navigation .title-anchor {
@@ -17,20 +29,18 @@
     line-height: 2em;
     padding-right: 1.8em;
     cursor: pointer;
+    color: var(--markdown-text-color) !important;
 }
 
 .markdown-navigation .title-anchor:hover {
-    background-color: #f8f8f8;
-    color: #007fff;
+    background-color: #f8f8f8 !important;
+    color: #007fff !important;
 }
-/* .markdown-navigation .title-anchor.active {
-  background-color: #f8f8f8;
-  text-decoration: inherit;
-} */
-
-/* .markdown-navigation .title-anchor.active {
-  color: #007fff;
-} */
+.markdown-navigation .title-anchor.active {
+    background-color: #f8f8f8 !important;
+    text-decoration: inherit;
+    color: #007fff !important ;
+}
 
 .markdown-navigation .title-anchor small {
     margin: 0 0.8em;

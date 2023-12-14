@@ -6,6 +6,7 @@ import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import classnames from '~/packages/y-classnames'
 import EventEmitter from '~/packages/y-eventmitter'
 
+import { storage } from '@/utils'
 import { Text, Direction } from '@/component'
 import { RouteName, RouteLink, EVENT_EMITTER_NAME } from '@/constant'
 
@@ -40,6 +41,11 @@ const Header = (props: HeaderProps) => {
 
     const handleToggleTheme = useCallback((theme: Theme) => {
         return () => {
+            storage.saveLocalStorage({
+                key: 'data-theme',
+                value: theme === 'light' ? 'dark' : 'light',
+            })
+
             if (theme === 'light') {
                 onToggleTheme('dark')
                 return
@@ -62,6 +68,12 @@ const Header = (props: HeaderProps) => {
     }, [])
 
     useEffect(() => {
+        const localTheme = storage.getLocalStorage('data-theme') as Theme
+
+        if (localTheme) {
+            onToggleTheme(localTheme)
+        }
+
         EventEmitter.singleInstance.on(
             EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY,
             ({ isShowX }) => {
@@ -80,8 +92,7 @@ const Header = (props: HeaderProps) => {
             <Direction
                 alignItems='center'
                 justifyContent='space-between'
-                className={style.headerInfo}
-            >
+                className={style.headerInfo}>
                 {/* <FontAwesomeIcon
                     className={classnames(style.back, {
                         [style.hideLeftIcon]:

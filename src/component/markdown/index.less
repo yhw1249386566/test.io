@@ -1,7 +1,17 @@
+.markdown-light {
+    --markdown-text-color: rgb(35, 39, 47);
+    --markdown-bg-color: #fff;
+}
+.markdown-dark {
+    --markdown-text-color: rgb(246, 247, 249);
+    --markdown-bg-color: #0d1117;
+}
+
 .markdown {
     display: flex;
     background: #fff;
     justify-content: space-between;
+    background-color: var(--markdown-bg-color);
 }
 
 .markNavbarBox {
@@ -9,7 +19,7 @@
     width: 250px;
     height: 100vh;
     position: sticky;
-    word-break: break-word;
+
 }
 
 .markNavbar {
@@ -28,12 +38,6 @@
 
 .markdownBodyBox {
     max-width: 900px;
-    word-break: break-word;
-    word-wrap: break-word;
-
-    img {
-        max-width: 100%;
-    }
 }
 
 .markdownBody {

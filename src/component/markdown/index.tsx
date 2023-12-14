@@ -6,11 +6,13 @@ import MarkNavbar from 'markdown-navbar'
 import ReactMarkdown from 'react-markdown'
 
 import classnames from '~/packages/y-classnames'
+import { useTheme } from '@/hooks'
 
 import style from './index.less'
 import 'github-markdown-css'
 import './base.css'
 import './markdown.css'
+import './index.less'
 
 type MarkdownProps = {
     children: React.ReactNode | string
@@ -19,12 +21,16 @@ type MarkdownProps = {
 
 const Markdown = (props: MarkdownProps) => {
     const { className = '', children } = props
+    const theme = useTheme()
 
     return (
         <div
             className={classnames(
                 style.markdown,
                 style.increaseWeight,
+                {
+                    [`markdown-${theme}`]: theme,
+                },
                 className,
             )}>
             <div
