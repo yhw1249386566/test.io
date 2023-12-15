@@ -114,17 +114,6 @@
     word-wrap: break-word;
 }
 
-.markdown-body {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        color: var(--color-fg-default) !important;
-    }
-}
-
 .markdown-body .octicon {
     display: inline-block;
     fill: currentColor;
