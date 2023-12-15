@@ -3,11 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import classnames from '~/packages/y-classnames'
 
+import { SCROLL_SPEED } from '@/utils/constant'
 import { useTheme, useWindowEventListen } from '@/hooks'
 
 import style from './index.less'
-
-const SCROLL_SPEED = 500
 
 function Sidebar() {
     const [isShowSidebar, setIsShowSidebar] = useState(false)
@@ -23,6 +22,12 @@ function Sidebar() {
             function slider() {
                 if (currentLocation < 0) {
                     window.scrollTo(0, 0)
+                    return
+                }
+
+                if (typeof SCROLL_SPEED !== 'number' || isNaN(SCROLL_SPEED)) {
+                    console.error(`SCROLL_SPEED ERROR: ${SCROLL_SPEED}`)
+                    console.trace('SCROLL_SPEED')
                     return
                 }
 
@@ -51,8 +56,7 @@ function Sidebar() {
         <div
             className={classnames(style.sidebar, style[`sidebar-${theme}`], {
                 [style.sidebarHide]: !isShowSidebar,
-            })}
-        >
+            })}>
             <FontAwesomeIcon
                 icon='circle-chevron-up'
                 className={style.goTop}

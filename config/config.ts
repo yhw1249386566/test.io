@@ -69,6 +69,12 @@ export default defineConfig({
             })
             .end()
 
+        config.plugin('dotenv-webpack').use(require('dotenv-webpack'), [
+            {
+                path: path.join(__dirname, '../', '/.env'),
+            },
+        ])
+
         return config
     },
 })

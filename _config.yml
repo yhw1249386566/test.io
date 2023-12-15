@@ -1,7 +1,0 @@
-# 此文件是当 .github\workflows\build.yml 进行到 JamesIves/github-pages-deploy-action@v4 步骤时
-# 决定 jekyll 如何解析的, 配置参见: http://jekyllcn.com/docs/configuration/
-# jekyll: http://jekyllcn.com/docs/home/
-excerpt_separator: ''
-exclude:
-  - article/
-  - public/article/

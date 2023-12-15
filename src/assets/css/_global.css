@@ -1,11 +1,15 @@
 [data-theme='light']:root {
-    --global-primary-background-color: rgb(177, 213, 200);
-    --global-secondary-background-color: #f0f2f5;
+    --global-primary-text-color: #24292f;
+    --global-primary-bg-color: #fff;
+    --global-secondary-bg-color: #f0f2f5;
+    --global-index-bg-color: #f0f2f5;
     --global-box-shadow-hover-color: #00000011;
 }
 
 [data-theme='dark']:root {
-    --global-primary-background-color: rgb(0, 0, 0);
-    --global-secondary-background-color: #0d1117;
+    --global-primary-text-color: #c9d1d9;
+    --global-primary-bg-color: #0d1117;
+    --global-secondary-bg-color: #0d1117;
+    --global-index-bg-color: #0d1117;
     --global-box-shadow-hover-color: #ffffff10;
 }

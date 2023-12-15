@@ -10,11 +10,15 @@ const classnames = (...args: ClassNamesType[]) => {
 
     for (let i = 0; i < args.length; i++) {
         const value = args[i]
+
         const isString = typeof value === 'string'
+
         const isNumber = typeof value === 'number'
+
         const isArray =
             Array.isArray(value) &&
             Object.prototype.toString.call(value) === '[object Array]'
+
         const isObject =
             typeof value === 'object' &&
             Object.prototype.toString.call(value) === '[object Object]'

@@ -9,7 +9,7 @@ import { useTheme } from '@/hooks'
 import { Markdown } from '@/component'
 import request from '@/utils/request'
 import articleDir from '@/article_dir.js'
-import { EVENT_EMITTER_NAME } from '@/constant'
+import { EVENT_EMITTER_NAME } from '@/utils/constant'
 import { DEFAULT_EXPANDED_KEYS } from '@/pages/constant'
 import { delay, createFileTree, storage } from '@/utils'
 
@@ -183,7 +183,7 @@ function Article() {
                 [style[`article-${theme}`]]: theme,
             })}>
             <div
-                className={classnames(style.articleFileTree, {
+                className={classnames(style.directoryTreeBox, {
                     [style.showDirectorOnlyArticle]: isOpenDirectoryOnlyArticle,
                 })}>
                 <DirectoryTree

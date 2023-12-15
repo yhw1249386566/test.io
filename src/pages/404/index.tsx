@@ -2,7 +2,7 @@ import { memo, useCallback } from 'react'
 import { useHistory } from 'umi'
 import { Button } from 'antd'
 
-import { RouteLink } from '@/constant'
+import { RouteLink } from '@/utils/constant'
 
 export default memo(function NotFound() {
     const history = useHistory()

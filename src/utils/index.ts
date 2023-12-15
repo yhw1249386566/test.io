@@ -1,20 +1,11 @@
+import { EnvValueType, JSType } from './utils.d'
+
 type DirData = {
     [fileName: string]: string | DirData
 }
 
-type JSType =
-    | 'string'
-    | 'number'
-    | 'boolean'
-    | 'null'
-    | 'undefined'
-    | 'bigInt'
-    | 'symbol'
-    | 'object'
-    | 'array'
-    | 'function'
-
 /** start --- 不需要导出 --- start */
+
 const saveLocalStorage = (
     data: { key: string; value: string },
     // config?,
@@ -60,6 +51,7 @@ const getSessionStorage = (key: string) => {
 
     return sessionStorage.getItem(key) ?? ''
 }
+
 /** end --- 不需要导出 --- end */
 
 export const storage = {
@@ -191,4 +183,32 @@ export const compressImg = (imgPath: string) => {
         // 图片压缩
         context?.drawImage(img, 0, 0, targetWidth, targetHeight)
     }
+}
+
+export const getEnvConvertTypeValue = <T extends JSType>(
+    value?: string,
+    options?: {
+        type?: T
+    },
+): EnvValueType<T> => {
+    if (!value) {
+        return null as EnvValueType<T>
+    }
+
+    const { type = 'string' } = options ?? {}
+
+    const typeMap: Record<JSType, (value: string) => any> = {
+        string: (value) => value,
+        number: (value) => Number(value),
+        boolean: (value) => value.toLowerCase() === 'true',
+        null: () => null,
+        undefined: () => undefined,
+        bigInt: (value) => BigInt(value),
+        symbol: (value) => Symbol(value),
+        object: (value) => JSON.parse(value),
+        array: (value) => JSON.parse(value),
+        function: (value) => eval(`(${value})`),
+    }
+
+    return typeMap[type](value)
 }

@@ -12,6 +12,7 @@ import {
 import IndexedDB from '~/packages/y-indexeddb'
 
 import style from './index.less'
+import { storage } from './utils'
 import Footer from './layouts/footer'
 import { Sidebar } from './component'
 import Header from './layouts/header'
@@ -44,6 +45,14 @@ const Index = (props: { children: React.ReactNode }) => {
 
         html.setAttribute('data-theme', theme)
     }, [theme])
+
+    useEffect(() => {
+        const localTheme = storage.getLocalStorage('data-theme') as Theme
+
+        if (localTheme) {
+            setTheme(localTheme)
+        }
+    }, [])
 
     return (
         <ThemeProvider theme={theme}>

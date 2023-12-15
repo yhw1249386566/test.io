@@ -8,7 +8,7 @@ import EventEmitter from '~/packages/y-eventmitter'
 
 import { storage } from '@/utils'
 import { Text, Direction } from '@/component'
-import { RouteName, RouteLink, EVENT_EMITTER_NAME } from '@/constant'
+import { RouteName, RouteLink, EVENT_EMITTER_NAME } from '@/utils/constant'
 
 import style from './index.less'
 import { useLocation } from 'umi'
@@ -41,6 +41,7 @@ const Header = (props: HeaderProps) => {
 
     const handleToggleTheme = useCallback((theme: Theme) => {
         return () => {
+            // 将在 @/index 设置主题
             storage.saveLocalStorage({
                 key: 'data-theme',
                 value: theme === 'light' ? 'dark' : 'light',
@@ -68,12 +69,6 @@ const Header = (props: HeaderProps) => {
     }, [])
 
     useEffect(() => {
-        const localTheme = storage.getLocalStorage('data-theme') as Theme
-
-        if (localTheme) {
-            onToggleTheme(localTheme)
-        }
-
         EventEmitter.singleInstance.on(
             EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY,
             ({ isShowX }) => {

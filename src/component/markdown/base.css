@@ -5,7 +5,7 @@
     h4,
     h5,
     h6 {
-        color: var(--color-fg-default);
+        color: var(--color-fg-default) !important;
     }
 }
 
@@ -17,7 +17,7 @@
         'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
     width: 100%;
     word-break: break-word;
-    background-color: var(--markdown-bg-color);
+    /* background-color: var(--markdown-bg-color); */
 }
 
 .markdown-navigation .title-anchor {
@@ -29,7 +29,7 @@
     line-height: 2em;
     padding-right: 1.8em;
     cursor: pointer;
-    color: var(--markdown-text-color) !important;
+    color: var(--global-primary-text-color) !important;
 }
 
 .markdown-navigation .title-anchor:hover {

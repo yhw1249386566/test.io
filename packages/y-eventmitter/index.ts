@@ -1,7 +1,5 @@
 import Eventemitter3 from 'eventemitter3'
 
-const EventemitterSymbol = Symbol()
-
 /**
  * Reference:
  * https://nodejs.org/api/events.html#events
@@ -11,6 +9,7 @@ const EventemitterSymbol = Symbol()
 class SingletonEventemitter extends Eventemitter3 {
     /* eslint-disable no-use-before-define */
     // 因为 singleInstance - this 的类型是 SingletonEventemitter, 所以要使用 this.singleEventEmitterInstance 就得规定个 static singleEventEmitterInstance
+    // 只是用在 static get singleInstance, 其他地方使用 this.xxx 用的下面这个。
     static singleEventEmitterInstance: Eventemitter3
     singleEventEmitterInstance: Eventemitter3 | null
     /* eslint-disable no-use-before-define */

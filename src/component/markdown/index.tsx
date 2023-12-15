@@ -42,7 +42,9 @@ const Markdown = (props: MarkdownProps) => {
                     // markdown-body 是导入 github-markdown-css
                     className={classnames('markdown-body', style.markdownBody)}
                     children={children as string}
+                    // 即使手动引入了 markdown.css 这两个也有用, 至少表格相关的样式需要。
                     remarkPlugins={[remarkGfm]}
+                    // 这个不会影响到表格样式，但可能会影响其他样式，所以保留
                     rehypePlugins={[rehypeRaw]}
                 />
             </div>
