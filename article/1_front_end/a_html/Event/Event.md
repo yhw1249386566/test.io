@@ -332,7 +332,7 @@ myElement.addEventListener('click', functionB);
 </script>
 ```
 
-![](picture/事件对象.png)
+![](picture\事件对象.png)
 
 很显然,以上图片的结果,就是当前事件对象.
 
@@ -368,7 +368,7 @@ eventObj.target: **始终指向当前直接触发事件的节点对象,也就是
 
 渲染结果为:
 
-![](picture/e.target1.png)
+![](picture\e.target1.png)
 
 当我们单击 p元素时,就会触发我们为p元素中注册的click事件,且会执行对应的事件处理函数,其中事件处理函数中,输出的结果为: \<p id="p">点击我</p>
 
@@ -376,11 +376,11 @@ eventObj.target: **始终指向当前直接触发事件的节点对象,也就是
 
 是因为我想让你们知道: 该结果是对p元素的引用(**只是对p元素引用,不包括父元素和子项**),而不是单纯的输出一个字符串p而已.
 
-![](picture/e.target2.png)
+![](picture\e.target2.png)
 
 现在如果您将鼠标指针移动到该输出结果上,你会发现在Web页面中,对应p元素的引用的 p元素将被选中:
 
-![](picture/e.target3.png)
+![](picture\e.target3.png)
 
 如果在事件冒泡和事件捕获中,使用事件对象的target属性将会更有用,***详见:事件冒泡和事件捕获***
 
@@ -543,19 +543,19 @@ eventObj.target: **始终指向当前直接触发事件的节点对象,也就是
 
 渲染结果为:
 
-![](picture/事件冒泡.png)
+![](picture\事件冒泡.png)
 
 不难看出,如果单击span元素,则按照默认的浏览器执行事件机制(冒泡)来说,触发单击事件的顺序为:
 
 span -> p -> div -> body -> html.
 
-​    ![](picture/事件冒泡-1.png)
+​    ![](picture\事件冒泡-1.png)
 
 如果单击div元素,则触发单击事件的顺序为:
 
 div -> body -> html
 
-![](picture/事件冒泡-2.png)
+![](picture\事件冒泡-2.png)
 
 ### 事件捕获
 
@@ -587,7 +587,7 @@ div -> body -> html
 
 p(开启事件捕获的元素) -> 实际触发事件的p元素的子项(这里只有span元素) -> div -> body -> html（再开始冒泡）
 
-![](picture/事件捕获-1.png)
+![](picture\事件捕获-1.png)
 
 ----
 
@@ -605,7 +605,7 @@ body -> span -> p -> div -> html.
 
 即:当执行完body和span(实际触发事件的元素)时,就开始正常的进行事件冒泡.
 
-![](picture/事件捕获-2.png)
+![](picture\事件捕获-2.png)
 
 ----
 
@@ -624,7 +624,7 @@ body -> span -> p -> div -> html.
 
 html（最外层开启事件捕获的祖先元素） -最外层第 2 个开启事件捕获的祖先元素-> p -> span（实际触发事件元素） -开始冒泡-> div -> body
 
-![](picture/事件捕获-3.png)
+![](picture\事件捕获-3.png)
 
 ## 事件冒泡和事件捕获的区别
 

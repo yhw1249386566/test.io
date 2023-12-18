@@ -20,7 +20,7 @@
     </table>
 ```
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture/不正确的嵌套html元素.png)
+![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture\不正确的嵌套html元素.png)
 
 # EasyElement
 
@@ -212,7 +212,7 @@ hr标签表示内容之间的主体转换,例如:一个故事中的场景的改�
     </section>
 ```
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture/hr.png)
+![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture\hr.png)
 
 显然的,我们使用了hr标签分割了一个章节中两段不同的内容,这就是hr标签的语义.
 
@@ -247,7 +247,7 @@ fieldset 元素通常用来对表单中的控制元素进行分组(也包括 lab
     </label>
 ```
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture/fieldset.png)
+![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture\fieldset.png)
 
 ### 属性
 
@@ -850,7 +850,7 @@ figure和figcaption都只包含全局属性(属于html的全局和非属于Html�
 </body>
 ```
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture/figureANDfigcaption.png)
+![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture\figureANDfigcaption.png)
 
 
 
@@ -920,11 +920,11 @@ select所关联的form表单 (即select元素所属的表单元素是哪").
     </select>
 ```
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture/select-multiple属性未设置时.png)
+![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture\select-multiple属性未设置时.png)
 
 ​											(未设置multiple属性时)
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture/select-multiple属性设置时.png)
+![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture\select-multiple属性设置时.png)
 
 ​											(设置了multiple属性)
 
@@ -960,13 +960,13 @@ select所关联的form表单 (即select元素所属的表单元素是哪").
     </select>
 ```
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture/select-size属性.png)
+![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture\select-size属性.png)
 
 这里的示例基于了 ***multiple属性*** 中的示例,我们设置size属性值为5,这代表着,当前指定的滚动列表框(select元素)同时可见的行数为5行.
 
 需要注意的是: 如果设置size的属性值大于其select元素中选项的个数,则仍然有效,即将size值改为6:
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture/select-size属性-大于选项个数.png)
+![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture\select-size属性-大于选项个数.png)
 
 很明显的,从图中我们可以看见红色椭圆的位置有个空白,这就是size属性值大于选项个数造成的结果.
 
@@ -1117,11 +1117,11 @@ value属性的值代表若该选项被选中,会提交给表单的值。
     </form>
 ```
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture/select-optgroup-option示例-google.png)
+![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture\select-optgroup-option示例-google.png)
 
 ​															**(google浏览器的样子)**
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture/select-optgroup-option示例-firefox.png)
+![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture\select-optgroup-option示例-firefox.png)
 
 ​															(Firefox浏览器的样子)
 
@@ -1171,7 +1171,7 @@ datalist元素在某些需要为用户提供输入建议时,是非常有用的�
     </datalist>
 ```
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture/datalist-chrome.png)
+![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture\datalist-chrome.png)
 
 通过该渲染结果,我们可以发现,输入框的下面那个框就是datalist元素,而里面选项的值就是option元素. 
 
@@ -1183,7 +1183,7 @@ datalist元素在某些需要为用户提供输入建议时,是非常有用的�
 
 如:在chrome中就会出现该三角形; 在Firefox中就不会出现该三角形.
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture/datalist-firefox.png)
+![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture\datalist-firefox.png)
 
 # 有关标记的元素,以下元素都只具有全局属性
 

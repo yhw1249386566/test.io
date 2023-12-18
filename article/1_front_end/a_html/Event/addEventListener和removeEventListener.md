@@ -241,7 +241,7 @@ someElement.addEventListener("mouseup", handleMouseUp, passiveSupported? { passi
 </script>
 ```
 
-![](picture/在某个事件处理程序中为DOM添加事件监听器.png)
+![](picture\在某个事件处理程序中为DOM添加事件监听器.png)
 
 当我们单击button按钮时,将会输出: button \<br/> div.
 
@@ -305,7 +305,7 @@ EventTarget.addEventListener('click', handler,{passive:true})
 
 当我们单击p元素时,this值将指向:window对象.
 
-![](picture/html事件属性若值为函数其内部this指向的问题.png)
+![](picture\html事件属性若值为函数其内部this指向的问题.png)
 
 ### [使用 option参数的可选项passive属性 改善滚屏性能](https://developers.google.com/web/updates/2016/06/passive-event-listeners)
 

@@ -82,7 +82,7 @@ summary元素支持 [`list-style`](https://developer.mozilla.org/zh-CN/docs/Web/
 
 但是根据浏览器的不同,其效果也不同,如chrome:设置list-style属性并没有任何用处; 而Firefox却可以.
 
-![](picture/summary-list-style-type.png)
+![](picture\summary-list-style-type.png)
 
 以上结果的css和html样式为:
 
@@ -107,9 +107,9 @@ summary {
 </details>
 ```
 
-![](picture/details summary.png)
+![](picture\details summary.png)
 
-![](picture/details summary-open.png)
+![](picture\details summary-open.png)
 
 ```html
     <details>
@@ -119,7 +119,7 @@ summary {
     </details>
 ```
 
-![](picture/detailsANDsummary.png)
+![](picture\detailsANDsummary.png)
 
 # samp kbd code var pre(都只有全局属性)
 
@@ -164,7 +164,7 @@ samp元素 只存在全局属性.
 </p>
 ```
 
-![](picture/samp.png)
+![](picture\samp.png)
 
 ## [kbd](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/kbd) 
 
@@ -206,7 +206,7 @@ kdb元素仅支持[全局属性](https://developer.mozilla.org/en-US/docs/HTML/G
 <p> 请按<kbd>ctrl + s</kbd>保存当前数据. </p>
 ```
 
-![](picture/kbd.png)
+![](picture\kbd.png)
 
 ## samp和kbd元素的示例
 
@@ -246,7 +246,7 @@ kdb元素仅支持[全局属性](https://developer.mozilla.org/en-US/docs/HTML/G
     </p>
 ```
 
-![](picture/samp处于kbd元素中.png)
+![](picture\samp处于kbd元素中.png)
 
 ### kbd元素处于另一个kbd元素中
 
@@ -262,7 +262,7 @@ kdb元素仅支持[全局属性](https://developer.mozilla.org/en-US/docs/HTML/G
     </p>
 ```
 
-![](picture/kbd.png)
+![](picture\kbd.png)
 
 ## code 
 
@@ -295,7 +295,7 @@ CSS 规则可以覆盖浏览器默认的 code 标签字体样式. 但用户设�
     </p>
 ```
 
-![](picture/code.png)
+![](picture\code.png)
 
 ## [var](https://www.w3school.com.cn/tags/tag_var.asp)
 
@@ -324,7 +324,7 @@ var元素只具有[全局属性](https://developer.mozilla.org/en-US/docs/Web/HT
     </p>
 ```
 
-![](picture/var.png)
+![](picture\var.png)
 
 ## [pre](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/pre)
 
@@ -352,7 +352,7 @@ pre元素只具有全局属性(曾经的属性以前全部弃用)
     </pre>
 ```
 
-![](picture/pre.png)
+![](picture\pre.png)
 
 ### 可访问性 &lt fsf &gt
 
@@ -383,7 +383,7 @@ pre元素只具有全局属性(曾经的属性以前全部弃用)
     </figure>
 ```
 
-![](picture/pre的可访问性.png)
+![](picture\pre的可访问性.png)
 
 我们使用了ARIA中的role全局属性以及aria-labelledby全局属性,描述了figure元素的作用,
 
@@ -475,7 +475,7 @@ cite 属性的值指向一个文档的 URL或相对/绝对路径,该文档解释
 </ins>
 ```
 
-![](picture/ins del.png)
+![](picture\ins del.png)
 
 通过以上渲染结果,可以发现: 设置cite和datetime属性并不会让ins和del元素中的文本内容变成超链接什么的,只是让浏览器或开发者知道这些信息罢了,用户并不清楚.
 
@@ -600,7 +600,7 @@ cite元素只存在全局属性,由于它是cite元素,当然不会存在cite属
     </section>
 ```
 
-![](picture/q blockquote cite.png)
+![](picture\q blockquote cite.png)
 
 需要注意的是,在我使用这个示例时,p元素无法包含blockquote元素,即使在源码中将blockquote元素写入p元素中,但是html中仍然是将它们两个分离,单独渲染.
 
@@ -730,7 +730,7 @@ meter元素当前的数值.
            low="200" high="400" value="200"></meter>
 ```
 
-![](picture/progress meter.png)
+![](picture\progress meter.png)
 
 通过以上结果表明,如果meter元素的value值落在(min,low)和(high,max)开区间之间,则会产生低/高值视觉效果.
 
@@ -826,7 +826,7 @@ name属性,即output元素的标识符之一,和ID属性类似.
        form="form"> +
 ```
 
-![](picture/output.png)
+![](picture\output.png)
 
 oninput: 一个[`EventHandler`](https://developer.mozilla.org/zh-CN/docs/Web/API/EventHandler)事件,即当用户尝试向指定的元素(form)输入时执行该事件.
 
@@ -872,7 +872,7 @@ div dir=rtl123,456展示123,456而不是456,123，当不拆成的两行时候。
 
 2020-9-14：只需要将浏览器宽度缩小即可显示多行，但是如果去掉 \<wbr>，就只会显示一行:
 
-![](picture/wbr.png)
+![](picture\wbr.png)
 
 
 
@@ -1073,7 +1073,7 @@ PS: 这种情况是很少见的,也就是说一个table元素中,只能具有cap
     </table>
 ```
 
-![](picture/table-caption.png)
+![](picture\table-caption.png)
 
 显然的,caption元素会在默认情况下,居中于表格的中间且处于表格之外.
 
@@ -1209,7 +1209,7 @@ thead,tbody,tfoot元素必须按顺序存在于table元素中,即使在源码中
     </table>
 ```
 
-![](picture/tbody-表头,体,角.png)
+![](picture\tbody-表头,体,角.png)
 
 请注意: 上面的示例中,我未按正确的顺序去书写thead,tbody,tfoot元素,但是浏览器仍然正确的渲染,即使在浏览器的源码(控制台中)中,也仍然是我写的这个顺序,
 
@@ -1411,11 +1411,11 @@ rtc元素可以说是注解的注解,因为它会显示在rt元素注解的上�
     </span>
 ```
 
-![](picture/ruby-chrome.png)
+![](picture\ruby-chrome.png)
 
 ​																(chrome)
 
-![](picture/ruby-firefox.png)
+![](picture\ruby-firefox.png)
 
 ​																(Firefox)
 
@@ -1436,7 +1436,7 @@ rtc元素可以说是注解的注解,因为它会显示在rt元素注解的上�
 
 如果某个浏览器不支持ruby元素,可能会展现以下的效果:
 
-![](picture/ruby-nosupport.png)
+![](picture\ruby-nosupport.png)
 
 # 列表元素(ol ul li)
 
@@ -1483,7 +1483,7 @@ ol元素表示多个有序列表项，通常渲染为有带编号的列表。
     </ol>
 ```
 
-![](picture/ol-reversed.png)
+![](picture\ol-reversed.png)
 
 #### type
 
@@ -1519,7 +1519,7 @@ ol元素表示多个有序列表项，通常渲染为有带编号的列表。
     </ol>
 ```
 
-![](picture/ol-example.png)
+![](picture\ol-example.png)
 
 ## ul
 
@@ -1557,7 +1557,7 @@ ul元素全称为: unordered list,无序列表,表示一个内可含多个元素
 </ul>
 ```
 
-![](picture/ul-example.png)
+![](picture\ul-example.png)
 
 ## li
 
@@ -1595,7 +1595,7 @@ li元素用于表示列表里的条目,它必须包含在一个父元素里：�
 </ul>
 ```
 
-![](picture/ol-ul-mixin.png)
+![](picture\ol-ul-mixin.png)
 
 ## 相关知识
 
@@ -1761,9 +1761,9 @@ img元素除了具有全局属性之外,还有以下元素:
 
 渲染结果如图所示*(这里使用了浏览器自带的手机模拟)*:
 
-![](picture/picture-media-374.png)
+![](picture\picture-media-374.png)
 
-![](picture/picture-media-375.png)
+![](picture\picture-media-375.png)
 
 # 至今(2020-5-3)不被兼容的元素
 

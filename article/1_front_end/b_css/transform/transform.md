@@ -84,9 +84,9 @@
   
   参见以下例子,上面的是a元素,下面的是b元素,b元素并不会因为a元素缩小而移动位置.
   
-  ![](picture/元素变形前后所在页面空间不变2.png)
+  ![](picture\元素变形前后所在页面空间不变2.png)
   
-  ![](picture/元素变形前后所在页面空间不变.png)
+  ![](picture\元素变形前后所在页面空间不变.png)
 
 - **变形元素都是相对于自身坐标系进行变形的**,而不是父元素或者页面或者视区等坐标系.
   
@@ -261,7 +261,7 @@ rotate3d()是3d旋转,在进行判断用x,y,z轴的分量判断向量位置时,�
 
 用个例子更好说明.
 
-![](picture/使用rotate3d前.png)
+![](picture\使用rotate3d前.png)
 
 使用=>transform: perspective(600px) rotate3d(1, -2, 1, 45deg);  
 
@@ -269,11 +269,11 @@ rotate3d()是3d旋转,在进行判断用x,y,z轴的分量判断向量位置时,�
 
 最后得到该结果:
 
-![](picture/使用rotate3d后.png)
+![](picture\使用rotate3d后.png)
 
 首先让我们来看看(1,-2)的坐标,就是那个黑点,而由于z轴不好在平面上体现,所以现在请你们想象一下,将黑点向前拉近1(向观察者),然后将原点链接拉近后的黑点,就形成了以下图片上的射线.
 
-![](picture/使用rotate3d的坐标.png)
+![](picture\使用rotate3d的坐标.png)
 
 现在射线是朝向watcher倾斜的,右半部分将会靠近watcher,左半部分将会远离watcher,就和上面那张旋转结果一样.
 
@@ -401,7 +401,7 @@ skew(a,b)通过矩阵元素[ax,ay]实施2d倾斜,而后者只是沿着x,y轴倾�
   
   如:transform-origin: left top; transform: rotate(360deg); 即使原点在左上角顶点,然后绕着z轴旋转一周得出的效果为:
   
-  ![](picture/transfor-orgin以范围框为基础计算位置.gif)
+  ![](picture\transfor-orgin以范围框为基础计算位置.gif)
 
 - transfor-origin改变原点除了对旋转有影响以外,还对倾斜和缩放也有影响,如:原点在中心,缩放时,每一遍缩放的量相等,即沿中心缩放;如果原点在左上角,则元素将向那一角缩放;
   
@@ -444,11 +444,11 @@ skew(a,b)通过矩阵元素[ax,ay]实施2d倾斜,而后者只是沿着x,y轴倾�
   
   首先先来看看,如果**不存在**该示例中的 `transform-style:preserve-3d!important;` 的到的渲染结果:
   
-  ![](picture/没设置transform-style时.gif)
+  ![](picture\没设置transform-style时.gif)
   
   **如果设置了transform-style:perserve-3d**; 则p子元素将会被绘制成一个3d对象,跃出父元素的平面,以下是渲染效果 P854:
   
-  ![](picture/设置transform-style时.gif)
+  ![](picture\设置transform-style时.gif)
 
 - 值得注意的是: **有些属性会覆盖transform-style设定的变形方式**,从而导致父元素的子项将不是一个3d对象了,其中**原因是因为**:那些属性的某些之要求**元素及其子元素必须以扁平的方式呈现才起作用**.P854/
 
@@ -470,7 +470,7 @@ skew(a,b)通过矩阵元素[ax,ay]实施2d倾斜,而后者只是沿着x,y轴倾�
   
   如果**只将以上的transform-style的示例中的 #father{ perspective: 600px;} 该属性删除,**则效果为:
   
-  ![](picture/transform-style和perspective属性和函数的区别.gif)
+  ![](picture\transform-style和perspective属性和函数的区别.gif)
 
 - 除了修改视域的函数和属性与transform-style有区别之外,perspective()和perspective属性之间也有区别.P855
 
@@ -492,11 +492,11 @@ skew(a,b)通过矩阵元素[ax,ay]实施2d倾斜,而后者只是沿着x,y轴倾�
   
   以下是元素具有深度,但不是一个3d对象,即没有使用transform-style:perserve-3d;
   
-  ![](picture/具有深度但却不是3d对象的元素.gif)
+  ![](picture\具有深度但却不是3d对象的元素.gif)
   
   现在我们使用transform-style:perserve-3d;看看其效果:
   
-  ![](picture/元素具有深度且是一个3d对象.gif)
+  ![](picture\元素具有深度且是一个3d对象.gif)
   
   **通过以上的渲染结果,我们很容易就能明白,一个元素若只具有深度,但却不是一个3d对象,则它的变形效果仍然是扁平的,而不是立体的.**
   
@@ -520,7 +520,7 @@ skew(a,b)通过矩阵元素[ax,ay]实施2d倾斜,而后者只是沿着x,y轴倾�
 
 范围框就是边框的外界,即在一个盒模型中,除了元素的外边距和轮廓之外的边界.
 
-![](picture/范围框.png)
+![](picture\范围框.png)
 
 即粉色线条就是范围框了,而它包裹的趋于,称之为范围区域,很明显的:**范围框就是一个元素边框的最外面那个线组成的框.**
 
@@ -601,7 +601,7 @@ backface-visibility属性作用非常简单,只是决定当元素的背面朝向
 </section>
 ```
 
-![](picture/backface-visibility的使用.gif)
+![](picture\backface-visibility的使用.gif)
 
 ## 注意点
 

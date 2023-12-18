@@ -183,7 +183,7 @@ sayHello.show('yhw');
 因为我们需要在CLI使用node,让node执行该文件: `node 路径/require.js` ,
 这样我们就能得到执行结果: `你好:yhw`
 
-![](picture/node命令执行结果.png)
+![](picture\node命令执行结果.png)
 
 ## exports
 
