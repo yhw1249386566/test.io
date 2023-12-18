@@ -213,7 +213,7 @@ typeof map; // object
 
 以上的示例,其结果为:
 
-![](picture/new Map([]).png)
+![](picture\new Map([]).png)
 
 ​	即输出:{"我是键" => "我是值", 1 => 2, {Name:Yomua} => {Love:"Yhw"} }
 

@@ -14,11 +14,101 @@ Author: Yomua
 
 -   `yarn build` 生成编译后结果。
 
-# md
+# 目录结构
 
-用 react-markdown 解析
+## public
 
-使用 markdown-navbar 做导航栏
+### .nojekyll
+
+此文件用来告诉 github 此网站不是用 jekyll 创建，不要用 jekyll 来渲染 markdown 文件内容。
+
+github pages [默认使用 jekyll](https://docs.github.com/zh/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll) 来渲染 markdown 内容。
+
+如果不这么做，我们这里 public/article 下的所有 markdown 文件，
+
+如果出现了不能被 jekyll 解析的内容（如：`{{}}`），github action 就会部署失败。
+
+为什么要放在 public/ 里面，因为 github action 会使用最终我们的打包后的结果。
+
+### Config
+
+目录: /config
+
+由于目前还没有将 umi config 迁移到 webpack, 所以以下说的都是 umi 配置。
+
+plugin
+
+-   `[dotenv](https://www.npmjs.com/package/dotenv)`
+
+    添加此插件，用来在打包时注入 /.env 数据到 process.env 中。
+
+loader
+
+-   `html-loader`
+
+-   `markdown-loader`
+
+    用来解析 .md 文件，提供给 react-markdown 使用。
+
+# Module
+
+对于 npm 的包来说，其实有些包不需要下载，可以自己写在 npm 仓库中，比如：
+
+-   yscrew
+
+-   yenchant
+
+注意: 目前此仓库中的 /packages 可以完全使用自己的 [npm 仓库](https://www.npmjs.com/settings/yomua/packages)代替。
+
+## Module 说明
+
+**production**
+
+-   `umi`
+
+    脚手架, 后面会使用 webpack 或 vite 替换
+
+-   `mobx`, `mobx-react`
+
+    目前只用于 page - Todo
+
+-   `react-markdown`, `rehype-raw`, `remark-gfm`, `markdown-navbar`, `github-markdown-css`
+
+    目前只用于 markdown
+
+-   `openai`
+
+    目前只用于 page - Gpt
+
+-   `three`
+
+    目前没用, 曾经使用于 page - Three
+
+-   `react-custom-scrollbars-2`
+
+    用于美化 scrollbar 样式
+
+-   `eventemitter3`
+
+    用于分发订阅事件
+
+-   `@ant-design/pro-layout`
+
+    用于加载 ant-design 相关组件; 如: `import { Card } from 'antd'`
+
+    为什么不使用 `antd` 此包？ 当然可以，不过都一样，我懒得换，后面可能会换。
+
+    TIP: `antd` 的版本号为: "4.24.15", 可以从导入的 `antd` 包点进去查看。
+
+-   `@fortawesome/react-fontawesome`
+
+    用于加载 FontAwesome
+
+**dev**
+
+-   `dotenv`
+
+    目前生产不需要它, 我们只需要在打包前、打包时将 .env 文件注入到 process.env 中即可。
 
 # 命名
 
@@ -84,6 +174,56 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 
     例如：--global-primary-background-color
 
+# 流程
+
+## 开发流程
+
+1.  切换到 dev 分支，pull release
+
+2.  基于 dev 分支拉出新分支，然后进行修改，最后直接 push 到 dev.
+
+    或： push 当前分支，并手动使当前分支 PR 到 dev.
+
+3.  PR 合并后，使 dev PR 到 release
+
+4.  合并 PR，将自动开始执行 <a href='#Build & Deploy'>Build & Deploy</a>.
+
+## PR 合并流程
+
+-   基于 dev 分支拉出新分支，然后进行修改，最后直接 push 到 dev.
+
+-   dev 有更新后，PR 到 release.
+
+## Build & Deploy
+
+项目设置了 github action, 且 gitee 上设置了仓库镜像
+
+TIP: 这个功能会让 gitee 帮忙 push 到 github yomua 仓库。
+
+我们只需要在 gitee 上做以下操作，即可自动将更新推送到 Github Pages，
+
+1. 将 feature 分支合并到 dev
+
+2. 将 dev 合并到 release
+
+若此若做，我们就成功将项目部署到 whyhw.com 上，经过的步骤有：
+
+1.  Gitee yomua 仓库将会同步到 Github yomua 仓库，
+
+2.  release 有更新时，将会自动触发工作流（.github/workflows/build.yml）
+
+    因为 Github yomua 仓库中设置了 <a href='https://docs.github.com/en/actions/using-workflows/about-workflows'>workflow</a>（即：<a href='https://docs.github.com/en/actions/quickstart'>github action</a>）
+
+        workflow 触发将自动将项目打包编译到 github gh-pages 分支，
+
+    -   NOTICE: github action 的意思涵盖 github workflow
+
+3.  Github Pages 将会使用 gh-pages 作为基分支，将它部署到线上，
+
+    最后我们使用 Custom Domain，让 www.whyhw.com 作为代理，
+
+    这样访问 whyhw.com 时，将能看到部署成功的项目。
+
 # 如何为项目封装一个组件
 
 1. 在 component 文件夹中创建组件名
@@ -136,104 +276,6 @@ Reference: src/pages/feature - dynamicFeature.tsx
 
     所以可能需要考虑一个 GPT 的一个 URL 作为 API，使用 fetch - Response 完成流式传输。
 
-# 流程
-
-## 开发流程
-
-1.  切换到 dev 分支，pull release
-
-2.  基于 dev 分支拉出新分支，然后进行修改，最后直接 push 到 dev.
-
-    或： push 当前分支，并手动使当前分支 PR 到 dev.
-
-3.  PR 合并后，使 dev PR 到 release
-
-4.  合并 PR，将自动开始执行 <a href='#Build & Deploy'>Build & Deploy</a>.
-
-## PR 合并流程
-
--   基于 dev 分支拉出新分支，然后进行修改，最后直接 push 到 dev.
-
--   dev 有更新后，PR 到 release.
-
-## Build & Deploy
-
-项目设置了 github action, 且 gitee 上设置了仓库镜像
-
-TIP: 这个功能会让 gitee 帮忙 push 到 github yomua 仓库。
-
-我们只需要在 gitee 上做以下操作，即可自动将更新推送到 Github Pages，
-
-1. 将 feature 分支合并到 dev
-
-2. 将 dev 合并到 release
-
-若此若做，我们就成功将项目部署到 whyhw.com 上，经过的步骤有：
-
-1.  Gitee yomua 仓库将会同步到 Github yomua 仓库，
-
-2.  release 有更新时，将会自动触发工作流（.github/workflows/build.yml）
-
-    因为 Github yomua 仓库中设置了 <a href='https://docs.github.com/en/actions/using-workflows/about-workflows'>workflow</a>（即：<a href='https://docs.github.com/en/actions/quickstart'>github action</a>）
-
-        workflow 触发将自动将项目打包编译到 github gh-pages 分支，
-
-    -   NOTICE: github action 的意思涵盖 github workflow
-
-3.  Github Pages 将会使用 gh-pages 作为基分支，将它部署到线上，
-
-    最后我们使用 Custom Domain，让 www.whyhw.com 作为代理，
-
-    这样访问 whyhw.com 时，将能看到部署成功的项目。
-
-# Module
-
-对于 npm 的包来说，其实有些包不需要下载，可以自己写在 npm 仓库中，比如：
-
--   yscrew
-
--   yenchant
-
-注意: 目前此仓库中的 /packages 可以完全使用自己的 [npm 仓库](https://www.npmjs.com/settings/yomua/packages)代替。
-
-# 目录结构
-
-## public
-
-### .nojekyll
-
-此文件用来告诉 github 此网站不是用 jekyll 创建，不要用 jekyll 来渲染 markdown 文件内容。
-
-github pages [默认使用 jekyll](https://docs.github.com/zh/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll) 来渲染 markdown 内容。
-
-如果不这么做，我们这里 public/article 下的所有 markdown 文件，
-
-如果出现了不能被 jekyll 解析的内容（如：`{{}}`），github action 就会部署失败。
-
-为什么要放在 public/ 里面，因为 github action 会使用最终我们的打包后的结果。
-
-# Config
-
-目录: /config
-
-由于目前还没有将 umi config 迁移到 webpack, 所以以下说的都是 umi 配置。
-
-plugin
-
--   `[dotenv-webpack](https://www.npmjs.com/package/dotenv-webpack)`
-
-    添加了此插件，用来导入 /.env 数据到 process.env 中。
-
-    TIP: process.env 不会显示 .env 的数据, [必须要明确指定](https://www.npmjs.com/package/dotenv-webpack#description), 如: process.env.name
-
-loader
-
--   `html-loader`
-
--   `markdown-loader`
-
-    用来解析 .md 文件，提供给 react-markdown 使用。
-
 # TODO
 
 -   将 umi 框架从项目移除，更改为手动搭建项目流程（基于 webpack）
@@ -268,16 +310,10 @@ loader
 
     或其他框架: [Single-spa](https://github.com/single-spa/single-spa), [Garfish](https://www.garfishjs.org/) 等。
 
--   article 左边的所有目录可以保存用户最后一次所选的位置，可使用 local storage.
+-   对于 .env 文件，后面可以使用命令加参数的方式去识别是 dev 或 prod, 从而加载不同的 .env 文件。
 
--   使用 dotenv-webpack 将 env 注入到了 process.env 中，
+    如: yarn start-dev --mode dev --env file=dev.env (可以写到 package.json)
 
-    但是由于 dotenv-webpack 自设置了只有显示使用值才能获取到环境变量值的缘故，
-    
-    所以后期可能需要考虑将 umi 改成 webpack 后，使用 dotenv 手动注入避免这个问题。
+    TIP: .env 通常放的是不同环境带来的值，而不是常量，
 
-    如: process.env.SCROLL_SPEED 能得到值, 但是 const envName = 'SCROLL_SPEED', process.env[SCROLL_SPEED] 则不行。
-
-    TIP: .env 这种环境变量通常放的是不同环境带来的之，而不是常量，
-    
     比如: SCROLL_SPEED 是不能放入环境变量中的。我这里只是先放在 .env, 后期会修改。

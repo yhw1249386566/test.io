@@ -1,10 +1,11 @@
 import { EnvValueType, JSType } from './utils.d'
+import { CONVERT_TYPE_MAP } from './constant'
+
+/** start --- 不需要导出 --- start */
 
 type DirData = {
     [fileName: string]: string | DirData
 }
-
-/** start --- 不需要导出 --- start */
 
 const saveLocalStorage = (
     data: { key: string; value: string },
@@ -20,13 +21,20 @@ const saveLocalStorage = (
     localStorage.setItem(key, value)
 }
 
-const getLocalStorage = (key: string) => {
+const getLocalStorage = <ReturnType extends JSType = 'string'>(
+    key: string,
+    options?: { returnType?: ReturnType },
+): EnvValueType<ReturnType> => {
     if (!key) {
         console.error('getLocalStorage: key 不存在')
-        return ''
+        return '' as EnvValueType<ReturnType>
     }
 
-    return localStorage.getItem(key) ?? ''
+    const { returnType = 'string' } = options ?? {}
+
+    const converter = CONVERT_TYPE_MAP[returnType]
+
+    return converter(localStorage.getItem(key) ?? '')
 }
 
 const saveSessionStorage = (
@@ -185,30 +193,22 @@ export const compressImg = (imgPath: string) => {
     }
 }
 
-export const getEnvConvertTypeValue = <T extends JSType>(
-    value?: string,
-    options?: {
-        type?: T
-    },
-): EnvValueType<T> => {
-    if (!value) {
-        return null as EnvValueType<T>
+/**
+ * 延迟执行代码以确保最小延迟时间的函数。
+ *
+ * @param {number} startTime - 函数执行的开始时间（以毫秒为单位）。
+ * @param {number} endTime - 函数执行的结束时间（以毫秒为单位）。
+ * @param {number} minDelayTime - 最小延迟时间（以毫秒为单位）。
+ * @return {Promise<void>}
+ */
+export async function minDelayTime(
+    startTime = Date.now(),
+    endTime = Date.now(),
+    minDelayTime = 500,
+) {
+    if (endTime - startTime < minDelayTime) {
+        await delay(minDelayTime - (endTime - startTime))
     }
 
-    const { type = 'string' } = options ?? {}
-
-    const typeMap: Record<JSType, (value: string) => any> = {
-        string: (value) => value,
-        number: (value) => Number(value),
-        boolean: (value) => value.toLowerCase() === 'true',
-        null: () => null,
-        undefined: () => undefined,
-        bigInt: (value) => BigInt(value),
-        symbol: (value) => Symbol(value),
-        object: (value) => JSON.parse(value),
-        array: (value) => JSON.parse(value),
-        function: (value) => eval(`(${value})`),
-    }
-
-    return typeMap[type](value)
+    return
 }

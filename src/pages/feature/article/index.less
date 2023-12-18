@@ -1,10 +1,12 @@
 .article-light {
     --article-border-color: #00000033;
     --article-tree-hover-color: #f5f5f5;
+    --article-tree-selected-hover-color: #1a04ff;
 }
 .article-dark {
     --article-border-color: #30363d;
     --article-tree-hover-color: #f5f5f545;
+    --article-tree-selected-hover-color: #f5f5f545;
 }
 
 @media screen and (max-width: @showOnlyArticleMaxWidth) {
@@ -42,6 +44,10 @@
 
 .ant-tree.ant-tree-directory .ant-tree-treenode:hover::before {
     background-color: var(--article-tree-hover-color);
+}
+
+.ant-tree.ant-tree-directory .ant-tree-treenode-selected:hover::before {
+    background-color: var(--article-tree-selected-hover-color);
 }
 
 .directoryTreeBox {

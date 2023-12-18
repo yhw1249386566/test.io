@@ -10,11 +10,11 @@ MVC是软件工程中一种软件架构模式,它是一种理念,而不是一种
 
 ### 图表
 
-![](picture/ModelViewControllerDiagram.png)
+![](picture\ModelViewControllerDiagram.png)
 
-![](picture/Baidu-MVCabstract.png)
+![](picture\Baidu-MVCabstract.png)
 
-![](picture/Baidu-MVCconcreteness.png)
+![](picture\Baidu-MVCconcreteness.png)
 
 PS: 是控制器通知视图,将不同的结果呈现给用户的.
 

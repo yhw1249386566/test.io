@@ -24,7 +24,8 @@
         font-size: 26px;
     }
 
-    .header .themeIcon {
+    .header .themeIcon,
+    .header .bars {
         width: 26px;
         height: 26px;
     }
@@ -40,12 +41,15 @@
     height: 62px;
 }
 
+.headerInfo {
+    height: 100%;
+    padding: 0 16px 0 16px;
+}
+
 .bars {
     cursor: pointer;
     font-size: 30px;
-    color: var(--layouts-header-theme-icon-color);
-    width: 22px;
-    height: 26px;
+    border-radius: 50%;
 }
 
 .hideBars {
@@ -53,11 +57,7 @@
     pointer-events: none;
 }
 
-.headerInfo {
-    height: 100%;
-    padding: 0 16px 0 16px;
-}
-
+.bars,
 .back,
 .themeIcon {
     cursor: pointer;

@@ -9,9 +9,9 @@ import { useTheme } from '@/hooks'
 import { Markdown } from '@/component'
 import request from '@/utils/request'
 import articleDir from '@/article_dir.js'
-import { EVENT_EMITTER_NAME } from '@/utils/constant'
+import { EVENT_EMITTER_NAME, LOCAL_STORAGE_NAME } from '@/utils/constant'
 import { DEFAULT_EXPANDED_KEYS } from '@/pages/constant'
-import { delay, createFileTree, storage } from '@/utils'
+import { createFileTree, storage, minDelayTime } from '@/utils'
 
 import style from './index.less'
 import './index.less' // 如果需要使用 'article-markdown'(不用 style.xxx)，就需要这样导入
@@ -21,6 +21,8 @@ const { DirectoryTree } = Tree
 function Article() {
     const theme = useTheme()
 
+    const [articleLoading, setArticleLoading] = useState(false)
+
     const [markdownData, setMarkdownData] = useState('')
 
     const [prevSelectedFilePath, setPrevSelectedFilePath] = useState('')
@@ -28,15 +30,27 @@ function Article() {
     const [isOpenDirectoryOnlyArticle, setIsOpenDirectoryOnlyArticle] =
         useState(false)
 
+    const [expandedKeys, setExpandedKeys] = useState(DEFAULT_EXPANDED_KEYS)
+
+    const [selectedKey, setSelectedKey] = useState('')
+
     const fileTree = useMemo(() => createFileTree(articleDir), [articleDir])
 
     const isHaveSkeleton = useMemo(
-        () => storage.getLocalStorage('activeFilePath') && !markdownData, // 有 path 但没有 markdownData, 说明正在获取数据
-        [markdownData],
+        () =>
+            (storage.getLocalStorage(LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH) &&
+                !markdownData) ||
+            articleLoading, // 有 path 但没有 markdownData, 说明正在获取数据, 或 loading 为 true
+        [markdownData, articleLoading],
+    )
+
+    const isShowMarkdown = useMemo(
+        () => markdownData && !articleLoading, // 有 markdown 且 loading 为 false
+        [markdownData, articleLoading],
     )
 
     const get404Md = useCallback(async () => {
-        request('/article/404.md').then((res) => {
+        return request('/article/404.md').then((res) => {
             const { data, success } = res
 
             if (!success || !data) {
@@ -55,6 +69,7 @@ function Article() {
         })
     }, [])
 
+    // 点击文件夹或者文件名会触发 onSelect 和 onExpand
     const handleTreeSelect = useCallback(
         async (
             path: string[],
@@ -62,8 +77,14 @@ function Article() {
         ) => {
             const activePath = path?.[0] ?? ''
 
-            // 点击文件夹或者文件名都会触发 onSelect 和 onExpand，它们一起触发的
-            // 所以当点击文件夹时，onSelect 也会触发，导致动态导入文件出错。
+            if (activePath.includes('.md')) {
+                storage.saveLocalStorage({
+                    key: LOCAL_STORAGE_NAME.SELECTED_ARTICLE_KEY,
+                    value: activePath,
+                })
+                setSelectedKey(activePath)
+            }
+
             if (
                 !activePath ||
                 info?.node?.type !== 'file' ||
@@ -73,8 +94,10 @@ function Article() {
             }
 
             setPrevSelectedFilePath(activePath)
+
+            // 刷新页面时, 保留最后一次点击的文件路径
             storage.saveLocalStorage({
-                key: 'activeFilePath',
+                key: LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH,
                 value: activePath,
             })
 
@@ -82,48 +105,65 @@ function Article() {
                 ?.split('article')[1]
                 ?.replaceAll('\\', '/') // 最后得到例如: '/css/缓存.md', fetch 不需要担心 import() 的情况，即: 必须包含一些路径信息。
 
+            // 仅显示文章, 且此时打开了所有文章目录时
+            // 当选中某个目录时，将 X（打 X 按钮）切换到 bars, 并切换到文章.
+            if (isOpenDirectoryOnlyArticle) {
+                EventEmitter.singleInstance.emit(
+                    EVENT_EMITTER_NAME.SHOW_HEADER_X,
+                    false,
+                )
+
+                EventEmitter.singleInstance.emit(
+                    EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY,
+                )
+            }
+
+            setArticleLoading(true)
+            const startTime = Date.now()
+
             // 通过 fetch 获取根目录下的 article.
             // 不通过 import(): import() 会造成按需加载时，将每一个动态导入的 .md 文件视为一个路由，从而在 build 后多一个拆分的 js 文件
-            request(`/article${importFilePath}`).then((res) => {
+            request(`/article${importFilePath}`).then(async (res) => {
+                const endTime = Date.now()
+
+                // 防止因为获取数据太快导致 loading 一闪而快, 所以加一个最小延迟 500 ms.
+                await minDelayTime(startTime, endTime)
+
                 const { data, success } = res
 
                 if (!success || !data) {
-                    get404Md()
-                    if (isOpenDirectoryOnlyArticle) {
-                        EventEmitter.singleInstance.emit(
-                            EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY,
-                            {
-                                isShowX: false,
-                            },
-                        )
-                    }
+                    await get404Md()
+                    setArticleLoading(false)
                     return
                 }
 
+                // 将 setArticleLoading(false) 放到 setMarkdownData 后面 -> 先设置数据，再取消 loading;
+                // 否则, 就会看见数据还未 set， 但是 loading 已经取消了, 最后数据再被设置, 从而造成画面闪烁.
                 setMarkdownData(data)
+                setArticleLoading(false)
 
-                // 保留最后一次点击的文件数据
+                // 保留最后一次点击的文件数据（通过 localStorage 中存储的 activePath, 可以获取此数据）
                 IndexedDB.singleInstance.clearDataFromStore()
                 IndexedDB.singleInstance.updateDataFromStore(activePath, data)
-
-                // 仅显示文章时，若打开了所有文章目录，选中一个文章时，会直接切换到文章。
-                // why 使用 emit: Header 也监听了此事件, 当点击所有文章目录时，将 X（打 X 按钮）切换到 bars
-                if (isOpenDirectoryOnlyArticle) {
-                    EventEmitter.singleInstance.emit(
-                        EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY,
-                        {
-                            isShowX: false,
-                        },
-                    )
-                }
             })
         },
         [prevSelectedFilePath, isOpenDirectoryOnlyArticle],
     )
 
+    const handleTreeExpand = useCallback((expandKeys: string[]) => {
+        storage.saveLocalStorage({
+            key: LOCAL_STORAGE_NAME.ARTICLE_TREE_EXPANDED_KEYS,
+            value: JSON.stringify(expandKeys),
+        })
+
+        setExpandedKeys(expandKeys)
+    }, [])
+
     // 刷新/切换路由，然后再点进来时，加载最后一次点击的目录的文件数据
     useEffect(() => {
-        const filepath = storage.getLocalStorage('activeFilePath')
+        const filepath = storage.getLocalStorage(
+            LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH,
+        )
 
         if (!filepath) {
             get404Md()
@@ -142,9 +182,7 @@ function Article() {
 
                 // 由于拿 IndexedDB 数据需要时间，但是时间又太短（几十毫秒）
                 // 所以为了给用户良好的体验（不要一闪而过），给 loading 加至少总共要延迟 500ms
-                if (endTime - startTime < 500) {
-                    await delay(500 - (endTime - startTime))
-                }
+                await minDelayTime(startTime, endTime)
 
                 if (!result) {
                     get404Md()
@@ -158,6 +196,29 @@ function Article() {
         getArticleDataFromStore()
     }, [])
 
+    // 从 localStorage, 加载用户自定义展开的所有文章目录结构（若有, 否则使用默认目录 - 初始化已经做了）;
+    // 高亮显示最后一次用户选中的文章（若有）
+    useEffect(() => {
+        const localExpandedKeys = storage.getLocalStorage(
+            LOCAL_STORAGE_NAME.ARTICLE_TREE_EXPANDED_KEYS,
+            {
+                returnType: 'array',
+            },
+        )
+
+        const localSelectedArticleKey = storage.getLocalStorage(
+            LOCAL_STORAGE_NAME.SELECTED_ARTICLE_KEY,
+        )
+
+        if (localSelectedArticleKey) {
+            setSelectedKey(localSelectedArticleKey)
+        }
+
+        if (localExpandedKeys) {
+            setExpandedKeys(localExpandedKeys)
+        }
+    }, [])
+
     // 监听 Header - 打开菜单按钮点击事件
     useEffect(() => {
         EventEmitter.singleInstance.on(
@@ -167,14 +228,11 @@ function Article() {
             },
         )
 
-        // 这里不需要移除此事件，将在 Header 中移除
-        // 因为对于 EventEmitter3 来说，移除一个事件，相当于移除监听它的所有事件处理器
-        // 所以，只需要在 Header 中移除就好，否则这里移除了，Header 中监听此事件的事件处理器将失效。
-        // return () => {
-        //     EventEmitter.singleInstance.off(
-        //         EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY,
-        //     )
-        // }
+        return () => {
+            EventEmitter.singleInstance.off(
+                EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY,
+            )
+        }
     }, [isOpenDirectoryOnlyArticle])
 
     return (
@@ -189,8 +247,10 @@ function Article() {
                 <DirectoryTree
                     className={style.directoryTree}
                     treeData={fileTree as any[]}
+                    expandedKeys={expandedKeys}
+                    onExpand={handleTreeExpand as any}
+                    selectedKeys={[selectedKey]}
                     onSelect={handleTreeSelect as any}
-                    defaultExpandedKeys={DEFAULT_EXPANDED_KEYS}
                 />
             </div>
 
@@ -202,7 +262,7 @@ function Article() {
                 />
             )}
 
-            {markdownData && (
+            {isShowMarkdown && (
                 <Markdown
                     className={classnames(style.markdown, 'article-markdown', {
                         [style.hideMarkdownOnlyArticle]:

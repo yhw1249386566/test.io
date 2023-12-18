@@ -17,6 +17,7 @@ import Footer from './layouts/footer'
 import { Sidebar } from './component'
 import Header from './layouts/header'
 import { ThemeProvider } from './contexts'
+import { LOCAL_STORAGE_NAME } from './utils/constant'
 
 // 添加 fontawesome 免费版: https://fontawesome.com/search?q=menu&o=r&m=free
 library.add(fas, faFacebookSquare, faYoutubeSquare, faLinkedin, faTwitterSquare)
@@ -43,11 +44,14 @@ const Index = (props: { children: React.ReactNode }) => {
             return
         }
 
-        html.setAttribute('data-theme', theme)
+        html.setAttribute(LOCAL_STORAGE_NAME.DATA_THEME, theme)
     }, [theme])
 
+    // 恢复用户上一次选择的主题
     useEffect(() => {
-        const localTheme = storage.getLocalStorage('data-theme') as Theme
+        const localTheme = storage.getLocalStorage(
+            LOCAL_STORAGE_NAME.DATA_THEME,
+        ) as Theme
 
         if (localTheme) {
             setTheme(localTheme)

@@ -1,7 +1,13 @@
 import { defineConfig } from 'umi'
 import path from 'path'
+import Dotenv from 'dotenv'
 
 import routes from './routes'
+
+const getEnvConfig = () => {
+    Dotenv.config({ path: path.resolve(__dirname, '../.env') })
+    return process.env
+}
 
 export default defineConfig({
     publicPath: '/',
@@ -69,9 +75,12 @@ export default defineConfig({
             })
             .end()
 
-        config.plugin('dotenv-webpack').use(require('dotenv-webpack'), [
+        const umiEnv = process.env
+
+        // 注入 .env 中的配置到 process.env, 同时保留 umi env
+        config.plugin('define').use(webpack.DefinePlugin, [
             {
-                path: path.join(__dirname, '../', '/.env'),
+                'process.env': JSON.stringify({ ...getEnvConfig(), ...umiEnv }),
             },
         ])
 

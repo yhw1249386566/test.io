@@ -8,7 +8,12 @@ import EventEmitter from '~/packages/y-eventmitter'
 
 import { storage } from '@/utils'
 import { Text, Direction } from '@/component'
-import { RouteName, RouteLink, EVENT_EMITTER_NAME } from '@/utils/constant'
+import {
+    RouteName,
+    RouteLink,
+    EVENT_EMITTER_NAME,
+    LOCAL_STORAGE_NAME,
+} from '@/utils/constant'
 
 import style from './index.less'
 import { useLocation } from 'umi'
@@ -43,7 +48,7 @@ const Header = (props: HeaderProps) => {
         return () => {
             // 将在 @/index 设置主题
             storage.saveLocalStorage({
-                key: 'data-theme',
+                key: LOCAL_STORAGE_NAME.DATA_THEME,
                 value: theme === 'light' ? 'dark' : 'light',
             })
 
@@ -57,10 +62,12 @@ const Header = (props: HeaderProps) => {
 
     const handleOpenDirectoryOnlyArticle = useCallback(() => {
         EventEmitter.singleInstance.emit(
+            EVENT_EMITTER_NAME.SHOW_HEADER_X,
+            !isShowX,
+        )
+
+        EventEmitter.singleInstance.emit(
             EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY,
-            {
-                isShowX: !isShowX,
-            },
         )
     }, [isShowX])
 
@@ -70,15 +77,14 @@ const Header = (props: HeaderProps) => {
 
     useEffect(() => {
         EventEmitter.singleInstance.on(
-            EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY,
-            ({ isShowX }) => {
+            EVENT_EMITTER_NAME.SHOW_HEADER_X,
+            (isShowX) => {
                 setIsShowX(isShowX)
             },
         )
+
         return () => {
-            EventEmitter.singleInstance.off(
-                EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY,
-            )
+            EventEmitter.singleInstance.off(EVENT_EMITTER_NAME.SHOW_HEADER_X)
         }
     }, [])
 

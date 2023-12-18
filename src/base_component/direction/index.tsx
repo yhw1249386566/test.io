@@ -8,6 +8,7 @@ type Div = React.ClassAttributes<HTMLDivElement> &
     React.HTMLAttributes<HTMLDivElement>
 
 interface DirectionProps extends Div {
+    gap?: number
     className?: string
     mode?: 'row' | 'column'
     children?: React.ReactNode
@@ -20,8 +21,9 @@ const Direction = (props: DirectionProps) => {
         children,
         mode = 'row',
         className = '',
-        alignItems = 'center',
-        justifyContent = 'center',
+        alignItems,
+        justifyContent,
+        gap,
         ...otherProps
     } = props
 
@@ -31,9 +33,9 @@ const Direction = (props: DirectionProps) => {
             style={{
                 justifyContent,
                 alignItems,
+                gap: gap ? `${gap}px` : undefined,
             }}
-            {...otherProps}
-        >
+            {...otherProps}>
             {children}
         </div>
     )

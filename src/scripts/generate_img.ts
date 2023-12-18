@@ -3,10 +3,18 @@ import path from 'path'
 import fse from 'fs-extra'
 
 // 递归遍历目录
-function generateImg(directory, targetDir, options) {
-    const files = fs.readdirSync(directory)
+function generateImg(
+    directory: string,
+    targetDir: string,
+    options?: {
+        files?: string[]
+    },
+) {
+    const { files = ['.jpg', '.png', '.gif'] } = options ?? {}
 
-    files.forEach((file) => {
+    const filesDir = fs.readdirSync(directory)
+
+    filesDir.forEach((file) => {
         const filePath = path.join(directory, file)
         const stat = fs.statSync(filePath)
 
@@ -15,9 +23,7 @@ function generateImg(directory, targetDir, options) {
             generateImg(filePath, targetDir, options)
         } else {
             // 如果是文件且在 picture 目录下且是图片文件，则复制到目标目录
-            const isPictureFile = options.files.includes(
-                `.${file.split('.')[1]}`,
-            )
+            const isPictureFile = files.includes(`.${file.split('.')[1]}`)
 
             if (isPictureFile) {
                 const targetPath = path.join(targetDir, file)

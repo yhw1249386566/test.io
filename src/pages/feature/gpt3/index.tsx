@@ -3,6 +3,7 @@ import { useRef, useState, memo, useEffect } from 'react'
 import classnames from '~/packages/y-classnames'
 
 import { storage } from '@/utils'
+import { LOCAL_STORAGE_NAME } from '@/utils/constant'
 import { Text, Direction } from '@/component'
 
 import request from './request'
@@ -59,7 +60,7 @@ function GPT3() {
             setValue(textareaValue)
 
             storage.saveLocalStorage({
-                key: 'gpt3_chat_information',
+                key: LOCAL_STORAGE_NAME.GPT3_CHAT_INFORMATION,
                 value: textareaValue,
             })
 
@@ -72,7 +73,9 @@ function GPT3() {
     }
 
     useEffect(() => {
-        const gpt3Info = storage.getLocalStorage('gpt3_chat_information')
+        const gpt3Info = storage.getLocalStorage(
+            LOCAL_STORAGE_NAME.GPT3_CHAT_INFORMATION,
+        )
 
         if (gpt3Info) {
             setValue(gpt3Info)
@@ -85,8 +88,7 @@ function GPT3() {
                 className={style.extraInfo}
                 mode='column'
                 alignItems='center'
-                justifyContent='center'
-            >
+                justifyContent='center'>
                 <input
                     placeholder='Api Key'
                     className={style.apiKey}
@@ -99,8 +101,7 @@ function GPT3() {
                     <a
                         href='https://platform.openai.com/docs/models/gpt-3'
                         rel='noreferrer'
-                        target='_blank'
-                    >
+                        target='_blank'>
                         Gpt3
                     </a>{' '}
                     最多只支持记忆 4096 个 token 的上下文。

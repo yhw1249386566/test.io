@@ -28,6 +28,7 @@ function Sidebar() {
                 if (typeof SCROLL_SPEED !== 'number' || isNaN(SCROLL_SPEED)) {
                     console.error(`SCROLL_SPEED ERROR: ${SCROLL_SPEED}`)
                     console.trace('SCROLL_SPEED')
+                    window.scrollTo(0, 0)
                     return
                 }
 

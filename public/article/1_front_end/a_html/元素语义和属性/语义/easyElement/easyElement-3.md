@@ -148,11 +148,11 @@ dialog元素表示一个对话框或其他交互式组件，例如一个检查�
 </script>
 ```
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture/dialog-chrome.png)
+![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture\dialog-chrome.png)
 
 ​														(chrome)
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture/dialog-firefox.png)
+![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\easyElement\picture\dialog-firefox.png)
 
 ​														(FireFox)
 

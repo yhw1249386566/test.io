@@ -1,29 +1,70 @@
-import { getEnvConvertTypeValue } from '.'
+import Dotenv from 'dotenv'
+import path from 'path'
 
-// const getEnvValue = <T extends JSType>(
-//     envKey: ENV_KEY,
-//     options?: {
-//         returnType?: T
-//     },
-// ): EnvValueType<T> => {
-//     if (envKey === undefined || envKey === null) {
-//         return null as EnvValueType<T>
-//     }
+import { JSType, EnvValueType } from './utils.d'
 
-//     const { returnType = 'string' } = options ?? {}
+export const CONVERT_TYPE_MAP: Record<JSType, (value: string) => any> = {
+    string: (value) => value,
+    number: (value) => Number(value),
+    boolean: (value) => value.toLowerCase() === 'true',
+    null: () => null,
+    undefined: () => undefined,
+    bigInt: (value) => BigInt(value),
+    symbol: (value) => Symbol(value),
+    object: (value) => {
+        try {
+            return JSON.parse(value)
+        } catch (error) {
+            console.error('JSON.parse 失败')
+            return null
+        }
+    },
+    array: (value) => {
+        try {
+            return JSON.parse(value)
+        } catch (error) {
+            console.error('JSON.parse 失败', error)
+            return null
+        }
+    },
+    function: (value) => eval(`(${value})`),
+}
 
-//     const converter = getEnvConvertTypeValue[returnType]
+/** 以下不需要导出，用在此文件 */
 
-//     if (!converter) {
-//         throw new Error('类型不存在')
-//     }
+// 这两行用于打包之前读取环境变量
+const currentWorkingDir = process.cwd()
+Dotenv.config({ path: path.join(currentWorkingDir, '.env') })
 
-//     console.log('__process.env', process.env, process.env['SCROLL_SPEED'])
+enum ENV_KEY {
+    SCROLL_SPEED = 'SCROLL_SPEED',
+    ARTICLE_DIR = 'ARTICLE_DIR',
+    WRITE_ARTICLE_DIR = 'WRITE_ARTICLE_DIR',
+    ARTICLE_PICtURE = 'ARTICLE_PICtURE',
+}
 
-//     debugger
+const getEnvValue = <ReturnType extends JSType = 'string'>(
+    envKey: ENV_KEY,
+    options?: {
+        returnType?: ReturnType
+    },
+): EnvValueType<ReturnType> => {
+    if (envKey === undefined || envKey === null) {
+        return null as EnvValueType<ReturnType>
+    }
 
-//     return converter(process.env[envKey] ?? '')
-// }
+    const { returnType = 'string' } = options ?? {}
+
+    const converter = CONVERT_TYPE_MAP[returnType]
+
+    if (!converter) {
+        throw new Error('类型不存在')
+    }
+
+    return converter(process.env[envKey] ?? '')
+}
+
+/** 以上不需要导出，用在此文件 */
 
 export enum RouteName {
     Index = '首页',
@@ -39,17 +80,35 @@ export enum RouteLink {
     About = 'about',
 }
 
+export enum LOCAL_STORAGE_NAME {
+    SELECTED_ARTICLE_KEY = 'selectedArticleKey',
+    ARTICLE_FILE_PATH = 'activeFilePath',
+    ARTICLE_TREE_EXPANDED_KEYS = 'articleTreeExpandedKeys',
+    DATA_THEME = 'data-theme',
+    GPT3_CHAT_INFORMATION = 'gpt3_chat_information',
+}
+
+// 所有自定义事件名
 export enum EVENT_EMITTER_NAME {
     // 只有当视区内只显示文章时，此事件才会被监听和触发。
     OPEN_ARTICLE_DIRECTORY = 'openArticleDirectoryOnlyArticle',
+    SHOW_HEADER_X = 'showHeaderX',
 }
 
-/** 以下都是 .env 中的变量值 */
+/************************* 以下都是 .env 中的变量值 *************************/
 
-// 为什么不使用 getEnvValue, 这是因为 dotenv-webpack 在将环境变量注入到 process.env 时, 定义了只能对显示使用环境变量值才可以获取导致。
-// 如: process.env.SCROLL_SPEED 能得到值, 但是 const envName = 'SCROLL_SPEED', process.env[SCROLL_SPEED] 则不行。
-export const SCROLL_SPEED = getEnvConvertTypeValue(process.env.ff, {
-    type: 'number',
+export const SCROLL_SPEED = getEnvValue(ENV_KEY.SCROLL_SPEED, {
+    returnType: 'number',
 })
 
-/** 以上都是 .env 中的变量值 */
+/** 以下变量用于打包之前的准备 */
+
+export const ARTICLE_DIR = getEnvValue(ENV_KEY.ARTICLE_DIR)
+
+export const ARTICLE_PICtURE = getEnvValue(ENV_KEY.ARTICLE_PICtURE)
+
+export const WRITE_ARTICLE_DIR = getEnvValue(ENV_KEY.WRITE_ARTICLE_DIR)
+
+/** 以上变量用于打包之前的准备 */
+
+/************************* 以上都是 .env 中的变量值 *************************/

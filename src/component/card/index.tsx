@@ -9,7 +9,7 @@ import classnames from '~/packages/y-classnames'
 import { useTheme } from '@/hooks'
 import { invertColor } from '@/utils'
 
-import { Text } from '@/base_component'
+import { Text, Direction } from '@/base_component'
 
 import style from './index.less'
 
@@ -20,6 +20,7 @@ interface CustomProps extends CardProps {
     author?: string
     previewImg?: string
     description?: string
+    lastUpdateTime?: string
     tag?: {
         name: string
         key?: string
@@ -38,7 +39,8 @@ const CustomCard = (props: CustomProps) => {
         author,
         className,
         tag = [],
-        ...otherProps
+        lastUpdateTime,
+        ...cardProps
     } = props
 
     const [visible, setVisible] = useState(false)
@@ -63,8 +65,7 @@ const CustomCard = (props: CustomProps) => {
                     style[`card-${theme}`],
                     className,
                 )}
-                {...otherProps}
-            >
+                {...cardProps}>
                 <Image
                     src={img}
                     className={style.image}
@@ -94,6 +95,20 @@ const CustomCard = (props: CustomProps) => {
                         </div>
                     </div>
 
+                    {lastUpdateTime && (
+                        <Direction mode='row' gap={5}>
+                            <Direction mode='row' gap={5} alignItems='center'>
+                                <FontAwesomeIcon
+                                    icon='clock'
+                                    className={style.time}
+                                />
+                                <Text>最后一次更新时间: </Text>
+                            </Direction>
+
+                            <Text>{lastUpdateTime}</Text>
+                        </Direction>
+                    )}
+
                     <Scrollbars style={{ maxHeight: 55 }}>
                         <div className={style.tags}>
                             {tag.map((tag, index) => {
@@ -119,8 +134,7 @@ const CustomCard = (props: CustomProps) => {
                                                     }}
                                                 />
                                             ) : null
-                                        }
-                                    >
+                                        }>
                                         {name}
                                     </Tag>
                                 )
@@ -136,8 +150,7 @@ const CustomCard = (props: CustomProps) => {
                         visible,
                         maskClosable: false,
                         onVisibleChange: (vis) => setVisible(vis),
-                    }}
-                >
+                    }}>
                     <Image src={previewImg} />
                 </Image.PreviewGroup>
             </div>

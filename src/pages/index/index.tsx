@@ -31,6 +31,7 @@ function Index() {
                     target,
                     previewImg,
                     description,
+                    lastUpdateTime,
                 } = card
 
                 return (
@@ -43,6 +44,7 @@ function Index() {
                         author={author}
                         previewImg={previewImg}
                         description={description}
+                        lastUpdateTime={lastUpdateTime}
                         onClick={handleGotoFeature(target)}
                     />
                 )
