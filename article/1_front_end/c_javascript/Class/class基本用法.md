@@ -1,3 +1,5 @@
+[TOC]
+
 # class基本语法
 
 ## class'类'的由来

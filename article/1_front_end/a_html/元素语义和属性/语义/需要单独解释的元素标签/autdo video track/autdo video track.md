@@ -230,13 +230,13 @@ video元素中的preload属性实际上和audio元素中的preload属性没什�
 
 ```html
 <video 
-       src="H:\Multimedia\Adobe\PR\Term Exam\End Of Exam\3177102448杨鸿伟_美丽的奇观\已复制_期末大作业PR\1.冰与火的极光地带芬兰.mp4">
+       src="H:\Multimedia\Adobe\PR\Term Exam\End Of Exam\3177102448myName_美丽的奇观\xx\1.冰与火的极光地带芬兰.mp4">
 </video>
 ```
 
 
 
-<video src="H:\Multimedia\Adobe\PR\Term Exam\End Of Exam\3177102448杨鸿伟_美丽的奇观\已复制_期末大作业PR\1.冰与火的极光地带芬兰.mp4"></video>
+<video src="H:\Multimedia\Adobe\PR\Term Exam\End Of Exam\3177102448myName_美丽的奇观\xx\1.冰与火的极光地带芬兰.mp4"></video>
 
 # [track](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/track)
 
