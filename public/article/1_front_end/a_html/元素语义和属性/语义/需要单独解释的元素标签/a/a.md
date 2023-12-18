@@ -88,7 +88,7 @@ URL 片段是[哈希标记](https://baike.baidu.com/item/%E5%93%88%E5%B8%8C%E6%A
 <a href="tel:+491570156">+49 157 0156</a>
 ```
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\HTML\ElementSemanticANDAttribute\ElementSemantic\需要单独解释的元素标签\a\picture\href-创建电话链接.png)
+![](picture/href-创建电话链接.png)
 
 当我们点击a标签时,浏览器可能会提示这个.
 

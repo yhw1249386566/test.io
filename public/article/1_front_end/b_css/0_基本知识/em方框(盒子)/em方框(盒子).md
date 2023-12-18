@@ -57,7 +57,7 @@
 
 ​	请看图1-2
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\CSS\CSS之保存图片\行距.png)
+![](../../picture/行距.png)
 
 ​																图1-2
 
@@ -68,11 +68,11 @@
 
 ### em方框
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\CSS\CSS之保存图片\QQ图片20200223150153.jpg)
+![](../../picture/QQ图片20200223150153.jpg)
 
 ​																		图1-1
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\CSS\CSS之保存图片\em方框.png)
+![](../../picture/em方框.png)
 
 ​																		图1-3
 
@@ -90,7 +90,7 @@
 
 为什么我们说这很难呢,请看图1-4就很明白了
 
-![](H:\All Note\Write Program Way\Language\JavaScript Note\Own Note\Difficult Concept\CSS\CSS之保存图片\em方框1-2.png)
+![](../../picture/em方框1-2.png)
 
 ​																		图1-4
 

@@ -16,6 +16,7 @@ export const CONVERT_TYPE_MAP: Record<JSType, (value: string) => any> = {
             return JSON.parse(value)
         } catch (error) {
             console.error('JSON.parse 失败')
+            console.error('要解析的值为:', value === '' ? '空字符串' : value)
             return null
         }
     },
@@ -24,6 +25,7 @@ export const CONVERT_TYPE_MAP: Record<JSType, (value: string) => any> = {
             return JSON.parse(value)
         } catch (error) {
             console.error('JSON.parse 失败', error)
+            console.error('要解析的值为:', value === '' ? '空字符串' : value)
             return null
         }
     },
