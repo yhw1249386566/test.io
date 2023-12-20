@@ -21,14 +21,11 @@
     color: var(--global-primary-text-color) !important;
 }
 
-.markdown-navigation .title-anchor:hover {
-    background-color: #f8f8f8 !important;
-    color: #007fff !important;
-}
+.markdown-navigation .title-anchor:hover,
 .markdown-navigation .title-anchor.active {
-    background-color: #f8f8f8 !important;
     text-decoration: inherit;
-    color: #007fff !important ;
+    color: var(--global-primary-text-color) !important ;
+    background-color: var(--article-tree-selected-background-color) !important;
 }
 
 .markdown-navigation .title-anchor small {

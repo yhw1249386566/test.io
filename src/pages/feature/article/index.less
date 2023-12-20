@@ -1,12 +1,12 @@
 .article-light {
     --article-border-color: #00000033;
-    --article-tree-hover-color: #f5f5f5;
-    --article-tree-selected-hover-color: #1a04ff;
+    --article-tree-hover-color: rgb(230, 247, 255);
+    --article-tree-selected-background-color: rgb(230, 247, 255);
 }
 .article-dark {
     --article-border-color: #30363d;
-    --article-tree-hover-color: #f5f5f545;
-    --article-tree-selected-hover-color: #f5f5f545;
+    --article-tree-hover-color: rgba(88, 175, 223, 0.1);
+    --article-tree-selected-background-color: rgba(88, 175, 223, 0.1);
 }
 
 @media screen and (max-width: @showOnlyArticleMaxWidth) {
@@ -46,8 +46,16 @@
     background-color: var(--article-tree-hover-color);
 }
 
-.ant-tree.ant-tree-directory .ant-tree-treenode-selected:hover::before {
-    background-color: var(--article-tree-selected-hover-color);
+.ant-tree.ant-tree-directory .ant-tree-treenode-selected:hover::before,
+.ant-tree.ant-tree-directory .ant-tree-treenode-selected::before {
+    background-color: var(--article-tree-selected-background-color);
+}
+
+.ant-tree.ant-tree-directory
+    .ant-tree-treenode
+    .ant-tree-node-content-wrapper.ant-tree-node-selected
+    span {
+    color: var(--global-primary-text-color);
 }
 
 .directoryTreeBox {
