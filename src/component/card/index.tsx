@@ -9,7 +9,7 @@ import classnames from '~/packages/y-classnames'
 import { useTheme } from '@/hooks'
 import { invertColor } from '@/utils'
 
-import { Text, Direction } from '@/base_component'
+import { Text } from '@/base_component'
 
 import style from './index.less'
 
@@ -96,17 +96,15 @@ const CustomCard = (props: CustomProps) => {
                     </div>
 
                     {lastUpdateTime && (
-                        <Direction mode='row' gap={5}>
-                            <Direction mode='row' gap={5} alignItems='center'>
-                                <FontAwesomeIcon
-                                    icon='clock'
-                                    className={style.time}
-                                />
-                                <Text>最后一次更新时间: </Text>
-                            </Direction>
-
-                            <Text>{lastUpdateTime}</Text>
-                        </Direction>
+                        <div className={style.info}>
+                            <div>
+                                <FontAwesomeIcon icon='clock' />
+                                <Text>最后更新时间: </Text>
+                            </div>
+                            <div>
+                                <Text>{lastUpdateTime}</Text>
+                            </div>
+                        </div>
                     )}
 
                     <Scrollbars style={{ maxHeight: 55 }}>

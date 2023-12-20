@@ -30,7 +30,39 @@ github pages [默认使用 jekyll](https://docs.github.com/zh/pages/setting-up-a
 
 为什么要放在 public/ 里面，因为 github action 会使用最终我们的打包后的结果。
 
-### Config
+### article
+
+此文件夹用来存放 feature-article 功能显示的文章。
+
+所有文章均是 `.md` 后缀, 即: 使用 markdown 语法。
+
+对于 `.md` 文件中的图片, 其存放目录应该为: `./picture` 下, 即:
+
+当前 `.md` 文件的同级目录, 存在 `picture` 文件夹, 里面有图片，结构大概长这样:
+
+```
+|- test.md
+|- picture
+ |- img1.png
+ |- img2.jpg
+ |- img3.gif
+```
+
+目前图片支持: `.jpg, .png, .gif`.
+
+其他格式不做要求。
+
+### picture
+
+此文件夹递归 `public/article` 下的所有 `picture` 文件夹, 取出里面的图片, 最后用同样的命名复制到此文件夹的.
+
+目的: github pages 挂载 `yomua` 项目时, `.md` 文件中若使用 `picture/图片名` 这样的格式引入图片, 
+
+相当于请求 `网址/picture/图片名` -> `https://www.whyhw.com/picture/图片名` , 所以为了能正确显示, 就这么做了.
+
+[一个图片的地址例子](https://www.whyhw.com/picture/ModelViewControllerDiagram.png)
+
+## src/config
 
 目录: /config
 
@@ -317,3 +349,7 @@ Reference: src/pages/feature - dynamicFeature.tsx
     TIP: .env 通常放的是不同环境带来的值，而不是常量，
 
     比如: SCROLL_SPEED 是不能放入环境变量中的。我这里只是先放在 .env, 后期会修改。
+
+-   后期可以将生产依赖（dependence）手动实现;
+
+    react, react-dom, webpack; 希望有时间, 有精力...

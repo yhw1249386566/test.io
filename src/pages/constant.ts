@@ -67,7 +67,8 @@ export const FeatureList: FeatureType[] = [
         author: 'Yomua',
         time: '2023年02月25日',
         description: '个人笔记',
-        lastUpdateTime: getCurrentDate(),
+        // lastUpdateTime: getCurrentDate(), // 每次页面刷新, 都会更新时间
+        lastUpdateTime: '2023年12月18日',
         tag: [
             {
                 name: 'Article',
