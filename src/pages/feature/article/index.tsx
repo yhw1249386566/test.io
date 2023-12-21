@@ -161,7 +161,16 @@ function Article() {
     }, [])
 
     useWindowEventListen('popstate', (event: { state: Location } | any) => {
-        let articlePath = event?.state?.pathname?.replace('/feature/', '')
+        const redirectedHrefData = event?.state
+        const urlParams = new URLSearchParams(redirectedHrefData?.search)
+        const redirected = urlParams?.get('redirected')
+
+        if (redirected !== 'true') {
+            return
+        }
+
+        let articlePath = redirectedHrefData?.pathname?.replace('/feature/', '')
+
         const activeFilePath = storage.getLocalStorage(
             LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH,
         )
@@ -170,6 +179,7 @@ function Article() {
 
         const rootPath = activeFilePath.slice(0, rootArticleIndex)
 
+        // 防止根路径是用 \ 分割的, 而 articlePath 是用 / 分割的
         if (rootPath.includes('\\')) {
             articlePath = articlePath.replaceAll('/', '\\')
         }
@@ -187,6 +197,7 @@ function Article() {
                 storage.getLocalStorage('redirectedHref'),
             )
 
+            // 这时候的路由可以被 umi 拦截
             history.replaceState(
                 null,
                 document.title,
@@ -194,7 +205,10 @@ function Article() {
             )
 
             const popStateEvent = new PopStateEvent('popstate', {
-                state: redirectedHrefData,
+                state: {
+                    ...redirectedHrefData,
+                    search: `?redirected=true`,
+                },
             })
             window.dispatchEvent(popStateEvent)
         }
