@@ -74,4 +74,33 @@
     <body>
         <div id="root"></div>
     </body>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search)
+        const redirected = urlParams.get('redirected')
+
+        if (redirected === 'true') {
+            document.addEventListener('DOMContentLoaded', function () {
+                if (location.pathname.includes('/feature/article')) {
+                    const articlePath = location.pathname.replace(
+                        '/feature',
+                        '',
+                    )
+
+                    localStorage.setItem('redirectedHref', location.href)
+
+                    history.replaceState(
+                        null,
+                        null,
+                        `${location.origin}/feature/article${location.hash}?redirected=true`,
+                    )
+                    const popStateEvent = new PopStateEvent('popstate')
+                    window.dispatchEvent(popStateEvent)
+                } else {
+                    window.location.href =
+                        location.origin || 'https://www.whyhw.com'
+                }
+            })
+        }
+    </script>
 </html>

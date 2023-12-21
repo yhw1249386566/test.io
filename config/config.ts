@@ -22,7 +22,7 @@ export default defineConfig({
     mfsu: {},
     // 使用 hash: 避免部署到 github pages 时，当地址为 /feature/article 或其他没有 html 的路由时，刷新页面 404 的问题。
     history: {
-        type: 'hash',
+        type: 'browser',
     },
     // 加载时显示的 loading，当存在这个配置时，将启用按需加载。
     dynamicImport: {
