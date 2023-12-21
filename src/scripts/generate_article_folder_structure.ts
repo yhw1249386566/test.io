@@ -23,7 +23,7 @@ function generateArticleFolderStructure(
             })
         } else if (options?.includeFile?.find((eF) => file.includes(eF))) {
             // 如果是文件，则记录文件路径
-            result[file] = filePath
+            result[file] = filePath.replace(/\\/g, '/')
         }
     })
 
