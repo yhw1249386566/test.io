@@ -85,20 +85,33 @@
     <script>
       const urlParams = new URLSearchParams(window.location.search);
       const redirected = urlParams.get("redirected");
+      const pathname = urlParams.get("pathname");
 
       if (redirected === "true") {
         document.addEventListener("DOMContentLoaded", function () {
-          if (location.pathname.includes("/feature/article")) {
-            const articlePath = location.pathname.replace("/feature", "");
+          // 如果用户是直接通过地址栏访问 /feature/article/xxx.md
+          if (pathname.includes("/feature/article")) {
+            // article/xxx.md
+            const articlePath = pathname.replace("/feature", "");
 
-            localStorage.setItem("redirectedHref", location.href);
+            // 设置包含 pathname 的地址 => 用于在文章页刷新时，重新定位到文章页
+            // => https://www.whyhw.com/feature/article/xxx.md
+            localStorage.setItem(
+              "redirectedHref",
+              `${location.origin}${pathname}${location.hash}`
+            );
 
+            // 此时页面已经加载, umi 已经可以成功拦截路由
+            // 所以此时再把页面的地址改成 => https://www.whyhw.com/feature/article/xxx.md
             history.replaceState(
               null,
               null,
-              `${location.origin}/feature/article${location.hash}?redirected=true`
+              `${location.origin}/feature/article?redirected=true${location.hash}`
             );
+
+            // 手动触发路由跳转到 /feature/article
             const popStateEvent = new PopStateEvent("popstate");
+
             window.dispatchEvent(popStateEvent);
           } else {
             window.location.href = location.origin || "https://www.whyhw.com";
@@ -107,6 +120,6 @@
       }
     </script>
 
-    <script src="/umi.87c08a75.js"></script>
+    <script src="/umi.e91b74ec.js"></script>
   </body>
 </html>
