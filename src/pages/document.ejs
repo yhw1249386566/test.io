@@ -78,39 +78,66 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search)
         const redirected = urlParams.get('redirected')
+
+        // 例如: /feature/article/xxx.md
         const pathname = urlParams.get('pathname')
 
-        if (redirected === 'true') {
-            document.addEventListener('DOMContentLoaded', function () {
-                // 如果用户是直接通过地址栏访问 /feature/article/xxx.md
-                if (pathname.includes('/feature/article')) {
-                    // article/xxx.md
-                    const articlePath = pathname.replace('/feature', '')
+        document.addEventListener('DOMContentLoaded', function () {
+            if (redirected !== 'true') {
+                return
+            }
 
-                    // 设置包含 pathname 的地址 => 用于在文章页刷新时，重新定位到文章页
-                    // => https://www.whyhw.com/feature/article/xxx.md
-                    localStorage.setItem(
-                        'redirectedHref',
-                        `${location.origin}${pathname}${location.hash}`,
-                    )
+            if (pathname.indexOf('/feature/article') === -1) {
+                window.location.href =
+                    location.origin || 'https://www.whyhw.com'
 
-                    // 此时页面已经加载, umi 已经可以成功拦截路由
-                    // 所以此时再把页面的地址改成 => https://www.whyhw.com/feature/article/xxx.md
-                    history.replaceState(
-                        null,
-                        null,
-                        `${location.origin}/feature/article?redirected=true${location.hash}`,
-                    )
+                return
+            }
 
-                    // 手动触发路由跳转到 /feature/article
-                    const popStateEvent = new PopStateEvent('popstate')
+            /** 如果用户是直接通过地址栏访问 /feature/article/xxx.md */
 
-                    window.dispatchEvent(popStateEvent)
-                } else {
-                    window.location.href =
-                        location.origin || 'https://www.whyhw.com'
-                }
-            })
-        }
+            // 并非第一次进入网页, 则存在
+            const selectedArticleKeyBefore =
+                localStorage.getItem('selectedArticleKey') || ''
+
+            // 通过选中的 .md 文件的 key, 找到 public 文件夹所在的位置
+            // => /home/runner/work/yomua/yomua/public/
+            // => D:/code/yomua/public/
+            let rootPath = selectedArticleKeyBefore.slice(
+                0,
+                selectedArticleKeyBefore.indexOf('article'),
+            )
+
+            if (!rootPath) {
+                rootPath = window.location.origin.includes('whyhw.com')
+                    ? '/home/runner/work/yomua/yomua/public/'
+                    : 'D:/code/yomua/public/'
+            }
+
+            // 得到文章存储在服务器的完整路径
+            // 例如: /home/runner/work/yomua/yomua/public/article/xxx.md
+            const selectedArticleKeyAfter = `${rootPath}${pathname.replace(
+                '/feature/', // 删除 feature, 是因为我们将文章存储于 public/article
+                '',
+            )}`
+
+            // 此时页面已经加载, umi 已经可以成功拦截路由
+            // 所以此时再把页面的地址改成 => https://www.whyhw.com/feature/article/xxx.md
+            history.replaceState(
+                null,
+                null,
+                location.origin +
+                    '/feature/article' +
+                    '?redirected=true' +
+                    `&pathname=${pathname}` +
+                    `&selectedArticleKey=${selectedArticleKeyAfter}` +
+                    location.hash,
+            )
+
+            // 手动触发路由跳转到 /feature/article
+            const popStateEvent = new PopStateEvent('popstate')
+
+            window.dispatchEvent(popStateEvent)
+        })
     </script>
 </html>

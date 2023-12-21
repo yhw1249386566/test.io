@@ -1,5 +1,6 @@
 import { EnvValueType, JSType } from './utils.d'
 import { CONVERT_TYPE_MAP } from './constant'
+import request from './request'
 
 /** start --- 不需要导出 --- start */
 
@@ -211,4 +212,16 @@ export async function minDelayTime(
     }
 
     return
+}
+
+export const get404Md = async () => {
+    return request('/article/404.md').then((res) => {
+        const { data, success } = res
+
+        if (!success || !data) {
+            return '404'
+        }
+
+        return data
+    })
 }

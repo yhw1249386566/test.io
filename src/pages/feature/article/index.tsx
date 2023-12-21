@@ -1,7 +1,6 @@
 import { memo, useMemo, useCallback, useState, useEffect } from 'react'
 import { Tree, Skeleton } from 'antd'
 
-import IndexedDB from '~/packages/y-indexeddb'
 import classnames from '~/packages/y-classnames'
 import EventEmitter from '~/packages/y-eventmitter'
 
@@ -11,12 +10,43 @@ import request from '@/utils/request'
 import articleDir from '@/article_dir.js'
 import { EVENT_EMITTER_NAME, LOCAL_STORAGE_NAME } from '@/utils/constant'
 import { DEFAULT_EXPANDED_KEYS } from '@/pages/constant'
-import { createFileTree, storage, minDelayTime } from '@/utils'
+import { createFileTree, storage, minDelayTime, get404Md } from '@/utils'
 
 import style from './index.less'
 import './index.less' // 如果需要使用 'article-markdown'(不用 style.xxx)，就需要这样导入
 
 const { DirectoryTree } = Tree
+
+// path => /feature/article/1_front_end/0_base/JS设计模式/设计模式.md
+function parseArticlePath(path: string) {
+    // 移除 /feature/article
+    // 移除以 / 开始且以 .md 结尾的部分 => /xxx.md
+    path = path.replace(
+        /^\/feature\/article\/([^\/]+\/[^\/]+\/[^\/]+)\/[^\/]+\.md$/,
+        '$1',
+    )
+
+    const segments = path.split('/').filter(Boolean)
+
+    const result: string[] = []
+
+    let currentPath = ''
+
+    // 遍历路径, 然后拼接
+    // => [ "1_front_end", "1_front_end/0_base", "1_front_end/0_base/JS设计模式", "1_front_end/0_base/JS设计模式/设计模式.md" ]
+    for (let i = 0; i < segments.length; i++) {
+        if (i === 0) {
+            currentPath += `${segments[i]}`
+            result.push(currentPath)
+        } else {
+            currentPath += `/${segments[i]}`
+            result.push(currentPath)
+        }
+    }
+
+    // 去除 .md 的项
+    return result.filter((key) => !key.includes('.md'))
+}
 
 function Article() {
     const theme = useTheme()
@@ -25,6 +55,7 @@ function Article() {
 
     const [markdownData, setMarkdownData] = useState('')
 
+    // 如果重复点击一样的目录, 则不再重新加载数据
     const [prevSelectedFilePath, setPrevSelectedFilePath] = useState('')
 
     const [isOpenDirectoryOnlyArticle, setIsOpenDirectoryOnlyArticle] =
@@ -49,33 +80,15 @@ function Article() {
         () => markdownData && !articleLoading, // 有 markdown 且 loading 为 false
         [markdownData, articleLoading],
     )
-
-    const get404Md = useCallback(async () => {
-        return request('/article/404.md').then((res) => {
-            const { data, success } = res
-
-            if (!success || !data) {
-                setMarkdownData('# 404')
-                return
-            }
-
-            setMarkdownData(data)
-
-            // 保留最后一次点击的文件数据
-            IndexedDB.singleInstance.clearDataFromStore()
-            IndexedDB.singleInstance.updateDataFromStore(
-                '/article/404.md',
-                data,
-            )
-        })
-    }, [])
-
     // 点击文件夹或者文件名会触发 onSelect 和 onExpand
     const handleTreeSelect = useCallback(
         async (
             path: string[],
             info: { node: { type: 'file' | 'directory' } },
         ) => {
+            // 例如:
+            // 若点击文件夹: 0_base/优秀的编程方式
+            // 若点击 md 文件: D:/code/yomua/public/article/0_base/函数式编程/函数式编程.md
             const activePath = path?.[0] ?? ''
 
             if (activePath.includes('.md')) {
@@ -96,15 +109,15 @@ function Article() {
 
             setPrevSelectedFilePath(activePath)
 
-            // 刷新页面时, 保留最后一次点击的文件路径
+            // 点击时, 把此次点击认做是最后一次点击的文件路径
             storage.saveLocalStorage({
                 key: LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH,
-                value: activePath,
+                value: activePath.slice(activePath.indexOf('/article')), // 例如: /article/xxx.md
             })
 
-            const importFilePath = (activePath as string)
-                ?.split('article')[1]
-                ?.replaceAll('//', '/') // 最后得到例如: '/css/缓存.md', fetch 不需要担心 import() 的情况，即: 必须包含一些路径信息。
+            const importFilePath = activePath.slice(
+                activePath.indexOf('/article'),
+            )
 
             // 仅显示文章, 且此时打开了所有文章目录时
             // 当选中某个目录时，将 X（打 X 按钮）切换到 bars, 并切换到文章.
@@ -124,7 +137,7 @@ function Article() {
 
             // 通过 fetch 获取根目录下的 article.
             // 不通过 import(): import() 会造成按需加载时，将每一个动态导入的 .md 文件视为一个路由，从而在 build 后多一个拆分的 js 文件
-            request(`/article${importFilePath}`).then(async (res) => {
+            request(importFilePath).then(async (res) => {
                 const endTime = Date.now()
 
                 // 防止因为获取数据太快导致 loading 一闪而快, 所以加一个最小延迟 500 ms.
@@ -133,7 +146,8 @@ function Article() {
                 const { data, success } = res
 
                 if (!success || !data) {
-                    await get404Md()
+                    const result = await get404Md()
+                    setMarkdownData(result)
                     setArticleLoading(false)
                     return
                 }
@@ -142,10 +156,6 @@ function Article() {
                 // 否则, 就会看见数据还未 set， 但是 loading 已经取消了, 最后数据再被设置, 从而造成画面闪烁.
                 setMarkdownData(data)
                 setArticleLoading(false)
-
-                // 保留最后一次点击的文件数据（通过 localStorage 中存储的 activePath, 可以获取此数据）
-                IndexedDB.singleInstance.clearDataFromStore()
-                IndexedDB.singleInstance.updateDataFromStore(activePath, data)
             })
         },
         [prevSelectedFilePath, isOpenDirectoryOnlyArticle],
@@ -160,103 +170,165 @@ function Article() {
         setExpandedKeys(expandKeys)
     }, [])
 
-    useWindowEventListen('popstate', (event: { state: Location } | any) => {
-        const redirectedHrefData = event?.state
-        const urlParams = new URLSearchParams(redirectedHrefData?.search)
-        const redirected = urlParams?.get('redirected')
+    // 处理 github pages 因为 history 路由模式, 导致找不到页面
+    // 根据用户指定的 feature/article/xxx.md, 从而找到对应的 .md 文件并显示
+    useWindowEventListen(
+        'popstate',
+        async (event: { state: Location } | any) => {
+            const url = event?.state as Location
 
-        if (redirected !== 'true') {
-            return
-        }
+            if (!url || !url.search.includes('redirected=true')) {
+                return
+            }
 
-        let articlePath = redirectedHrefData?.pathname?.replace('/feature/', '')
+            const urlSearch = new URLSearchParams(url.search)
 
-        const activeFilePath = storage.getLocalStorage(
-            LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH,
-        )
-
-        const rootArticleIndex = activeFilePath.indexOf('article')
-
-        const rootPath = activeFilePath.slice(0, rootArticleIndex)
-
-        // 防止根路径是用 \ 分割的, 而 articlePath 是用 / 分割的
-        if (rootPath.includes('\\')) {
-            articlePath = articlePath.replaceAll('/', '\\')
-        }
-
-        const resultPath = `${rootPath}${articlePath}`
-
-        setSelectedKey(decodeURIComponent(resultPath))
-    })
-
-    useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search)
-        const redirected = urlParams.get('redirected')
-        if (redirected === 'true') {
-            const redirectedHrefData = new URL(
-                storage.getLocalStorage('redirectedHref'),
-            )
-
-            const search = redirectedHrefData.search
-
-            redirectedHrefData.search = search
-                ? search + '&redirected=true'
-                : '?redirected=true'
-
-            // 这时候的路由可以被 umi 拦截
+            // 替换成干净的网址
             history.replaceState(
                 null,
                 document.title,
-                `${location.origin}/feature/article${location.hash}`,
+                `${url.origin}/feature/article${url.hash}`,
             )
 
-            const popStateEvent = new PopStateEvent('popstate', {
-                state: redirectedHrefData,
+            const pathname = urlSearch.get('pathname') ?? ''
+
+            // => /home/runner/work/yomua/yomua/public/article/xxx.md
+            // => D:/code/yomua/public/article/xxx.md
+            const selectedArticleKey = urlSearch.get('selectedArticleKey') ?? ''
+
+            // 去除 feature, 因为我们将文章放在 public/article
+            // => /article/xxx.md
+            const articleFilePath = pathname.replace('/feature', '')
+
+            const { data, success } = await request(articleFilePath)
+
+            if (!success || !data) {
+                const result = await get404Md()
+                setMarkdownData(result)
+                return
+            }
+
+            // 截取从 /article/ 之后的路径
+            // => 1_front_end/c_javascript/AJAX/AJAX.md
+            const articlePath = articleFilePath.replace('/article/', '')
+
+            // 截取从 0 到最后一个 /, 截掉 /xxx.md
+            //  => 1_front_end/c_javascript/AJAX
+            const expandKey = articlePath.slice(0, articlePath.lastIndexOf('/'))
+
+            // 取出本地存储的 expandKeys
+            const localExpandKeys: string[] = storage.getLocalStorage(
+                LOCAL_STORAGE_NAME.ARTICLE_TREE_EXPANDED_KEYS,
+                {
+                    returnType: 'array',
+                },
+            )
+
+            // 若跳转过来的文章路径, 它的目录没有被展开,
+            // 则通过此方法解析它的所有父目录, 然后依次展开
+            const parseKeys = parseArticlePath(articlePath)
+
+            const keys = localExpandKeys
+                ? [...new Set([...parseKeys, ...localExpandKeys])]
+                : [
+                      ...new Set([
+                          expandKey,
+                          ...parseKeys,
+                          ...DEFAULT_EXPANDED_KEYS,
+                      ]),
+                  ]
+
+            setMarkdownData(data)
+
+            setSelectedKey(selectedArticleKey)
+
+            setExpandedKeys(keys)
+
+            storage.saveLocalStorage({
+                key: LOCAL_STORAGE_NAME.ARTICLE_TREE_EXPANDED_KEYS,
+                value: JSON.stringify(keys),
             })
-            window.dispatchEvent(popStateEvent)
+
+            // 将此次跳转过来的保存到 localStorage
+            storage.saveLocalStorage({
+                key: LOCAL_STORAGE_NAME.SELECTED_ARTICLE_KEY,
+                value: selectedArticleKey,
+            })
+            storage.saveLocalStorage({
+                key: LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH,
+                value: articleFilePath,
+            })
+        },
+    )
+
+    // 若是重定向过来的, 则再次重定向到 feature/article, 以便 umi 拦截, 然后使用正确的路由加载组件
+    useEffect(() => {
+        const url = new URL(window.location.href)
+        const urlParams = new URLSearchParams(url.search)
+
+        if (urlParams.get('redirected') !== 'true') {
+            return
         }
+
+        const popStateEvent = new PopStateEvent('popstate', {
+            // 注意, URL 的实例是不能被展开运算符展开的 -> {...redirectedHrefData} 会得到 {}
+            state: url,
+        })
+
+        window.dispatchEvent(popStateEvent)
     }, [])
 
     // 刷新/切换路由，然后再点进来时，加载最后一次点击的目录的文件数据
     useEffect(() => {
+        if (window.location.search.includes('redirected=true')) {
+            return
+        }
+
         const filepath = storage.getLocalStorage(
             LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH,
         )
 
         if (!filepath) {
-            get404Md()
+            get404Md().then((result) => setMarkdownData(result))
+
             return
         }
 
         const startTime = Date.now()
 
-        async function getArticleDataFromStore() {
-            const req = IndexedDB.singleInstance.getDataFromStore(filepath)
-            req.onsuccess = async (event: any) => {
-                const result: { filepath: string; file: string } =
-                    event?.target?.result
+        async function initFileDataWhenFirstLoad() {
+            setArticleLoading(true)
 
+            request(filepath).then(async (res) => {
                 const endTime = Date.now()
 
-                // 由于拿 IndexedDB 数据需要时间，但是时间又太短（几十毫秒）
-                // 所以为了给用户良好的体验（不要一闪而过），给 loading 加至少总共要延迟 500ms
                 await minDelayTime(startTime, endTime)
 
-                if (!result) {
-                    get404Md()
+                const { data, success } = res
+
+                if (!success || !data) {
+                    const result = await get404Md()
+                    setMarkdownData(result)
+                    setArticleLoading(false)
                     return
                 }
 
-                setMarkdownData(result?.file ?? '')
-            }
+                // 先设置数据再取消 loading
+                setMarkdownData(data)
+                setArticleLoading(false)
+            })
         }
 
-        getArticleDataFromStore()
+        initFileDataWhenFirstLoad()
     }, [])
 
     // 从 localStorage, 加载用户自定义展开的所有文章目录结构（若有, 否则使用默认目录 - 初始化已经做了）;
     // 且高亮显示最后一次用户选中的文章（若有）
     useEffect(() => {
+        if (window.location.search.includes('redirected=true')) {
+            return
+        }
+
         const localExpandedKeys = storage.getLocalStorage(
             LOCAL_STORAGE_NAME.ARTICLE_TREE_EXPANDED_KEYS,
             {
@@ -289,7 +361,7 @@ function Article() {
         }
     }, [isOpenDirectoryOnlyArticle])
 
-    console.log('_selectedKey', selectedKey)
+    console.log('__selectedKey', selectedKey)
 
     return (
         <div
