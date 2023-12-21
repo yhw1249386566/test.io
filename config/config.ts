@@ -21,6 +21,7 @@ export default defineConfig({
     // mfsu 可能会造成一些 bug
     mfsu: {},
     // 使用 hash: 避免部署到 github pages 时，当地址为 /feature/article 或其他没有 html 的路由时，刷新页面 404 的问题。
+    // 使用 browser, github pages 需要做一些特别的操作
     history: {
         type: 'browser',
     },
