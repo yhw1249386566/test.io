@@ -1,7 +1,6 @@
 import { memo, useMemo, useCallback, useState, useEffect } from 'react'
 import { Tree, Skeleton } from 'antd'
 
-import IndexedDB from '~/packages/y-indexeddb'
 import classnames from '~/packages/y-classnames'
 import EventEmitter from '~/packages/y-eventmitter'
 
@@ -11,7 +10,7 @@ import request from '@/utils/request'
 import articleDir from '@/article_dir.js'
 import { EVENT_EMITTER_NAME, LOCAL_STORAGE_NAME } from '@/utils/constant'
 import { DEFAULT_EXPANDED_KEYS } from '@/pages/constant'
-import { createFileTree, storage, minDelayTime } from '@/utils'
+import { createFileTree, storage, minDelayTime, get404Md } from '@/utils'
 
 import style from './index.less'
 import './index.less' // 如果需要使用 'article-markdown'(不用 style.xxx)，就需要这样导入
@@ -25,6 +24,7 @@ function Article() {
 
     const [markdownData, setMarkdownData] = useState('')
 
+    // 如果重复点击一样的目录, 则不再重新加载数据
     const [prevSelectedFilePath, setPrevSelectedFilePath] = useState('')
 
     const [isOpenDirectoryOnlyArticle, setIsOpenDirectoryOnlyArticle] =
@@ -49,39 +49,21 @@ function Article() {
         () => markdownData && !articleLoading, // 有 markdown 且 loading 为 false
         [markdownData, articleLoading],
     )
-
-    const get404Md = useCallback(async () => {
-        return request('/article/404.md').then((res) => {
-            const { data, success } = res
-
-            if (!success || !data) {
-                setMarkdownData('# 404')
-                return
-            }
-
-            setMarkdownData(data)
-
-            // 保留最后一次点击的文件数据
-            IndexedDB.singleInstance.clearDataFromStore()
-            IndexedDB.singleInstance.updateDataFromStore(
-                '/article/404.md',
-                data,
-            )
-        })
-    }, [])
-
     // 点击文件夹或者文件名会触发 onSelect 和 onExpand
     const handleTreeSelect = useCallback(
         async (
             path: string[],
             info: { node: { type: 'file' | 'directory' } },
         ) => {
+            // 例如:
+            // 若点击文件夹: 0_base/优秀的编程方式
+            // 若点击 md 文件: D:/code/yomua/public/article/0_base/函数式编程/函数式编程.md
             const activePath = path?.[0] ?? ''
 
             if (activePath.includes('.md')) {
                 storage.saveLocalStorage({
                     key: LOCAL_STORAGE_NAME.SELECTED_ARTICLE_KEY,
-                    value: activePath,
+                    value: activePath, // 可以直接改成 article/0_base/函数式编程/函数式编程.md
                 })
                 setSelectedKey(activePath)
             }
@@ -96,10 +78,11 @@ function Article() {
 
             setPrevSelectedFilePath(activePath)
 
-            // 刷新页面时, 保留最后一次点击的文件路径
+            // 点击时, 把此次点击认做是最后一次点击的文件路径
+            // 可以使用 SELECTED_ARTICLE_KEY
             storage.saveLocalStorage({
                 key: LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH,
-                value: activePath,
+                value: activePath,// 可以直接改成 article/0_base/函数式编程/函数式编程.md
             })
 
             const importFilePath = (activePath as string)
@@ -133,7 +116,8 @@ function Article() {
                 const { data, success } = res
 
                 if (!success || !data) {
-                    await get404Md()
+                    const result = await get404Md()
+                    setMarkdownData(result)
                     setArticleLoading(false)
                     return
                 }
@@ -142,10 +126,6 @@ function Article() {
                 // 否则, 就会看见数据还未 set， 但是 loading 已经取消了, 最后数据再被设置, 从而造成画面闪烁.
                 setMarkdownData(data)
                 setArticleLoading(false)
-
-                // 保留最后一次点击的文件数据（通过 localStorage 中存储的 activePath, 可以获取此数据）
-                IndexedDB.singleInstance.clearDataFromStore()
-                IndexedDB.singleInstance.updateDataFromStore(activePath, data)
             })
         },
         [prevSelectedFilePath, isOpenDirectoryOnlyArticle],
@@ -189,6 +169,7 @@ function Article() {
         setSelectedKey(decodeURIComponent(resultPath))
     })
 
+    // 若是重定向过来的, 则再次重定向到 feature/article, 以便 umi 拦截, 然后使用正确的路由加载组件
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search)
         const redirected = urlParams.get('redirected')
@@ -224,34 +205,40 @@ function Article() {
         )
 
         if (!filepath) {
-            get404Md()
+            get404Md().then((result) => setMarkdownData(result))
+
             return
         }
 
         const startTime = Date.now()
 
-        async function getArticleDataFromStore() {
-            const req = IndexedDB.singleInstance.getDataFromStore(filepath)
-            req.onsuccess = async (event: any) => {
-                const result: { filepath: string; file: string } =
-                    event?.target?.result
+        async function initData() {
+            setArticleLoading(true)
 
+            // 将 D:/code/yomua/public/article/0_base/xxx.md 改成 /article/0_base/xxx.md
+            const requestPath = filepath.slice(filepath.indexOf('/article'))
+
+            request(requestPath).then(async (res) => {
                 const endTime = Date.now()
 
-                // 由于拿 IndexedDB 数据需要时间，但是时间又太短（几十毫秒）
-                // 所以为了给用户良好的体验（不要一闪而过），给 loading 加至少总共要延迟 500ms
                 await minDelayTime(startTime, endTime)
 
-                if (!result) {
-                    get404Md()
+                const { data, success } = res
+
+                if (!success || !data) {
+                    const result = await get404Md()
+                    setMarkdownData(result)
+                    setArticleLoading(false)
                     return
                 }
 
-                setMarkdownData(result?.file ?? '')
-            }
+                // 先设置数据再取消 loading
+                setMarkdownData(data)
+                setArticleLoading(false)
+            })
         }
 
-        getArticleDataFromStore()
+        initData()
     }, [])
 
     // 从 localStorage, 加载用户自定义展开的所有文章目录结构（若有, 否则使用默认目录 - 初始化已经做了）;

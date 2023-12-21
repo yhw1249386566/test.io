@@ -78,21 +78,42 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search)
         const redirected = urlParams.get('redirected')
+
+        // 例如: /feature/article/xxx.md
         const pathname = urlParams.get('pathname')
 
+        debugger
         if (redirected === 'true') {
             document.addEventListener('DOMContentLoaded', function () {
                 // 如果用户是直接通过地址栏访问 /feature/article/xxx.md
                 if (pathname.includes('/feature/article')) {
-                    // article/xxx.md
-                    const articlePath = pathname.replace('/feature', '')
-
                     // 设置包含 pathname 的地址 => 用于在文章页刷新时，重新定位到文章页
                     // => https://www.whyhw.com/feature/article/xxx.md
                     localStorage.setItem(
                         'redirectedHref',
                         `${location.origin}${pathname}${location.hash}`,
                     )
+
+                    const activeFilePath =
+                        localStorage.getItem('activeFilePath') ||
+                        '/home/runner/work/yomua/yomua/public/'
+
+                    // 例如: /home/runner/work/yomua/yomua/public/
+                    // 即: public 文件夹所在的位置
+                    const rootPath = activeFilePath.slice(
+                        0,
+                        activeFilePath.indexOf('article'),
+                    )
+
+                    // 例如: /home/runner/work/yomua/yomua/public/article/xxx.md
+                    const localArticlePath = `${rootPath}${pathname.replace(
+                        '/feature/',
+                        '',
+                    )}`
+
+                    localStorage.setItem('activeFilePath', localArticlePath)
+
+                    localStorage.setItem('selectedArticleKey', localArticlePath)
 
                     // 此时页面已经加载, umi 已经可以成功拦截路由
                     // 所以此时再把页面的地址改成 => https://www.whyhw.com/feature/article/xxx.md
