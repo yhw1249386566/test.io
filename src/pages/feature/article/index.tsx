@@ -5,7 +5,7 @@ import IndexedDB from '~/packages/y-indexeddb'
 import classnames from '~/packages/y-classnames'
 import EventEmitter from '~/packages/y-eventmitter'
 
-import { useTheme } from '@/hooks'
+import { useTheme, useWindowEventListen } from '@/hooks'
 import { Markdown } from '@/component'
 import request from '@/utils/request'
 import articleDir from '@/article_dir.js'
@@ -32,6 +32,7 @@ function Article() {
 
     const [expandedKeys, setExpandedKeys] = useState(DEFAULT_EXPANDED_KEYS)
 
+    // 点击 .md 文件 =>  D:/code/yomua/public/article/0_base/函数式编程/函数式编程.md
     const [selectedKey, setSelectedKey] = useState('')
 
     const fileTree = useMemo(() => createFileTree(articleDir), [articleDir])
@@ -103,7 +104,7 @@ function Article() {
 
             const importFilePath = (activePath as string)
                 ?.split('article')[1]
-                ?.replaceAll('\\', '/') // 最后得到例如: '/css/缓存.md', fetch 不需要担心 import() 的情况，即: 必须包含一些路径信息。
+                ?.replaceAll('//', '/') // 最后得到例如: '/css/缓存.md', fetch 不需要担心 import() 的情况，即: 必须包含一些路径信息。
 
             // 仅显示文章, 且此时打开了所有文章目录时
             // 当选中某个目录时，将 X（打 X 按钮）切换到 bars, 并切换到文章.
@@ -159,6 +160,46 @@ function Article() {
         setExpandedKeys(expandKeys)
     }, [])
 
+    useWindowEventListen('popstate', (event: { state: Location } | any) => {
+        let articlePath = event?.state?.pathname?.replace('/feature/', '')
+        const activeFilePath = storage.getLocalStorage(
+            LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH,
+        )
+
+        const rootArticleIndex = activeFilePath.indexOf('article')
+
+        const rootPath = activeFilePath.slice(0, rootArticleIndex)
+
+        if (rootPath.includes('\\')) {
+            articlePath = articlePath.replaceAll('/', '\\')
+        }
+
+        const resultPath = `${rootPath}${articlePath}`
+
+        setSelectedKey(decodeURIComponent(resultPath))
+    })
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search)
+        const redirected = urlParams.get('redirected')
+        if (redirected === 'true') {
+            const redirectedHrefData = new URL(
+                storage.getLocalStorage('redirectedHref'),
+            )
+
+            history.replaceState(
+                null,
+                document.title,
+                `${location.origin}/feature/article${location.hash}`,
+            )
+
+            const popStateEvent = new PopStateEvent('popstate', {
+                state: redirectedHrefData,
+            })
+            window.dispatchEvent(popStateEvent)
+        }
+    }, [])
+
     // 刷新/切换路由，然后再点进来时，加载最后一次点击的目录的文件数据
     useEffect(() => {
         const filepath = storage.getLocalStorage(
@@ -197,7 +238,7 @@ function Article() {
     }, [])
 
     // 从 localStorage, 加载用户自定义展开的所有文章目录结构（若有, 否则使用默认目录 - 初始化已经做了）;
-    // 高亮显示最后一次用户选中的文章（若有）
+    // 且高亮显示最后一次用户选中的文章（若有）
     useEffect(() => {
         const localExpandedKeys = storage.getLocalStorage(
             LOCAL_STORAGE_NAME.ARTICLE_TREE_EXPANDED_KEYS,
@@ -210,13 +251,9 @@ function Article() {
             LOCAL_STORAGE_NAME.SELECTED_ARTICLE_KEY,
         )
 
-        if (localSelectedArticleKey) {
-            setSelectedKey(localSelectedArticleKey)
-        }
+        localSelectedArticleKey && setSelectedKey(localSelectedArticleKey)
 
-        if (localExpandedKeys) {
-            setExpandedKeys(localExpandedKeys)
-        }
+        localExpandedKeys && setExpandedKeys(localExpandedKeys)
     }, [])
 
     // 监听 Header - 打开菜单按钮点击事件
@@ -234,6 +271,8 @@ function Article() {
             )
         }
     }, [isOpenDirectoryOnlyArticle])
+
+    console.log('_selectedKey', selectedKey)
 
     return (
         <div
