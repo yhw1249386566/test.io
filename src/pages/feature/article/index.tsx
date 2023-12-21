@@ -272,6 +272,8 @@ function Article() {
         }
     }, [isOpenDirectoryOnlyArticle])
 
+    console.log('_selectedKey', selectedKey)
+
     return (
         <div
             className={classnames(style.article, {
