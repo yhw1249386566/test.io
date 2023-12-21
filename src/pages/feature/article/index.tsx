@@ -197,6 +197,12 @@ function Article() {
                 storage.getLocalStorage('redirectedHref'),
             )
 
+            const search = redirectedHrefData.search
+
+            redirectedHrefData.search = search
+                ? search + '&redirected=true'
+                : '?redirected=true'
+
             // 这时候的路由可以被 umi 拦截
             history.replaceState(
                 null,
@@ -205,10 +211,7 @@ function Article() {
             )
 
             const popStateEvent = new PopStateEvent('popstate', {
-                state: {
-                    ...redirectedHrefData,
-                    search: `?redirected=true`,
-                },
+                state: redirectedHrefData,
             })
             window.dispatchEvent(popStateEvent)
         }
