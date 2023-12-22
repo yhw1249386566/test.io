@@ -85,8 +85,6 @@ const getEnvValue = <ReturnType extends JSType = 'string'>(
         throw new Error('类型不存在')
     }
 
-    console.log('__getEnvValue', envKey, process.env[envKey])
-
     return converter(process.env[envKey] ?? '')
 }
 

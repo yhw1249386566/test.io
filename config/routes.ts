@@ -22,7 +22,10 @@ const BASE_ROUTES = [
 
 const EXTRACT_ROUTES = [
     {
-        path: '/feature/:name',
+        // 采用 * 通配符，是为了匹配 /feature/article/xxx.md
+        // 因为我们将路由模式改成了 history,
+        // 且让 article 页面地址友好的显示为: https://www.whyhw.com/feature/article/xxx.md
+        path: '/feature/:name*',
         component: '@/pages/feature',
         exact: true,
     },
