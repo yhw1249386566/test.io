@@ -1,6 +1,7 @@
-import Dotenv from 'dotenv'
 import path from 'path'
+import Dotenv from 'dotenv'
 
+import { log } from './index'
 import { JSType, EnvValueType } from './utils.d'
 
 export const CONVERT_TYPE_MAP: Record<JSType, (value: string) => any> = {
@@ -15,8 +16,17 @@ export const CONVERT_TYPE_MAP: Record<JSType, (value: string) => any> = {
         try {
             return JSON.parse(value)
         } catch (error) {
-            console.error('JSON.parse 失败')
-            console.error('要解析的值为:', value === '' ? '空字符串' : value)
+            log.group('JSON.parse 失败', {
+                sub: [
+                    { type: 'error', message: error },
+                    {
+                        type: 'log',
+                        message: `要解析的值为: ${
+                            value === '' ? '空字符串' : value
+                        }`,
+                    },
+                ],
+            })
             return null
         }
     },
@@ -24,25 +34,37 @@ export const CONVERT_TYPE_MAP: Record<JSType, (value: string) => any> = {
         try {
             return JSON.parse(value)
         } catch (error) {
-            console.error('JSON.parse 失败', error)
-            console.error('要解析的值为:', value === '' ? '空字符串' : value)
+            log.group('JSON.parse 失败', {
+                sub: [
+                    { type: 'error', message: error },
+                    {
+                        type: 'log',
+                        message: `要解析的值为: ${
+                            value === '' ? '空字符串' : value
+                        }`,
+                    },
+                ],
+            })
+
             return null
         }
     },
     function: (value) => eval(`(${value})`),
 }
 
-/** 以下不需要导出，用在此文件 */
-
-// 这两行用于打包之前读取环境变量
+// 这里的目的是因为: constants 存在打包之前就需要的 process.env 中的变量
+// 所以需要在这里提前注入环境变量
 const currentWorkingDir = process.cwd()
 Dotenv.config({ path: path.join(currentWorkingDir, '.env') })
+
+/** 以下不需要导出，用在此文件 */
 
 enum ENV_KEY {
     SCROLL_SPEED = 'SCROLL_SPEED',
     ARTICLE_DIR = 'ARTICLE_DIR',
     WRITE_ARTICLE_DIR = 'WRITE_ARTICLE_DIR',
     ARTICLE_PICtURE = 'ARTICLE_PICtURE',
+    ARTICLE_SUFFIX_NAME = 'ARTICLE_SUFFIX_NAME',
 }
 
 const getEnvValue = <ReturnType extends JSType = 'string'>(
@@ -62,6 +84,8 @@ const getEnvValue = <ReturnType extends JSType = 'string'>(
     if (!converter) {
         throw new Error('类型不存在')
     }
+
+    console.log('__getEnvValue', envKey, process.env[envKey])
 
     return converter(process.env[envKey] ?? '')
 }
@@ -102,6 +126,12 @@ export enum EVENT_EMITTER_NAME {
 export const SCROLL_SPEED = getEnvValue(ENV_KEY.SCROLL_SPEED, {
     returnType: 'number',
 })
+
+/** 以下变量即用于打包之前, 也用于打包后的运行时 */
+
+export const ARTICLE_SUFFIX_NAME = getEnvValue(ENV_KEY.ARTICLE_SUFFIX_NAME)
+
+/** 以上变量即用于打包之前, 也用于打包后的运行时 */
 
 /** 以下变量用于打包之前的准备 */
 

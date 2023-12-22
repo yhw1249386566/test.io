@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export type JSType =
     | 'string'
     | 'number'
