@@ -1,3 +1,5 @@
+import { log } from './index'
+
 type RequestOptions = {
     // 添加到 url 后: https://test.com?test=test
     queryString?: Record<string, string | string[]>
@@ -31,7 +33,7 @@ const handleResult = <R>(result: R) => {
 }
 
 const handleError = (error: Error) => {
-    console.log('Request Error: ', error)
+    log.error('Request Error: ', error)
     throw error
 }
 

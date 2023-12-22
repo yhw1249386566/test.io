@@ -3,20 +3,6 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import Cute from '@/assets/img/cute.jpeg'
 import CompressCute from '@/assets/img/compress_cute.jpeg'
 
-function getCurrentDate() {
-    const today = new Date()
-
-    // 获取年、月、日
-    const year = today.getFullYear()
-    const month = String(today.getMonth() + 1).padStart(2, '0') // 月份从 0 开始，需要加 1
-    const day = String(today.getDate()).padStart(2, '0')
-
-    // 格式化为 YYYY-MM-DD
-    const formattedDate = `${year}年${month}月${day}日`
-
-    return formattedDate
-}
-
 export enum FeatureName {
     Three = 'three',
     Article = 'article',

@@ -5,10 +5,12 @@ import path from 'path'
 function generateArticleFolderStructure(
     dir: string, // 某个目录，如：/yomua/src/scripts/index.ts
     options?: {
-        includeFile?: string[]
+        includeFiles?: string[]
     },
 ) {
     const result = {}
+
+    const { includeFiles = [] } = options ?? {}
 
     const files = fs.readdirSync(dir)
 
@@ -19,9 +21,9 @@ function generateArticleFolderStructure(
         if (stats.isDirectory()) {
             // 如果是文件夹，则递归获取其子文件夹结构
             result[file] = generateArticleFolderStructure(filePath, {
-                includeFile: ['.md'],
+                includeFiles,
             })
-        } else if (options?.includeFile?.find((eF) => file.includes(eF))) {
+        } else if (includeFiles?.find((eF) => file.includes(eF))) {
             // 如果是文件，则记录文件路径
             result[file] = filePath.replace(/\\/g, '/')
         }

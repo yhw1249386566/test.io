@@ -1,5 +1,7 @@
+/* eslint-disable no-use-before-define */
+
 import { EnvValueType, JSType } from './utils.d'
-import { CONVERT_TYPE_MAP } from './constant'
+import { CONVERT_TYPE_MAP, LOCAL_STORAGE_NAME } from './constant'
 import request from './request'
 
 /** start --- 不需要导出 --- start */
@@ -8,26 +10,45 @@ type DirData = {
     [fileName: string]: string | DirData
 }
 
+type StorageDataKey<KeyType> = { key: KeyType; value: string }
+
 const saveLocalStorage = (
-    data: { key: string; value: string },
+    data: StorageDataKey<LOCAL_STORAGE_NAME>,
     // config?,
 ) => {
     const { key, value } = data
 
     if (!key) {
-        console.error('saveLocalStorage: key 不存在')
-        return
+        log.error('saveLocalStorage key 不存在', key)
+        return false
     }
 
     localStorage.setItem(key, value)
+
+    return true
+}
+
+const saveBatchLocalStorage = (data: StorageDataKey<LOCAL_STORAGE_NAME>[]) => {
+    data.forEach((item) => {
+        const { key, value } = item ?? {}
+
+        if (!key) {
+            log.error('saveBatchLocalStorage key 不存在: ', key)
+            return false
+        }
+
+        localStorage.setItem(key, value)
+    })
+
+    return true
 }
 
 const getLocalStorage = <ReturnType extends JSType = 'string'>(
-    key: string,
+    key: LOCAL_STORAGE_NAME,
     options?: { returnType?: ReturnType },
 ): EnvValueType<ReturnType> => {
     if (!key) {
-        console.error('getLocalStorage: key 不存在')
+        log.error('getLocalStorage: key 不存在')
         return '' as EnvValueType<ReturnType>
     }
 
@@ -38,14 +59,30 @@ const getLocalStorage = <ReturnType extends JSType = 'string'>(
     return converter(localStorage.getItem(key) ?? '')
 }
 
+const clearLocalStorage = (key: LOCAL_STORAGE_NAME) => {
+    if (!key) {
+        log.warn('clearLocalStorage: key 不存在')
+        return false
+    }
+
+    localStorage.removeItem(key)
+
+    return true
+}
+
+const clearAllLocalStorage = () => {
+    localStorage.clear()
+    return true
+}
+
 const saveSessionStorage = (
-    data: { key: string; value: string },
+    data: StorageDataKey<string>,
     // config?,
 ) => {
     const { key, value } = data
 
     if (!key) {
-        console.error('saveSessionStorage: key 不存在')
+        log.error('saveSessionStorage: key 不存在')
         return
     }
 
@@ -54,20 +91,61 @@ const saveSessionStorage = (
 
 const getSessionStorage = (key: string) => {
     if (!key) {
-        console.error('getSessionStorage: key 不存在')
+        log.error('getSessionStorage: key 不存在')
         return ''
     }
 
     return sessionStorage.getItem(key) ?? ''
 }
 
+const LOGO_TYPE_MAP = {
+    error: 'color: #fff; background-color: #f00',
+    info: 'color: #fff; background-color: #00f',
+    logo: 'color: #fff; background-color: #000',
+    trace: 'color: #000; background-color: #fff',
+}
+
+const logoGroup = (
+    title: string,
+    options: {
+        sub: {
+            type: 'error' | 'info' | 'log' | 'trace'
+            message: string | Error | unknown
+        }[]
+    },
+) => {
+    const { sub = [] } = options ?? {}
+
+    console.group(`%c${title}`, 'color: #fff; background-color: #000')
+
+    sub.forEach((item) => {
+        const { type, message } = item
+
+        console[type](`%c${message}`, LOGO_TYPE_MAP[type])
+    })
+
+    console.groupEnd()
+}
+
 /** end --- 不需要导出 --- end */
 
 export const storage = {
     saveLocalStorage,
+    saveBatchLocalStorage,
     getLocalStorage,
+    clearLocalStorage,
+    clearAllLocalStorage,
     saveSessionStorage,
     getSessionStorage,
+}
+
+export const log = {
+    info: console.info,
+    warn: console.warn,
+    trace: console.trace,
+    error: console.error,
+    log: console.log,
+    group: logoGroup,
 }
 
 export const delay = async (time: number) =>
@@ -219,9 +297,9 @@ export const get404Md = async () => {
         const { data, success } = res
 
         if (!success || !data) {
-            return '404'
+            return '# 404'
         }
 
-        return data
+        return data as string
     })
 }
