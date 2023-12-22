@@ -122,6 +122,15 @@ function Article() {
                 activePath.indexOf('/article'),
             )
 
+            // 更改 url 为更友好显示的地址
+            window.history.replaceState(
+                null,
+                document.title,
+                window.location.origin +
+                    `/feature${importFilePath}` +
+                    window.location.hash,
+            )
+
             // 点击时, 把此次点击认做是最后一次点击的文件路径
             // =>/article/xxx.md
             storage.saveLocalStorage({
@@ -199,18 +208,20 @@ function Article() {
 
                 const urlSearch = new URLSearchParams(url.search)
 
-                // 替换成干净的网址
-                history.replaceState(
+                const pathname = urlSearch.get('pathname') ?? ''
+
+                // 更改 url 为更友好显示的地址
+                window.history.replaceState(
                     null,
                     document.title,
-                    `${url.origin}/feature/article${url.hash}`,
+                    `${url.origin}${pathname}${url.hash}`,
                 )
-
-                const pathname = urlSearch.get('pathname') ?? ''
 
                 // => /home/runner/work/yomua/yomua/public/article/xxx.md
                 // => D:/code/yomua/public/article/xxx.md
                 // 这里不包含 ARTICLE_SUFFIX_NAME 也没关系, 大不了设置 selectedKey 失败
+                // 实际上, 我们根本没办法确定根路径是什么, 除非设置默认值为 /home/runner/work/yomua/yomua/public/article
+                // 但是这并不通用, 换一个服务器, 可能就有问题了.
                 const selectedArticleKey =
                     urlSearch.get('selectedArticleKey') ?? ''
 
@@ -319,6 +330,13 @@ function Article() {
             LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH,
         )
 
+        // 更改 url 为更友好显示的地址
+        window.history.replaceState(
+            null,
+            document.title,
+            `${window.location.origin}/feature${filepath}${window.location.hash}`,
+        )
+
         if (!filepath || !filepath.includes(ARTICLE_SUFFIX_NAME)) {
             get404Md().then((result) => setMarkdownData(result))
 
@@ -413,19 +431,15 @@ function Article() {
         }
     }, [isOpenDirectoryOnlyArticle])
 
-    console.log('__selectedKey', selectedKey)
-
     return (
         <div
             className={classnames(style.article, {
                 [style[`article-${theme}`]]: theme,
-            })}
-        >
+            })}>
             <div
                 className={classnames(style.directoryTreeBox, {
                     [style.showDirectorOnlyArticle]: isOpenDirectoryOnlyArticle,
-                })}
-            >
+                })}>
                 <DirectoryTree
                     className={style.directoryTree}
                     treeData={fileTree as any[]}
@@ -449,8 +463,7 @@ function Article() {
                     className={classnames(style.markdown, 'article-markdown', {
                         [style.hideMarkdownOnlyArticle]:
                             isOpenDirectoryOnlyArticle,
-                    })}
-                >
+                    })}>
                     {markdownData}
                 </Markdown>
             )}
