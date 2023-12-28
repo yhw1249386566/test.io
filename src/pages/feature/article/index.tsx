@@ -23,6 +23,7 @@ import './index.less' // 如果需要使用 'article-markdown'(不用 style.xxx)
 
 const { DirectoryTree } = Tree
 
+// 似乎有点问题
 // path => /feature/article/1_front_end/0_base/JS设计模式/设计模式.md
 function parseArticlePath(path: string) {
     // 移除 /feature/article
@@ -32,6 +33,7 @@ function parseArticlePath(path: string) {
         `^\/feature\/article\/([^\/]+\/[^\/]+\/[^\/]+)\/[^\/]+${ARTICLE_SUFFIX_NAME}$`,
     )
 
+    // 有点问题
     path = path.replace(reg, '$1')
 
     const segments = path.split('/').filter(Boolean)
