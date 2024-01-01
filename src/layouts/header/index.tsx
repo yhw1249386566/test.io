@@ -93,7 +93,8 @@ const Header = (props: HeaderProps) => {
             <Direction
                 alignItems='center'
                 justifyContent='space-between'
-                className={style.headerInfo}>
+                className={style.headerInfo}
+            >
                 {/* <FontAwesomeIcon
                     className={classnames(style.back, {
                         [style.hideLeftIcon]:
@@ -102,21 +103,17 @@ const Header = (props: HeaderProps) => {
                     icon='chevron-left'
                     onClick={handleBack}
                 /> */}
-
                 <FontAwesomeIcon
                     icon={isShowX ? 'times' : 'bars'}
                     className={classnames(style.bars, {
                         [style.hideBars]:
-                            location.pathname !== '/feature/article' &&
-                            !location.pathname.includes('/heading'),
+                            !location.pathname.includes('/feature/article'),
                     })}
                     onClick={handleOpenDirectoryOnlyArticle}
                 />
-
                 <Text className={style.title} onClick={handleClickTitle}>
                     青芽
                 </Text>
-
                 <FontAwesomeIcon
                     className={style.themeIcon}
                     icon={theme === 'light' ? faSun : faMoon}

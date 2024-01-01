@@ -1,6 +1,18 @@
 /* eslint-disable */
 
 export type JSType =
+    | string
+    | number
+    | boolean
+    | null
+    | undefined
+    | BigInt
+    | symbol
+    | object
+    | Array<any>
+    | Function
+
+export type JSValueType =
     | 'string'
     | 'number'
     | 'boolean'
@@ -12,12 +24,15 @@ export type JSType =
     | 'array'
     | 'function'
 
-export type EnvValueType<T extends JSType> = T extends 'function'
+export type EnvValueType<
+    T extends JSValueType,
+    DataType = T,
+> = T extends 'function'
     ? Function
-    : T extends 'array'
-    ? any[]
-    : T extends 'object'
-    ? Record<string, any>
+    : T extends 'bigInt'
+    ? BigInt
+    : T extends 'symbol'
+    ? symbol
     : T extends 'undefined'
     ? undefined
     : T extends 'null'
@@ -26,4 +41,16 @@ export type EnvValueType<T extends JSType> = T extends 'function'
     ? boolean
     : T extends 'number'
     ? number
-    : string
+    : T extends 'array'
+    ? DataType extends T
+        ? T[]
+        : DataType[]
+    : T extends 'object'
+    ? DataType extends T
+        ? T
+        : DataType
+    : T extends 'string'
+    ? DataType extends T
+        ? string
+        : DataType
+    : DataType
