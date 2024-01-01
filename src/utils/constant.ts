@@ -1,10 +1,13 @@
 import path from 'path'
 import Dotenv from 'dotenv'
 
-import { log } from './index'
-import { JSType, EnvValueType } from './utils.d'
+import log from './log'
+import { EnvValueType, JSValueType } from './utils.d'
 
-export const CONVERT_TYPE_MAP: Record<JSType, (value: string) => any> = {
+export const CONVERT_TYPE_MAP: Record<
+    JSValueType,
+    (value: string) => EnvValueType<JSValueType>
+> = {
     string: (value) => value,
     number: (value) => Number(value),
     boolean: (value) => value.toLowerCase() === 'true',
@@ -67,7 +70,7 @@ enum ENV_KEY {
     ARTICLE_SUFFIX_NAME = 'ARTICLE_SUFFIX_NAME',
 }
 
-const getEnvValue = <ReturnType extends JSType = 'string'>(
+const getEnvValue = <ReturnType extends JSValueType = 'string'>(
     envKey: ENV_KEY,
     options?: {
         returnType?: ReturnType
@@ -85,7 +88,7 @@ const getEnvValue = <ReturnType extends JSType = 'string'>(
         throw new Error('类型不存在')
     }
 
-    return converter(process.env[envKey] ?? '')
+    return converter(process.env[envKey] ?? '') as EnvValueType<ReturnType>
 }
 
 /** 以上不需要导出，用在此文件 */

@@ -2,7 +2,7 @@
     "private": true,
     "author": "Yomua",
     "scripts": {
-        "start-dev": "umi dev",
+        "start": "umi dev",
         "build": "umi build",
         "build-article": "ts-node src/scripts/index.ts",
         "postinstall": "umi generate tmp",

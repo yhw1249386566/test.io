@@ -3,14 +3,14 @@ import React, { useEffect } from 'react'
 import { debounce } from '~/packages/y-screw'
 
 const DEFAULT_OPTIONS = {
-    delay: 300,
+    delay: 0,
 }
 
-// 此 hook 的监听器将被防抖。
-export default function useWindowEventListen(
+// 此 hook 的监听器将被防抖
+export default function useWindowEventListener(
     eventName: string,
     listenCallback: EventListenerOrEventListenerObject,
-    effect: React.DependencyList = [],
+    effect?: React.DependencyList,
     options: {
         delay?: number // 单位：毫秒
     } = DEFAULT_OPTIONS,
@@ -19,7 +19,7 @@ export default function useWindowEventListen(
         return
     }
 
-    const { delay = 300 } = options
+    const { delay = 0 } = options
 
     useEffect(() => {
         window.addEventListener(eventName, debounce(listenCallback, delay))
