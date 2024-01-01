@@ -2,7 +2,8 @@ import { memo, useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
-import { useWindowEventListen } from '@/hooks'
+import { useWindowEventListener } from '~/packages/y-hooks'
+
 import up from '@/assets/img/room/up.jpg'
 import down from '@/assets/img/room/down.jpg'
 import left from '@/assets/img/room/left.jpg'
@@ -54,12 +55,17 @@ function 全景看房() {
     scene.add(cube)
 
     // 响应式画布
-    useWindowEventListen('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight
-        camera.updateProjectionMatrix()
-        renderer.setSize(window.innerWidth, window.innerHeight)
-        renderer.setPixelRatio(window.devicePixelRatio)
-    })
+    useWindowEventListener(
+        'resize',
+        () => {
+            camera.aspect = window.innerWidth / window.innerHeight
+            camera.updateProjectionMatrix()
+            renderer.setSize(window.innerWidth, window.innerHeight)
+            renderer.setPixelRatio(window.devicePixelRatio)
+        },
+        [],
+        { delay: 300 },
+    )
 
     useEffect(() => {
         if (!container.current) {

@@ -1,11 +1,12 @@
-import { memo, useCallback, useState } from 'react'
+import { memo, useCallback, useState, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import classnames from '~/packages/y-classnames'
+import { useWindowEventListener } from '~/packages/y-hooks'
 
+import log from '@/utils/log'
+import { useTheme } from '@/hooks'
 import { SCROLL_SPEED } from '@/utils/constant'
-import { log } from '@/utils'
-import { useTheme, useWindowEventListen } from '@/hooks'
 
 import style from './index.less'
 
@@ -13,6 +14,8 @@ function Sidebar() {
     const [isShowSidebar, setIsShowSidebar] = useState(false)
 
     const theme = useTheme()
+
+    const prevScrollPosition = useRef(document.documentElement.scrollTop)
 
     const handleTop: React.MouseEventHandler<SVGSVGElement> = useCallback(
         (event) => {
@@ -47,16 +50,33 @@ function Sidebar() {
         [],
     )
 
-    useWindowEventListen('scroll', (event) => {
-        if (event.target instanceof Document) {
-            if (event.target?.documentElement?.scrollTop === 0) {
-                setIsShowSidebar(false)
+    useWindowEventListener(
+        'scroll',
+        (event) => {
+            if (!(event.target instanceof Document)) {
                 return
             }
-        }
 
-        setIsShowSidebar(true)
-    })
+            const { scrollTop = 0 } = event?.target?.documentElement ?? {
+                scrollTop: 0,
+            }
+
+            // 往下滚动
+            const isDownScroll = scrollTop > prevScrollPosition.current
+
+            if (scrollTop === 0 || isDownScroll) {
+                setIsShowSidebar(false)
+                prevScrollPosition.current = scrollTop
+                return
+            }
+
+            // 此处相当于往上滚动, 则显示 sidebar
+            prevScrollPosition.current = scrollTop
+            setIsShowSidebar(true)
+        },
+        [],
+        { delay: 100 },
+    )
 
     return (
         <div

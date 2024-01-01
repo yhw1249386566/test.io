@@ -1,8 +1,9 @@
 /* eslint-disable no-use-before-define */
 
-import { EnvValueType, JSType } from './utils.d'
+import { EnvValueType, JSValueType } from './utils.d'
 import { CONVERT_TYPE_MAP, LOCAL_STORAGE_NAME } from './constant'
 import request from './request'
+import log from './log'
 
 /** start --- 不需要导出 --- start */
 
@@ -43,20 +44,26 @@ const saveBatchLocalStorage = (data: StorageDataKey<LOCAL_STORAGE_NAME>[]) => {
     return true
 }
 
-const getLocalStorage = <ReturnType extends JSType = 'string'>(
+const getLocalStorage = <
+    ReturnType extends JSValueType = 'string',
+    DataType = string,
+>(
     key: LOCAL_STORAGE_NAME,
     options?: { returnType?: ReturnType },
-): EnvValueType<ReturnType> => {
+): EnvValueType<ReturnType, DataType> => {
     if (!key) {
         log.error('getLocalStorage: key 不存在')
-        return '' as EnvValueType<ReturnType>
+        return '' as EnvValueType<ReturnType, DataType>
     }
 
     const { returnType = 'string' } = options ?? {}
 
     const converter = CONVERT_TYPE_MAP[returnType]
 
-    return converter(localStorage.getItem(key) ?? '')
+    return converter(localStorage.getItem(key) ?? '') as EnvValueType<
+        ReturnType,
+        DataType
+    >
 }
 
 const clearLocalStorage = (key: LOCAL_STORAGE_NAME) => {
@@ -98,35 +105,6 @@ const getSessionStorage = (key: string) => {
     return sessionStorage.getItem(key) ?? ''
 }
 
-const LOGO_TYPE_MAP = {
-    error: 'color: #fff; background-color: #f00',
-    info: 'color: #fff; background-color: #00f',
-    logo: 'color: #fff; background-color: #000',
-    trace: 'color: #000; background-color: #fff',
-}
-
-const logoGroup = (
-    title: string,
-    options: {
-        sub: {
-            type: 'error' | 'info' | 'log' | 'trace'
-            message: string | Error | unknown
-        }[]
-    },
-) => {
-    const { sub = [] } = options ?? {}
-
-    console.group(`%c${title}`, 'color: #fff; background-color: #000')
-
-    sub.forEach((item) => {
-        const { type, message } = item
-
-        console[type](`%c${message}`, LOGO_TYPE_MAP[type])
-    })
-
-    console.groupEnd()
-}
-
 /** end --- 不需要导出 --- end */
 
 export const storage = {
@@ -137,15 +115,6 @@ export const storage = {
     clearAllLocalStorage,
     saveSessionStorage,
     getSessionStorage,
-}
-
-export const log = {
-    info: console.info,
-    warn: console.warn,
-    trace: console.trace,
-    error: console.error,
-    log: console.log,
-    group: logoGroup,
 }
 
 export const delay = async (time: number) =>
@@ -170,12 +139,12 @@ export const getChatLengthFromString = (str: string) => {
     return length
 }
 
-export const getDataType = <T>(data: T): JSType => {
+export const getDataType = <T>(data: T): JSValueType => {
     const type = Object.prototype.toString
         .call(data)
         .replace(/\[?\]?/g, '') // 'object String'
         .replace('object ', '') // String
-        .replace(/\w/, (r) => r.toLowerCase()) as JSType // string
+        .replace(/\w/, (r) => r.toLowerCase()) as JSValueType // string
 
     return type
 }
@@ -302,4 +271,22 @@ export const get404Md = async () => {
 
         return data as string
     })
+}
+
+export const urlChange = (
+    url: string,
+    options?: {
+        state?: any // 当使用者监听 popstate 时，要传给 event.state 的数据
+        go?: boolean // 修改 url 时是否直接跳转过去
+    },
+) => {
+    const { go = false, state = null } = options ?? {}
+
+    window.history.replaceState(null, '', url)
+
+    if (go) {
+        const popStateEvent = new PopStateEvent('popstate', { state })
+
+        window.dispatchEvent(popStateEvent)
+    }
 }
