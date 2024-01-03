@@ -57,6 +57,11 @@
         }
 
         body {
+            /* 
+             *  解决因为切换页面时 body 滚动条出现/消失 而导致页面看起来像是在抖动的问题 
+             *  减去 body-scroll-width 是因为视区 vw 包含滚动条宽度, 而实际内容在参与 css 规则时, 会去掉滚动条宽度.
+             */
+            width: calc(100vw - var(--body-scroll-width)) !important;
             background-color: var(--global-primary-bg-color) !important;
         }
 
