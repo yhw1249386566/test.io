@@ -1,3 +1,8 @@
+:root {
+    --body-scroll-width: 10px;
+    --header-width: 62px;
+}
+
 [data-theme='light']:root {
     --global-primary-text-color: #24292f;
     --global-primary-bg-color: #fff;

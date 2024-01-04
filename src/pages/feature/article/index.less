@@ -9,8 +9,6 @@
     --article-tree-selected-background-color: rgba(88, 175, 223, 0.1);
 }
 
-@headerHeight: 62px;
-
 @media screen and (max-width: @showOnlyArticleMaxWidth) {
     // 隐藏所有文章目录
     .directoryTreeBox {
@@ -30,7 +28,7 @@
     width: 100%;
 
     .markdown-navbar-box {
-        top: @headerHeight;
+        top: var(--header-width);
     }
 
     .markdown-body-box {
@@ -61,13 +59,12 @@
 }
 
 .directoryTreeBox {
-    top: @headerHeight; // 减去头部高度
+    top: var(--header-width); // 减去头部高度
     width: 400px;
-    min-width: 400px;
     position: sticky;
     overflow-y: auto;
     align-items: center;
-    height: calc(100vh - @headerHeight);
+    height: calc(100vh - var(--header-width));
     .scrollStyle();
 
     &:hover {
