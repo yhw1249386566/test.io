@@ -12,3 +12,5 @@ src/assets/
 node_modules/
 src/article_dir.js
 public/
+umi_webpack_dev.js
+umi_webpack_prod/ks

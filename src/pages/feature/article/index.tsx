@@ -6,58 +6,25 @@ import { Tree, Skeleton } from 'antd'
 import classnames from '~/packages/y-classnames'
 import EventEmitter from '~/packages/y-eventmitter'
 
+import log from '@/utils/log'
 import { useTheme } from '@/hooks'
-import { Markdown } from '@/component'
 import request from '@/utils/request'
+import storage from '@/utils/storage'
+import { Markdown } from '@/component'
 import articleDir from '@/article_dir.js'
 import { DEFAULT_EXPANDED_KEYS } from '@/pages/constant'
-import log from '@/utils/log'
 import {
     EVENT_EMITTER_NAME,
     LOCAL_STORAGE_NAME,
     ARTICLE_SUFFIX_NAME,
 } from '@/utils/constant'
-import {
-    createFileTree,
-    storage,
-    minDelayTime,
-    get404Md,
-    urlChange,
-} from '@/utils'
+import { createFileTree, minDelayTime, get404Md, urlChange } from '@/utils'
 
 import './index.less' // 如果需要使用 'article-markdown'(不用 style.xxx)，就需要这样导入
 import style from './index.less'
+import { useRedirected } from './split'
 
 const { DirectoryTree } = Tree
-
-// path => 1_front_end/0_base/JS设计模式/设计模式.md
-function parseArticlePath(path: string) {
-    // 移除以 / 开始且以 .md 结尾的部分 => abc/a/xxx.md 保留 abc/a
-    // => 1_front_end/0_base/JS设计模式
-    const reg = new RegExp(`\/[^/]+\.${ARTICLE_SUFFIX_NAME}$`)
-
-    path = path.replace(reg, '')
-
-    const segments = path.split('/').filter(Boolean)
-
-    const result: string[] = []
-
-    let currentPath = ''
-
-    // 遍历路径, 然后拼接, 最后得出
-    // => [ "1_front_end", "1_front_end/0_base", "1_front_end/0_base/JS设计模式"]
-    for (let i = 0; i < segments.length; i++) {
-        if (i === 0) {
-            currentPath += `${segments[i]}`
-            result.push(currentPath)
-        } else {
-            currentPath += `/${segments[i]}`
-            result.push(currentPath)
-        }
-    }
-
-    return result
-}
 
 function Article() {
     const theme = useTheme()
@@ -109,7 +76,7 @@ function Article() {
                 return
             }
 
-            // 存储并设置最后一次点击的文章的 key; 每次点击都认为是最后一次
+            // 点击的是文章: 存储并设置最后一次文章 key; 每次点击都认为是最后一次
             if (activePath.includes(ARTICLE_SUFFIX_NAME)) {
                 // => D:/code/yomua/public/article/xxx.md
                 storage.saveLocalStorage({
@@ -126,13 +93,11 @@ function Article() {
                 activePath.indexOf('/article'),
             )
 
-            // 更改 url 为更友好显示的地址
             urlChange(window.location.origin + `/feature${importFilePath}`)
 
             window.scrollTo(0, 0)
 
-            // 点击时, 把此次点击认做是最后一次点击的文件路径
-            // =>/article/xxx.md
+            // 点击文章或目录: 把此次点击认做是最后一次点击的文件路径 =>/article/xxx.md
             storage.saveLocalStorage({
                 key: LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH,
                 value: importFilePath,
@@ -176,10 +141,11 @@ function Article() {
                     setArticleLoading(false)
                 })
                 .catch((error) => {
+                    log.error('handleTreeSelect error', error)
+
                     get404Md()
                         .then((result) => setMarkdownData(result))
                         .finally(() => setArticleLoading(false))
-                    log.error('handleTreeSelect error', error)
                 })
         },
         [prevSelectedFilePath, isOpenDirectoryOnlyArticle],
@@ -194,116 +160,22 @@ function Article() {
         setExpandedKeys(expandKeys)
     }, [])
 
-    // 处理重定向
-    useEffect(() => {
-        const url = new URL(window.location.href)
-        const urlParams = new URLSearchParams(url.search)
+    // 如果 queryString 包含 redirected=true, 则此 hook 触发.
+    useRedirected(
+        {
+            setMarkdownData,
+            setSelectedKey,
+            setExpandedKeys,
+        },
+        [],
+    )
 
-        if (urlParams.get('redirected') !== 'true') {
-            return
-        }
-
-        try {
-            const pathname = urlParams.get('pathname') ?? ''
-
-            // => /home/runner/work/yomua/yomua/public/article/xxx.md
-            // => D:/code/yomua/public/article/xxx.md
-            // 这里不包含 ARTICLE_SUFFIX_NAME 也没关系, 大不了设置 selectedKey 失败
-            // 实际上, 我们根本没办法确定根路径是什么, 除非设置默认值为 /home/runner/work/yomua/yomua/public/article
-            // 但是这并不通用, 换一个服务器, 可能就有问题了.
-            const selectedArticleKey = urlParams.get('selectedArticleKey') ?? ''
-
-            // 去除 feature, 因为我们将文章放在 public/article
-            // => /article/xxx.md
-            const filePathRemoveFeature = pathname.replace('/feature', '')
-
-            // 防止跳转过来的页面没有 ARTICLE_SUFFIX_NAME
-            if (!filePathRemoveFeature.includes(ARTICLE_SUFFIX_NAME)) {
-                throw new Error(
-                    `filePathRemoveFeature: is not a ${ARTICLE_SUFFIX_NAME} file`,
-                )
-            }
-
-            request(filePathRemoveFeature)
-                .then(({ data, success }) => {
-                    if (!success || !data) {
-                        throw new Error('Can not get data')
-                    }
-
-                    // 截取从 /article/ 之后的路径
-                    // => 1_front_end/c_javascript/AJAX/AJAX.md
-                    const filePath = filePathRemoveFeature.replace(
-                        '/article/',
-                        '',
-                    )
-
-                    // 截取从 0 到最后一个 /, 截掉 /xxx.md
-                    //  => 1_front_end/c_javascript/AJAX
-                    const expandKey = filePath.slice(
-                        0,
-                        filePath.lastIndexOf('/'),
-                    )
-
-                    // 取出本地存储的 expandKeys
-                    const localExpandKeys = storage.getLocalStorage(
-                        LOCAL_STORAGE_NAME.ARTICLE_TREE_EXPANDED_KEYS,
-                        {
-                            returnType: 'array',
-                        },
-                    )
-
-                    // 若跳转过来的文章路径, 它的目录没有被展开,
-                    // 则通过此方法解析它的所有父目录, 然后依次展开
-                    const parseKeys = parseArticlePath(filePath)
-
-                    const keys = localExpandKeys
-                        ? [...new Set([...parseKeys, ...localExpandKeys])]
-                        : [
-                              ...new Set([
-                                  expandKey,
-                                  ...parseKeys,
-                                  ...DEFAULT_EXPANDED_KEYS,
-                              ]),
-                          ]
-
-                    // 更改 url 为更友好显示的地址
-                    urlChange(`${url.origin}${pathname}${url.hash}`)
-
-                    setMarkdownData(data)
-
-                    setSelectedKey(selectedArticleKey)
-
-                    setExpandedKeys(keys)
-
-                    storage.saveBatchLocalStorage([
-                        {
-                            key: LOCAL_STORAGE_NAME.ARTICLE_TREE_EXPANDED_KEYS,
-                            value: JSON.stringify(keys),
-                        },
-                        {
-                            key: LOCAL_STORAGE_NAME.SELECTED_ARTICLE_KEY,
-                            value: selectedArticleKey,
-                        },
-                        {
-                            key: LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH,
-                            value: filePathRemoveFeature, // 保留 /article/
-                        },
-                    ])
-                })
-                .catch((error) => {
-                    throw error
-                })
-        } catch (error) {
-            log.error(error)
-
-            // 更改 url 为更友好显示的地址
-            urlChange(`${url.origin}/feature/article`)
-
-            get404Md().then((res) => setMarkdownData(res))
-        }
-    }, [])
-
-    // 刷新/切换路由，然后再点进来时，加载最后一次点击的目录的文件数据
+    /**
+     * 刷新/切换路由，然后再点进来时，加载最后一次点击的目录的文件数据
+     * 注意: 启动本地服务, 不会走 public/404.html, 并且类似 URL: /feature/article/xx.md 是可以获取数据的.
+     * why? 可能是本地启动服务数据加载不一样吧; 如果先打包(yarn build), 然后将打包文件放入服务器(http-server dist)
+     * 这样再访问 /feature/article/xx.md 就没有问题, 会走 public/404.html
+     */
     useEffect(() => {
         if (isRedirected) {
             return
@@ -313,7 +185,6 @@ function Article() {
             LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH,
         )
 
-        // 更改 url 为更友好显示的地址
         urlChange(
             `${window.location.origin}/feature${filepath}${window.location.hash}`,
         )
@@ -328,54 +199,51 @@ function Article() {
 
         const startTime = Date.now()
 
-        async function initFileDataWhenFirstLoad() {
-            setArticleLoading(true)
+        setArticleLoading(true)
 
-            request(filepath)
-                .then(async (res) => {
-                    const endTime = Date.now()
+        request(filepath)
+            .then(async (res) => {
+                const endTime = Date.now()
 
-                    await minDelayTime(startTime, endTime)
+                await minDelayTime(startTime, endTime)
 
-                    const { data, success } = res
+                const { data, success } = res
 
-                    if (!success || !data) {
-                        throw new Error(
-                            'initFileDataWhenFirstLoad: Can not get data',
-                        )
-                    }
+                if (!success || !data) {
+                    throw new Error(
+                        'initFileDataWhenFirstLoad: Can not get data',
+                    )
+                }
 
-                    // 先设置数据再取消 loading
-                    setMarkdownData(data)
-                    setArticleLoading(false)
+                // 先设置数据再取消 loading
+                setMarkdownData(data)
+                setArticleLoading(false)
+            })
+            .catch((error) => {
+                log.group('initFileDataWhenFirstLoad error', {
+                    sub: [
+                        {
+                            type: 'error',
+                            message: error,
+                        },
+
+                        {
+                            type: 'log',
+                            message: `filepath: ${filepath}`,
+                        },
+                    ],
                 })
-                .catch((error) => {
-                    log.group('initFileDataWhenFirstLoad error', {
-                        sub: [
-                            {
-                                type: 'error',
-                                message: error,
-                            },
 
-                            {
-                                type: 'log',
-                                message: `filepath: ${filepath}`,
-                            },
-                        ],
-                    })
+                // 如果的错误被执行, 说明第一次进来就出错了, 这很严重, 所以放弃所有本地存储, 重新再存储.
+                storage.clearAllLocalStorage()
 
-                    storage.clearAllLocalStorage()
-
-                    get404Md()
-                        .then((result) => setMarkdownData(result))
-                        .finally(() => setArticleLoading(false))
-                })
-        }
-
-        initFileDataWhenFirstLoad()
+                get404Md()
+                    .then((result) => setMarkdownData(result))
+                    .finally(() => setArticleLoading(false))
+            })
     }, [])
 
-    // 从 localStorage, 加载用户自定义展开的所有文章目录结构（若有, 否则使用默认目录 - 初始化已经做了）;
+    // 从 localStorage, 加载用户自定义展开的所有文章目录结构（若没有则使用默认目录）;
     // 且高亮显示最后一次用户选中的文章（若有）
     useEffect(() => {
         if (isRedirected) {
@@ -398,7 +266,7 @@ function Article() {
         localExpandedKeys && setExpandedKeys(localExpandedKeys)
     }, [])
 
-    // 监听 Header - 打开菜单按钮点击事件
+    // 监听 Header - 打开菜单按钮点击事件; 用来控制 显示/隐藏 所有文章目录
     useEffect(() => {
         EventEmitter.singleInstance.on(
             EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY,

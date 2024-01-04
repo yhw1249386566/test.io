@@ -1,121 +1,13 @@
 /* eslint-disable no-use-before-define */
 
-import { EnvValueType, JSValueType } from './utils.d'
-import { CONVERT_TYPE_MAP, LOCAL_STORAGE_NAME } from './constant'
 import request from './request'
-import log from './log'
+import { JSValueType } from './utils.d'
 
 /** start --- 不需要导出 --- start */
-
 type DirData = {
     [fileName: string]: string | DirData
 }
-
-type StorageDataKey<KeyType> = { key: KeyType; value: string }
-
-const saveLocalStorage = (
-    data: StorageDataKey<LOCAL_STORAGE_NAME>,
-    // config?,
-) => {
-    const { key, value } = data
-
-    if (!key) {
-        log.error('saveLocalStorage key 不存在', key)
-        return false
-    }
-
-    localStorage.setItem(key, value)
-
-    return true
-}
-
-const saveBatchLocalStorage = (data: StorageDataKey<LOCAL_STORAGE_NAME>[]) => {
-    data.forEach((item) => {
-        const { key, value } = item ?? {}
-
-        if (!key) {
-            log.error('saveBatchLocalStorage key 不存在: ', key)
-            return false
-        }
-
-        localStorage.setItem(key, value)
-    })
-
-    return true
-}
-
-const getLocalStorage = <
-    ReturnType extends JSValueType = 'string',
-    DataType = string,
->(
-    key: LOCAL_STORAGE_NAME,
-    options?: { returnType?: ReturnType },
-): EnvValueType<ReturnType, DataType> => {
-    if (!key) {
-        log.error('getLocalStorage: key 不存在')
-        return '' as EnvValueType<ReturnType, DataType>
-    }
-
-    const { returnType = 'string' } = options ?? {}
-
-    const converter = CONVERT_TYPE_MAP[returnType]
-
-    return converter(localStorage.getItem(key) ?? '') as EnvValueType<
-        ReturnType,
-        DataType
-    >
-}
-
-const clearLocalStorage = (key: LOCAL_STORAGE_NAME) => {
-    if (!key) {
-        log.warn('clearLocalStorage: key 不存在')
-        return false
-    }
-
-    localStorage.removeItem(key)
-
-    return true
-}
-
-const clearAllLocalStorage = () => {
-    localStorage.clear()
-    return true
-}
-
-const saveSessionStorage = (
-    data: StorageDataKey<string>,
-    // config?,
-) => {
-    const { key, value } = data
-
-    if (!key) {
-        log.error('saveSessionStorage: key 不存在')
-        return
-    }
-
-    sessionStorage.setItem(key, value)
-}
-
-const getSessionStorage = (key: string) => {
-    if (!key) {
-        log.error('getSessionStorage: key 不存在')
-        return ''
-    }
-
-    return sessionStorage.getItem(key) ?? ''
-}
-
 /** end --- 不需要导出 --- end */
-
-export const storage = {
-    saveLocalStorage,
-    saveBatchLocalStorage,
-    getLocalStorage,
-    clearLocalStorage,
-    clearAllLocalStorage,
-    saveSessionStorage,
-    getSessionStorage,
-}
 
 export const delay = async (time: number) =>
     new Promise((resolve) => setTimeout(resolve, time))
@@ -124,19 +16,6 @@ export const invertColor = (color: string) => {
     const colorValue: any = '0x' + color.replace(/#/g, '')
     const str = '000000' + (0xffffff - colorValue).toString(16)
     return '#' + str.substring(str.length - 6, str.length)
-}
-
-export const getChatLengthFromString = (str: string) => {
-    let length = 0
-    for (let i = 0; i < str.length; i++) {
-        const charCode = str.charCodeAt(i)
-        if (charCode >= 0 && charCode <= 128) {
-            length += 1 // 英文字符长度为1
-        } else {
-            length += 2 // 中文字符长度为2
-        }
-    }
-    return length
 }
 
 export const getDataType = <T>(data: T): JSValueType => {
@@ -273,6 +152,7 @@ export const get404Md = async () => {
     })
 }
 
+// 更新页面 URL 地址, 并在需要时触发 'popstate' 事件。
 export const urlChange = (
     url: string,
     options?: {

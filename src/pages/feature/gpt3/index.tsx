@@ -2,9 +2,9 @@ import { useRef, useState, memo, useEffect } from 'react'
 
 import classnames from '~/packages/y-classnames'
 
-import { storage } from '@/utils'
-import { LOCAL_STORAGE_NAME } from '@/utils/constant'
+import storage from '@/utils/storage'
 import { Text, Direction } from '@/component'
+import { LOCAL_STORAGE_NAME } from '@/utils/constant'
 
 import request from './request'
 
@@ -88,7 +88,8 @@ function GPT3() {
                 className={style.extraInfo}
                 mode='column'
                 alignItems='center'
-                justifyContent='center'>
+                justifyContent='center'
+            >
                 <input
                     placeholder='Api Key'
                     className={style.apiKey}
@@ -101,7 +102,8 @@ function GPT3() {
                     <a
                         href='https://platform.openai.com/docs/models/gpt-3'
                         rel='noreferrer'
-                        target='_blank'>
+                        target='_blank'
+                    >
                         Gpt3
                     </a>{' '}
                     最多只支持记忆 4096 个 token 的上下文。

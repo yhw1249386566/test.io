@@ -6,7 +6,7 @@ import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import classnames from '~/packages/y-classnames'
 import EventEmitter from '~/packages/y-eventmitter'
 
-import { storage } from '@/utils'
+import storage from '@/utils/storage'
 import { Text, Direction } from '@/component'
 import {
     RouteName,

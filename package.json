@@ -11,7 +11,10 @@
         "test:coverage": "umi-test --coverage",
         "prepare": "husky install",
         "eslint": "npx eslint src/",
-        "lint-staged": "npx lint-staged src"
+        "lint-staged": "npx lint-staged src",
+        "umi-webpack": "yarn umi-webpack-dev && yarn umi-webpack-prod",
+        "umi-webpack-dev": "umi webpack > umi_webpack_dev.js",
+        "umi-webpack-prod": "set NODE_ENV=production && umi webpack > umi_webpack_prod.js"
     },
     "gitHooks": {
         "pre-commit": "lint-staged"

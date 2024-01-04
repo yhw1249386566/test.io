@@ -314,8 +314,6 @@ Reference: src/pages/feature - dynamicFeature.tsx
 
 -   使用 WebGL 尝试修改首页，比如：一个打开的 3d 书，每一页一个功能，有个目录之类的
 
--   文章的 UI 界面可以参考 react 官方的，比如：[React](https://zh-hans.react.dev/reference/react-dom/findDOMNode)
-
 -   为 article 添加搜索目录功能，可以根据关键词搜索对应路径、文件。
 
 -   三端：PC(网页 + 手机端适配) + Mobile(ios, Android) + 小程序，可使用 taro
@@ -353,3 +351,35 @@ Reference: src/pages/feature - dynamicFeature.tsx
 -   后期可以将生产依赖（dependence）手动实现;
 
     react, react-dom, webpack; 希望有时间, 有精力...
+
+-   目前文章中的图片出现了问题; 因为我们现在使用了 history 路由模式, 
+
+    导致如果文章中的图片是 `[picture/xx.png]` 这样的相对路径时, 
+    
+    它会拼接当前 url 作为请求 -> `https://www.whyhw.com/feature/article/a_base/xx.png`,
+
+    解决: `[picture/xx.png]` -> `[/picture/xx.png]`;
+
+    由相对路径改成绝对路径, 好处是图片在线上时没有问题, 且使用 markdown 打开 .md 文件也能显示图片; 坏处是在 vscode 中预览图片会失败, 因为解析的是根目录, 比如: `D:/code/yomua/xx.png`
+
+-   考虑暂存文章内容到本地, 并设置过期时间, 这样就不需要每次点击都要发送请求.
+
+-   目前此项目使用的包管理器是 `yarn`, 但是由于 `yarn` 和  `npm` 它们安装包的时候, 都是将包摊平安装到 node_modules
+
+    即: 若一个包有依赖, 依赖还有依赖, 那么就把它们摊平到同一层再安装, Ref: [npm's flat tree](https://www.pnpm.cn/pnpm-vs-npm#npms-flat-tree).
+
+    这会导致即使项目中没有明确指示 dep 或 devDep 都能使用其他项目的依赖.
+    
+    => 通常没有什么后果, 但如果使用包 A, 且使用了包 B(是 A 的依赖, 但项目中没有明确依赖), 更新 A, 而 A 删除了 B, 这就导致项目运行失败.
+
+    所以现在要做的是: 检查项目中是否有使用了包, 但此包并没有在项目的 package.json 中明确依赖的情况;
+
+    后期: 可能改成使用 [pnpm](https://www.pnpm.cn/pnpm-cli), 也可能不改, 二者都有优劣:
+
+    `yarn`: 这种做法可以[节约磁盘空间](https://pnpm.cn/pnpm-vs-npm#npms-flat-tree), 特别是大型项目; 
+
+    `pnpm`: 采用将所有包安装到硬盘上的一个特定目录, 项目在安装包时, 采用 "链接" 形式, 通过此特定目录将包链接到项目, 给项目使用.
+
+    =>  也可以[节约大量磁盘空间](https://www.pnpm.cn/motivation), 并且 node_modules 中的文件依赖[更容易被观察](https://www.pnpm.cn/motivation#creating-a-non-flat-node_modules-directory).
+
+    [详细对比 npm/yarn, pnpm](https://juejin.cn/post/7098260404735836191)
