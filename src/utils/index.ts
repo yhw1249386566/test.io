@@ -1,7 +1,8 @@
 /* eslint-disable no-use-before-define */
 
+import { getType } from '~/packages/y-screw'
+
 import request from './request'
-import { JSValueType } from './utils.d'
 
 /** start --- 不需要导出 --- start */
 type DirData = {
@@ -18,23 +19,13 @@ export const invertColor = (color: string) => {
     return '#' + str.substring(str.length - 6, str.length)
 }
 
-export const getDataType = <T>(data: T): JSValueType => {
-    const type = Object.prototype.toString
-        .call(data)
-        .replace(/\[?\]?/g, '') // 'object String'
-        .replace('object ', '') // String
-        .replace(/\w/, (r) => r.toLowerCase()) as JSValueType // string
-
-    return type
-}
-
 export const createFileTree = (
     dirData: DirData,
     options?: {
         parentPath?: string
     },
 ) => {
-    if (getDataType(dirData) !== 'object') return []
+    if (getType(dirData) !== 'object') return []
 
     const { parentPath = '' } = options ?? {}
 
@@ -51,7 +42,7 @@ export const createFileTree = (
     for (const [title, value] of Object.entries(dirData)) {
         const fullPath = parentPath ? `${parentPath}/${title}` : title
 
-        const isObject = getDataType(value) === 'object'
+        const isObject = getType(value) === 'object'
 
         if (isObject) {
             const subTree = createFileTree(value as DirData, {
@@ -150,23 +141,4 @@ export const get404Md = async () => {
 
         return data as string
     })
-}
-
-// 更新页面 URL 地址, 并在需要时触发 'popstate' 事件。
-export const urlChange = (
-    url: string,
-    options?: {
-        state?: any // 当使用者监听 popstate 时，要传给 event.state 的数据
-        go?: boolean // 修改 url 时是否直接跳转过去
-    },
-) => {
-    const { go = false, state = null } = options ?? {}
-
-    window.history.replaceState(null, '', url)
-
-    if (go) {
-        const popStateEvent = new PopStateEvent('popstate', { state })
-
-        window.dispatchEvent(popStateEvent)
-    }
 }

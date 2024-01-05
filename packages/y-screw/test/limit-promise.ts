@@ -1,4 +1,4 @@
-import limitPromise from '../limit_promise'
+import limitPromise from '../limit-promise'
 
 const limit = limitPromise(2)
 

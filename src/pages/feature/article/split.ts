@@ -1,11 +1,12 @@
 /* eslint-disable no-useless-escape */
 
 import { useEffect } from 'react'
+import { urlChange } from '~/packages/y-screw'
 
 import log from '@/utils/log'
 import request from '@/utils/request'
 import storage from '@/utils/storage'
-import { get404Md, urlChange } from '@/utils'
+import { get404Md } from '@/utils'
 import { DEFAULT_EXPANDED_KEYS } from '@/pages/constant'
 import { LOCAL_STORAGE_NAME, ARTICLE_SUFFIX_NAME } from '@/utils/constant'
 

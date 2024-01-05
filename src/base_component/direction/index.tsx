@@ -1,6 +1,5 @@
 import React, { memo } from 'react'
-
-import classnames from '~/packages/y-classnames'
+import classnames from '@yomua/y-classnames'
 
 import style from './index.less'
 
@@ -35,7 +34,8 @@ const Direction = (props: DirectionProps) => {
                 alignItems,
                 gap: gap ? `${gap}px` : undefined,
             }}
-            {...otherProps}>
+            {...otherProps}
+        >
             {children}
         </div>
     )

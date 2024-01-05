@@ -2,9 +2,9 @@
 
 import { memo, useMemo, useCallback, useState, useEffect } from 'react'
 import { Tree, Skeleton } from 'antd'
-
-import classnames from '~/packages/y-classnames'
-import EventEmitter from '~/packages/y-eventmitter'
+import classnames from '@yomua/y-classnames'
+import { urlChange } from '~/packages/y-screw'
+import EventEmitter from '@yomua/y-eventemitter'
 
 import log from '@/utils/log'
 import { useTheme } from '@/hooks'
@@ -18,7 +18,7 @@ import {
     LOCAL_STORAGE_NAME,
     ARTICLE_SUFFIX_NAME,
 } from '@/utils/constant'
-import { createFileTree, minDelayTime, get404Md, urlChange } from '@/utils'
+import { createFileTree, minDelayTime, get404Md } from '@/utils'
 
 import './index.less' // 如果需要使用 'article-markdown'(不用 style.xxx)，就需要这样导入
 import style from './index.less'
@@ -106,14 +106,9 @@ function Article() {
             // 仅显示文章, 且此时打开了所有文章目录时
             // 当选中某个目录时，将 X（打 X 按钮）切换到 bars, 并切换到文章.
             if (isOpenDirectoryOnlyArticle) {
-                EventEmitter.singleInstance.emit(
-                    EVENT_EMITTER_NAME.SHOW_HEADER_X,
-                    false,
-                )
+                EventEmitter.emit(EVENT_EMITTER_NAME.SHOW_HEADER_X, false)
 
-                EventEmitter.singleInstance.emit(
-                    EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY,
-                )
+                EventEmitter.emit(EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY)
             }
 
             setArticleLoading(true)
@@ -268,17 +263,12 @@ function Article() {
 
     // 监听 Header - 打开菜单按钮点击事件; 用来控制 显示/隐藏 所有文章目录
     useEffect(() => {
-        EventEmitter.singleInstance.on(
-            EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY,
-            () => {
-                setIsOpenDirectoryOnlyArticle(!isOpenDirectoryOnlyArticle)
-            },
-        )
+        EventEmitter.on(EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY, () => {
+            setIsOpenDirectoryOnlyArticle(!isOpenDirectoryOnlyArticle)
+        })
 
         return () => {
-            EventEmitter.singleInstance.off(
-                EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY,
-            )
+            EventEmitter.off(EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY)
         }
     }, [isOpenDirectoryOnlyArticle])
 

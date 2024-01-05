@@ -1,7 +1,6 @@
 /* eslint-disable react/no-children-prop */
 import { ReactNode, memo } from 'react'
-import { Location } from 'history'
-import { useLocation, useParams } from 'react-router'
+import { useLocation, useParams } from 'umi'
 
 import Error404 from '@/pages/404'
 
@@ -51,7 +50,6 @@ function renderFeature(
 
 function Feature() {
     const { name } = useParams() as { name: FeatureName }
-    console.log(name)
 
     const location = useLocation()
 

@@ -29,7 +29,9 @@
     "dependencies": {
         "@ant-design/pro-layout": "^6.5.0",
         "@fortawesome/react-fontawesome": "^0.2.0",
-        "eventemitter3": "^5.0.0",
+        "@yomua/y-classnames": "^0.0.1",
+        "@yomua/y-eventemitter": "^0.0.1",
+        "antd": "^5.12.7",
         "github-markdown-css": "^5.2.0",
         "markdown-navbar": "^1.4.3",
         "mobx": "^6.8.0",

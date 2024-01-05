@@ -1,10 +1,9 @@
-import { memo, useState, useCallback, useEffect } from 'react'
+import { memo, useState, useCallback } from 'react'
+import classnames from '@yomua/y-classnames'
 import { Tag, Card, Image, CardProps } from 'antd'
 import { Scrollbars } from 'react-custom-scrollbars-2'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-import classnames from '~/packages/y-classnames'
 
 import { useTheme } from '@/hooks'
 import { invertColor } from '@/utils'
@@ -65,7 +64,8 @@ const CustomCard = (props: CustomProps) => {
                     style[`card-${theme}`],
                     className,
                 )}
-                {...cardProps}>
+                {...cardProps}
+            >
                 <Image
                     src={img}
                     className={style.image}
@@ -132,7 +132,8 @@ const CustomCard = (props: CustomProps) => {
                                                     }}
                                                 />
                                             ) : null
-                                        }>
+                                        }
+                                    >
                                         {name}
                                     </Tag>
                                 )
@@ -148,7 +149,8 @@ const CustomCard = (props: CustomProps) => {
                         visible,
                         maskClosable: false,
                         onVisibleChange: (vis) => setVisible(vis),
-                    }}>
+                    }}
+                >
                     <Image src={previewImg} />
                 </Image.PreviewGroup>
             </div>

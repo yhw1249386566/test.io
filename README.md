@@ -56,7 +56,7 @@ github pages [默认使用 jekyll](https://docs.github.com/zh/pages/setting-up-a
 
 此文件夹递归 `public/article` 下的所有 `picture` 文件夹, 取出里面的图片, 最后用同样的命名复制到此文件夹的.
 
-目的: github pages 挂载 `yomua` 项目时, `.md` 文件中若使用 `picture/图片名` 这样的格式引入图片, 
+目的: github pages 挂载 `yomua` 项目时, `.md` 文件中若使用 `picture/图片名` 这样的格式引入图片,
 
 相当于请求 `网址/picture/图片名` -> `https://www.whyhw.com/picture/图片名` , 所以为了能正确显示, 就这么做了.
 
@@ -86,9 +86,9 @@ loader
 
 对于 npm 的包来说，其实有些包不需要下载，可以自己写在 npm 仓库中，比如：
 
--   yscrew
+-   y-screw
 
--   yenchant
+-   y-enchant
 
 注意: 目前此仓库中的 /packages 可以完全使用自己的 [npm 仓库](https://www.npmjs.com/settings/yomua/packages)代替。
 
@@ -144,13 +144,25 @@ loader
 
 # 命名
 
-**文件名使用蛇形命名，不用小驼峰，如：**
+<!-- **文件名使用蛇形命名，不用小驼峰，如：**
 
 -   my_user
 
 为什么？有些系统对文件名大小写敏感，有些不敏感，这可能导致一些意料之外的事故。
 
+git 根据配置也可以大小写敏感或不敏感。 -->
+
+**文件名使用 kebab-case 风格命名，不用小驼峰，如：**
+
+-   my-user
+
+为什么？有些系统对文件名大小写敏感，有些不敏感，这可能导致一些意料之外的事故。
+
 git 根据配置也可以大小写敏感或不敏感。
+
+kebab-case 和 蛇形 命名二者类似, 只要保持项目中的风格一致即可.
+
+对于 hooks 的文件命名则使用小驼峰.
 
 **组件名使用大驼峰命名，如：**
 
@@ -322,6 +334,10 @@ Reference: src/pages/feature - dynamicFeature.tsx
 
     参见：[npm 仓库](https://www.npmjs.com/settings/yomua/packages)
 
+    注意: 目前我们以项目中的 packages 作为最新包使用, 等到各个包稳定后, 才更新到 npm 仓库,
+
+    不然, 可能后续要经常更新包, 会很麻烦.
+
 -   实时更新已有文章，并且更新完成之后可以下载已有文章成为 md 文件，但是刷新之后不保留此文件。
 
 -   React 已经升级到 18.x, 将为现有代码和后续代码渐进式升级到 18.x
@@ -352,10 +368,10 @@ Reference: src/pages/feature - dynamicFeature.tsx
 
     react, react-dom, webpack; 希望有时间, 有精力...
 
--   目前文章中的图片出现了问题; 因为我们现在使用了 history 路由模式, 
+-   目前文章中的图片出现了问题; 因为我们现在使用了 history 路由模式,
 
-    导致如果文章中的图片是 `[picture/xx.png]` 这样的相对路径时, 
-    
+    导致如果文章中的图片是 `[picture/xx.png]` 这样的相对路径时,
+
     它会拼接当前 url 作为请求 -> `https://www.whyhw.com/feature/article/a_base/xx.png`,
 
     解决: `[picture/xx.png]` -> `[/picture/xx.png]`;
@@ -364,22 +380,22 @@ Reference: src/pages/feature - dynamicFeature.tsx
 
 -   考虑暂存文章内容到本地, 并设置过期时间, 这样就不需要每次点击都要发送请求.
 
--   目前此项目使用的包管理器是 `yarn`, 但是由于 `yarn` 和  `npm` 它们安装包的时候, 都是将包摊平安装到 node_modules
+-   目前此项目使用的包管理器是 `yarn`, 但是由于 `yarn` 和 `npm` 它们安装包的时候, 都是将包摊平安装到 node_modules
 
     即: 若一个包有依赖, 依赖还有依赖, 那么就把它们摊平到同一层再安装, Ref: [npm's flat tree](https://www.pnpm.cn/pnpm-vs-npm#npms-flat-tree).
 
     这会导致即使项目中没有明确指示 dep 或 devDep 都能使用其他项目的依赖.
-    
+
     => 通常没有什么后果, 但如果使用包 A, 且使用了包 B(是 A 的依赖, 但项目中没有明确依赖), 更新 A, 而 A 删除了 B, 这就导致项目运行失败.
 
     所以现在要做的是: 检查项目中是否有使用了包, 但此包并没有在项目的 package.json 中明确依赖的情况;
 
     后期: 可能改成使用 [pnpm](https://www.pnpm.cn/pnpm-cli), 也可能不改, 二者都有优劣:
 
-    `yarn`: 这种做法可以[节约磁盘空间](https://pnpm.cn/pnpm-vs-npm#npms-flat-tree), 特别是大型项目; 
+    `yarn`: 这种做法可以[节约磁盘空间](https://pnpm.cn/pnpm-vs-npm#npms-flat-tree), 特别是大型项目;
 
     `pnpm`: 采用将所有包安装到硬盘上的一个特定目录, 项目在安装包时, 采用 "链接" 形式, 通过此特定目录将包链接到项目, 给项目使用.
 
-    =>  也可以[节约大量磁盘空间](https://www.pnpm.cn/motivation), 并且 node_modules 中的文件依赖[更容易被观察](https://www.pnpm.cn/motivation#creating-a-non-flat-node_modules-directory).
+    => 也可以[节约大量磁盘空间](https://www.pnpm.cn/motivation), 并且 node_modules 中的文件依赖[更容易被观察](https://www.pnpm.cn/motivation#creating-a-non-flat-node_modules-directory).
 
     [详细对比 npm/yarn, pnpm](https://juejin.cn/post/7098260404735836191)

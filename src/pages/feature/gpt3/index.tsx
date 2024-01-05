@@ -1,6 +1,6 @@
 import { useRef, useState, memo, useEffect } from 'react'
 
-import classnames from '~/packages/y-classnames'
+import classnames from '@yomua/y-classnames'
 
 import storage from '@/utils/storage'
 import { Text, Direction } from '@/component'
