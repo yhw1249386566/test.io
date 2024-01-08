@@ -1,121 +1,14 @@
 /* eslint-disable no-use-before-define */
 
-import { EnvValueType, JSValueType } from './utils.d'
-import { CONVERT_TYPE_MAP, LOCAL_STORAGE_NAME } from './constant'
+import { getType } from '~/packages/y-screw'
+
 import request from './request'
-import log from './log'
 
 /** start --- 不需要导出 --- start */
-
 type DirData = {
     [fileName: string]: string | DirData
 }
-
-type StorageDataKey<KeyType> = { key: KeyType; value: string }
-
-const saveLocalStorage = (
-    data: StorageDataKey<LOCAL_STORAGE_NAME>,
-    // config?,
-) => {
-    const { key, value } = data
-
-    if (!key) {
-        log.error('saveLocalStorage key 不存在', key)
-        return false
-    }
-
-    localStorage.setItem(key, value)
-
-    return true
-}
-
-const saveBatchLocalStorage = (data: StorageDataKey<LOCAL_STORAGE_NAME>[]) => {
-    data.forEach((item) => {
-        const { key, value } = item ?? {}
-
-        if (!key) {
-            log.error('saveBatchLocalStorage key 不存在: ', key)
-            return false
-        }
-
-        localStorage.setItem(key, value)
-    })
-
-    return true
-}
-
-const getLocalStorage = <
-    ReturnType extends JSValueType = 'string',
-    DataType = string,
->(
-    key: LOCAL_STORAGE_NAME,
-    options?: { returnType?: ReturnType },
-): EnvValueType<ReturnType, DataType> => {
-    if (!key) {
-        log.error('getLocalStorage: key 不存在')
-        return '' as EnvValueType<ReturnType, DataType>
-    }
-
-    const { returnType = 'string' } = options ?? {}
-
-    const converter = CONVERT_TYPE_MAP[returnType]
-
-    return converter(localStorage.getItem(key) ?? '') as EnvValueType<
-        ReturnType,
-        DataType
-    >
-}
-
-const clearLocalStorage = (key: LOCAL_STORAGE_NAME) => {
-    if (!key) {
-        log.warn('clearLocalStorage: key 不存在')
-        return false
-    }
-
-    localStorage.removeItem(key)
-
-    return true
-}
-
-const clearAllLocalStorage = () => {
-    localStorage.clear()
-    return true
-}
-
-const saveSessionStorage = (
-    data: StorageDataKey<string>,
-    // config?,
-) => {
-    const { key, value } = data
-
-    if (!key) {
-        log.error('saveSessionStorage: key 不存在')
-        return
-    }
-
-    sessionStorage.setItem(key, value)
-}
-
-const getSessionStorage = (key: string) => {
-    if (!key) {
-        log.error('getSessionStorage: key 不存在')
-        return ''
-    }
-
-    return sessionStorage.getItem(key) ?? ''
-}
-
 /** end --- 不需要导出 --- end */
-
-export const storage = {
-    saveLocalStorage,
-    saveBatchLocalStorage,
-    getLocalStorage,
-    clearLocalStorage,
-    clearAllLocalStorage,
-    saveSessionStorage,
-    getSessionStorage,
-}
 
 export const delay = async (time: number) =>
     new Promise((resolve) => setTimeout(resolve, time))
@@ -126,36 +19,13 @@ export const invertColor = (color: string) => {
     return '#' + str.substring(str.length - 6, str.length)
 }
 
-export const getChatLengthFromString = (str: string) => {
-    let length = 0
-    for (let i = 0; i < str.length; i++) {
-        const charCode = str.charCodeAt(i)
-        if (charCode >= 0 && charCode <= 128) {
-            length += 1 // 英文字符长度为1
-        } else {
-            length += 2 // 中文字符长度为2
-        }
-    }
-    return length
-}
-
-export const getDataType = <T>(data: T): JSValueType => {
-    const type = Object.prototype.toString
-        .call(data)
-        .replace(/\[?\]?/g, '') // 'object String'
-        .replace('object ', '') // String
-        .replace(/\w/, (r) => r.toLowerCase()) as JSValueType // string
-
-    return type
-}
-
 export const createFileTree = (
     dirData: DirData,
     options?: {
         parentPath?: string
     },
 ) => {
-    if (getDataType(dirData) !== 'object') return []
+    if (getType(dirData) !== 'object') return []
 
     const { parentPath = '' } = options ?? {}
 
@@ -172,7 +42,7 @@ export const createFileTree = (
     for (const [title, value] of Object.entries(dirData)) {
         const fullPath = parentPath ? `${parentPath}/${title}` : title
 
-        const isObject = getDataType(value) === 'object'
+        const isObject = getType(value) === 'object'
 
         if (isObject) {
             const subTree = createFileTree(value as DirData, {
@@ -271,22 +141,4 @@ export const get404Md = async () => {
 
         return data as string
     })
-}
-
-export const urlChange = (
-    url: string,
-    options?: {
-        state?: any // 当使用者监听 popstate 时，要传给 event.state 的数据
-        go?: boolean // 修改 url 时是否直接跳转过去
-    },
-) => {
-    const { go = false, state = null } = options ?? {}
-
-    window.history.replaceState(null, '', url)
-
-    if (go) {
-        const popStateEvent = new PopStateEvent('popstate', { state })
-
-        window.dispatchEvent(popStateEvent)
-    }
 }

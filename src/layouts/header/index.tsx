@@ -1,12 +1,11 @@
 import { memo, useCallback, useEffect, useState } from 'react'
-import { useHistory } from 'umi'
+import { useHistory, useLocation } from 'umi'
+import classnames from '@yomua/y-classnames'
+import EventEmitter from '@yomua/y-eventemitter'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 
-import classnames from '~/packages/y-classnames'
-import EventEmitter from '~/packages/y-eventmitter'
-
-import { storage } from '@/utils'
+import storage from '@/utils/storage'
 import { Text, Direction } from '@/component'
 import {
     RouteName,
@@ -16,7 +15,6 @@ import {
 } from '@/utils/constant'
 
 import style from './index.less'
-import { useLocation } from 'umi'
 
 interface HeaderProps {
     theme?: Theme
@@ -61,14 +59,9 @@ const Header = (props: HeaderProps) => {
     }, [])
 
     const handleOpenDirectoryOnlyArticle = useCallback(() => {
-        EventEmitter.singleInstance.emit(
-            EVENT_EMITTER_NAME.SHOW_HEADER_X,
-            !isShowX,
-        )
+        EventEmitter.emit(EVENT_EMITTER_NAME.SHOW_HEADER_X, !isShowX)
 
-        EventEmitter.singleInstance.emit(
-            EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY,
-        )
+        EventEmitter.emit(EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY)
     }, [isShowX])
 
     const handleBack = useCallback(() => {
@@ -76,15 +69,12 @@ const Header = (props: HeaderProps) => {
     }, [])
 
     useEffect(() => {
-        EventEmitter.singleInstance.on(
-            EVENT_EMITTER_NAME.SHOW_HEADER_X,
-            (isShowX) => {
-                setIsShowX(isShowX)
-            },
-        )
+        EventEmitter.on(EVENT_EMITTER_NAME.SHOW_HEADER_X, (isShowX) => {
+            setIsShowX(isShowX)
+        })
 
         return () => {
-            EventEmitter.singleInstance.off(EVENT_EMITTER_NAME.SHOW_HEADER_X)
+            EventEmitter.off(EVENT_EMITTER_NAME.SHOW_HEADER_X)
         }
     }, [])
 

@@ -1,17 +1,5 @@
 /* eslint-disable */
 
-export type JSType =
-    | string
-    | number
-    | boolean
-    | null
-    | undefined
-    | BigInt
-    | symbol
-    | object
-    | Array<any>
-    | Function
-
 export type JSValueType =
     | 'string'
     | 'number'

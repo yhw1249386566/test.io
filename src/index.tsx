@@ -8,25 +8,23 @@ import {
     faYoutubeSquare,
     faFacebookSquare,
 } from '@fortawesome/free-brands-svg-icons'
-
 import IndexedDB from '~/packages/y-indexeddb'
 
 import style from './index.less'
-import { storage } from './utils'
 import Footer from './layouts/footer'
 import { Sidebar } from './component'
 import Header from './layouts/header'
+import storage from './utils/storage'
 import { ThemeProvider } from './contexts'
 import { LOCAL_STORAGE_NAME } from './utils/constant'
-import request from './utils/request'
 
 // 添加 fontawesome 免费版: https://fontawesome.com/search?q=menu&o=r&m=free
 library.add(fas, faFacebookSquare, faYoutubeSquare, faLinkedin, faTwitterSquare)
 
 // 初始化 IndexedDB
 IndexedDB.singleInstance.open({
-    dbName: 'yomuaDB',
     dbVersion: 1,
+    dbName: 'yomuaDB',
     dbStoreName: 'yomua',
     specifyKey: 'filepath',
 })

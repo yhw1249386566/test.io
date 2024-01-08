@@ -64,12 +64,6 @@ const checkResponse = (response: Response) => {
 
     const error = new Error(statusText)
 
-    interceptorsMap.response?.forEach(({ onRejected }) => {
-        if (onRejected) {
-            onRejected(error)
-        }
-    })
-
     throw error
 }
 
@@ -101,6 +95,13 @@ const handleResult = <R>(result: R) => {
 
 const handleError = (error: Error) => {
     log.error('Request Error: ', error)
+
+    interceptorsMap.response?.forEach(({ onRejected }) => {
+        if (onRejected) {
+            onRejected(error)
+        }
+    })
+
     throw error
 }
 
@@ -119,16 +120,19 @@ async function request<Result = any>(
         ...((params?.headers as Record<string, string>) ?? {}),
     }
 
+    // queryString: ?a=1&a=2&b=3
     if (queryString) {
         url += `?${Object.keys(queryString)
             .map((key) => {
                 const value = queryString[key]
+                // 如果是数组 => a=1&a=2
                 if (Array.isArray(value)) {
                     let result = ''
                     value.forEach((item) => {
                         result += `${key}=${item}&`
                     })
 
+                    // 删除最后个 &
                     return result.replace(/&$/, '')
                 }
 

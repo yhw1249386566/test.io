@@ -5,9 +5,9 @@ import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import MarkNavbar from 'markdown-navbar'
 import ReactMarkdown from 'react-markdown'
+import classnames from '@yomua/y-classnames'
 
 import { useTheme } from '@/hooks'
-import classnames from '~/packages/y-classnames'
 
 import './base.css'
 import './index.less'
