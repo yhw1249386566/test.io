@@ -56,6 +56,11 @@
       }
 
       body {
+        /* 
+             *  解决因为切换页面时 body 滚动条出现/消失 而导致页面看起来像是在抖动的问题 
+             *  减去 body-scroll-width 是因为视区 vw 包含滚动条宽度, 而实际内容在参与 css 规则时, 会去掉滚动条宽度.
+             */
+        width: calc(100vw - var(--body-scroll-width)) !important;
         background-color: var(--global-primary-bg-color) !important;
       }
 
@@ -84,7 +89,7 @@
       }
     </style>
     <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.png" />
-    <link rel="stylesheet" href="/umi.235f22f3.css" />
+    <link rel="stylesheet" href="/umi.6d12dc70.css" />
     <script>
       window.routerBase = "/";
     </script>
@@ -161,6 +166,6 @@
       });
     </script>
 
-    <script src="/umi.ac5e6001.js"></script>
+    <script src="/umi.907c72d1.js"></script>
   </body>
 </html>
