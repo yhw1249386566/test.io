@@ -53,7 +53,7 @@ template是一个模板元素,是一种保存客户端内容的机制,存在于t
 
 ```
 
-![](picture/template-document-fragment.png)
+![](/picture/template-document-fragment.png)
 
 
 
@@ -257,7 +257,7 @@ shadow DOM中的slot元素指定了name属性的值,该值若等于shadow host�
 
 由于div元素具有的slot属性值 === shadow DOM的slot元素的name属性的值,所以slot元素将会把div元素作为一个引用放入自身内部,其效果为:
 
-![](picture/shadowDOM中slot元素内部引用单个lightDOM元素.png)
+![](/picture/shadowDOM中slot元素内部引用单个lightDOM元素.png)
 
 值得一提的是:slot元素只会把具有slot属性的那个元素(div)放入内部作为引用,而不会将div的子项也引用过来,但即使是这样,div的子项依然也会被保留于shadow host中.
 
@@ -278,7 +278,7 @@ shadow DOM中的slot元素指定了name属性的值,该值若等于shadow host�
 
 在以下渲染结果中,我将不会把上文化中的div元素以及引用标出.
 
-![](picture/shadowDOM中slot元素内部引用多个lightDOM元素.png)
+![](/picture/shadowDOM中slot元素内部引用多个lightDOM元素.png)
 
 注意: **当一个slot元素具有name属性时,则它只能将具有slot属性且值等于 它的 name 属性值 的元素 作为引用放入自身内部.**
 
@@ -300,7 +300,7 @@ shadow DOM中的slot元素指定了name属性的值,该值若等于shadow host�
 
 在以上的示例中,shadow host中的所有无slot属性的元素将会作为引用放入shadow-root中的无name属性slot元素内部,最后得出的渲染效果为:
 
-![](picture/未命名插槽法.png)
+![](/picture/未命名插槽法.png)
 
 ### 为slot元素添加备用子项
 
@@ -325,7 +325,7 @@ shadowRoot.innerHTML =
 
 以上代码的渲染结果为:
 
-![](picture/为slot元素添加备用子项.png)
+![](/picture/为slot元素添加备用子项.png)
 
 请记住: 这样只是为slot元素添加备用子项,也就是说只有在不存在一个light DOM元素能作为引用放入slot元素内部时,备用子项才会被渲染.
 
@@ -338,7 +338,7 @@ shadowRoot.innerHTML =
 <h1 slot='title'>我被渲染</h1>
 ```
 
-![](picture/slot元素的备用子项即使不被渲染也仍会存于slot元素内部.png)
+![](/picture/slot元素的备用子项即使不被渲染也仍会存于slot元素内部.png)
 
 ## 关于slot的事件
 
@@ -408,7 +408,7 @@ shadowRoot.innerHTML =
 
 但是实际上,slotchange事件只触发一次.
 
-![](picture/多次向同一个slot元素添加内容只触发一次slotchange.png)
+![](/picture/多次向同一个slot元素添加内容只触发一次slotchange.png)
 
 通过以上渲染结果,我们发现,slot元素内部确实存放了两个引用,但是指出发了一次slotchange事件.
 
@@ -441,7 +441,7 @@ document.getElementById('ft').appendChild(span);
 
 最后依然是调用封装了slotchange时间的load()方法,其渲染结果为:
 
-![](picture/多次向不同的slot元素添加内容会触发多次slotchange.png)
+![](/picture/多次向不同的slot元素添加内容会触发多次slotchange.png)
 
 红色矩阵框起来的代表: 向同一个slot元素添加/删除多个内容只会触发一次slotchange事件.
 

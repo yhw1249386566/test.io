@@ -157,7 +157,7 @@ attributeChangedCallback()函数接受三个参数:
 
 以上示例的渲染结果为:
 
-![](picture/使用生命周期钩子函数.png)
+![](/picture/使用生命周期钩子函数.png)
 
 #### 总结
 

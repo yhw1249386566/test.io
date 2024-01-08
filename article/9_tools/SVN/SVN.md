@@ -8,13 +8,13 @@
 
 当使用 `svn commit -m 注释信息 文件` 命令提交文件出现认证失败错误时，通常是因为在 SVN 服务器的仓库中，没有正确配置权限导致的。
 
-![](picture/权限认证失败.png)
+![](/picture/权限认证失败.png)
 
 （权限认证失败）
 
 并且若使用 `git commit 文件` 命令，则会出现其他错误，即：
 
-![](picture/直接使用 git commit 注释 命令造成的错误.png)
+![](/picture/直接使用 git commit 注释 命令造成的错误.png)
 
 （直接使用 git commit 注释 命令造成的错误）
 
@@ -30,7 +30,7 @@
 
 成功初始化仓库之后，会存在以下目录：
 
-![](picture/svn初始化仓库该有的目录.png)
+![](/picture/svn初始化仓库该有的目录.png)
 
 （svn初始化仓库该有的目录）
 
