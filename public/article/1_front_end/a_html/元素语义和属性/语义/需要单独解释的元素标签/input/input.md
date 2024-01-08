@@ -119,7 +119,7 @@ datalist元素提供了一个预定义选项值的列表，可向用户在input�
 </form>
 ```
 
-![](picture/使用 input 的 list 属性链接 datalist 元素.png)
+![](/picture/使用 input 的 list 属性链接 datalist 元素.png)
 
 
 

@@ -12,7 +12,7 @@ iframe元素是HTML中的内联框架元素,表示嵌套的浏览上下文([Brow
 
 且每一个嵌入的html页面(浏览上下文)都有自己的[会话历史记录](https://developer.mozilla.org/zh-CN/docs/Web/API/History)和[DOM树](https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Using_the_W3C_DOM_Level_1_Core).
 
-![](picture/iframe.png)
+![](/picture/iframe.png)
 
 ## **[子浏览上下文](https://whatwg-cn.github.io/html/multipage/browsers.html#%E5%B5%8C%E5%A5%97%E6%B5%8F%E8%A7%88%E4%B8%8A%E4%B8%8B%E6%96%87)**
 
@@ -38,7 +38,7 @@ iframe元素除了包含全局属性之外,还存在以下属性:
 
 使用 about:blank 值可以嵌入一个遵从[同源策略](https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy)的空白页。
 
-![](picture/空白页ablout-black.png)
+![](/picture/空白页ablout-black.png)
 
 在 Firefox （version 65及更高版本）、基于 Chromium 的浏览器、Safari/iOS 中使用代码移除 iframe 的 src 属性（例如通过 [`Element.removeAttribute()`](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/removeAttribute) ）,
 
@@ -83,7 +83,7 @@ iframe元素除了包含全局属性之外,还存在以下属性:
 
 需要注意的是,srcdoc属性中的标签仍然处于一个完整的文档(页面中).
 
-![](picture/srcdoc.png)
+![](/picture/srcdoc.png)
 
 
 

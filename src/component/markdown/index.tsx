@@ -3,13 +3,11 @@ import { memo } from 'react'
 import 'github-markdown-css'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
-import MarkNavbar from 'markdown-navbar'
 import ReactMarkdown from 'react-markdown'
 import classnames from '@yomua/y-classnames'
 
 import { useTheme } from '@/hooks'
 
-import './base.css'
 import './index.less'
 import './markdown.css'
 import style from './index.less'
@@ -32,14 +30,12 @@ const Markdown = (props: MarkdownProps) => {
                     [`markdown-${theme}`]: theme,
                 },
                 className,
-            )}
-        >
+            )}>
             <div
                 className={classnames(
                     'markdown-body-box',
                     style.markdownBodyBox,
-                )}
-            >
+                )}>
                 <ReactMarkdown
                     // markdown-body 是导入 github-markdown-css
                     className={classnames('markdown-body', style.markdownBody)}
@@ -48,20 +44,6 @@ const Markdown = (props: MarkdownProps) => {
                     remarkPlugins={[remarkGfm]}
                     // 这个不会影响到表格样式，但可能会影响其他样式，所以保留
                     rehypePlugins={[rehypeRaw]}
-                />
-            </div>
-
-            <div
-                className={classnames(
-                    'markdown-navbar-box',
-                    style.markNavbarBox,
-                )}
-            >
-                <MarkNavbar
-                    className={style.markNavbar}
-                    ordered={false}
-                    headingTopOffset={40}
-                    source={children}
                 />
             </div>
         </div>

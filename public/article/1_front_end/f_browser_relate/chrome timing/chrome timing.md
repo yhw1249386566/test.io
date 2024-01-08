@@ -38,6 +38,6 @@ https://stackoverflow.com/questions/34043505/chrome-devtools-what-does-queueing-
 
 # 总时间才是真正的请求时间，而不是 time
 
-<img title="" src="picture/time.jpg" alt="">
+<img title="" src="/picture/time.jpg" alt="">
 
-<img title="" src="picture/总时间.jpg" alt="">
+<img title="" src="/picture/总时间.jpg" alt="">

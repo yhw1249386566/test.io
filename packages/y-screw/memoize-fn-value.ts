@@ -1,6 +1,7 @@
 import isNil from './is-nil'
 
-// => memo(fn), memo(fn) 这二者返回的 memoized 不同, 挂载的 cache 不同, cache 是不会相互影响的.
+// => 分别调用 memoize(fn) 和 memoize(fn) 
+// => 这二者返回的 memoized 不同, 挂载的 cache 不同, cache 是不会相互影响的.
 export default function <Args, FnResult>(
     fn: (...args: Args[]) => FnResult,
     options?: {
@@ -39,8 +40,8 @@ export default function <Args, FnResult>(
         return result
     }
 
-    // 每次调用 memo, 将返回不同的 memoized, 它们各自挂载 cache
-    // 所以对于不同次调用 memo, 然后返回 memoized 来说, 由于 cache 不同, 所以 key 相同也不会相互影响.
+    // 每次调用 memoize, 将返回不同的 memoized, 它们各自挂载 cache
+    // 所以对于不同次调用 memoize, 然后返回 memoized 来说, 由于 cache 不同, 所以 key 相同也不会相互影响.
     memoized.cache = new Map()
 
     return memoized

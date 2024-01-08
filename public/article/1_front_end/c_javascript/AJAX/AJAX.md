@@ -238,7 +238,7 @@ AJAX就如同定义说的那般一样,是一套多项技术的集合体,所以AJ
 
 请看图1-1,用图的方式只说明了AJAX如何工作,省略了其他各种形式(例如省略了协议的作用等)
 
-![](picture/AJAX 如何工作.png)
+![](/picture/AJAX 如何工作.png)
 
 ​																图1-1
 
@@ -737,7 +737,7 @@ Element，document 和 window 是最常见的事件目标，但是其他对象�
 
 对于其他的HTTP方法,请看以下图1-3
 
-![](picture/HTTP方法简略.png)
+![](/picture/HTTP方法简略.png)
 
 ​																		图1-3
 
@@ -835,7 +835,7 @@ GET和POST是HTTP的方法,是最常见的两种方法.
 
 以下图1-2为它们区别的图表表示:
 
-![](picture/GET和POST对比.png)
+![](/picture/GET和POST对比.png)
 
 ​																	图1-2
 

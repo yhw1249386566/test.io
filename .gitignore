@@ -19,6 +19,8 @@ article_dir.js
 /src/.umi
 /src/.umi-production
 /src/.umi-test
-/.env.local
 umi_webpack_dev.js
 umi_webpack_prod.js
+
+# env
+/.env.local

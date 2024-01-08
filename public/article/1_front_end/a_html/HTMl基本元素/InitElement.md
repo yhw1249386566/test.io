@@ -279,7 +279,7 @@ theme-color:主题颜色.
 
 我们可以通过meta元素的name属性值:theme-color设置一个web的工具栏(菜单栏)颜色.
 
-![](picture/meta-theme-colro.png)
+![](/picture/meta-theme-colro.png)
 
 以上红色箭头指的就是该属性值所该表的菜单栏的颜色.
 

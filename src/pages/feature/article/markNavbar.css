@@ -6,7 +6,6 @@
         'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
     width: 100%;
     word-break: break-word;
-    /* background-color: var(--markdown-bg-color); */
 }
 
 .markdown-navigation .title-anchor {

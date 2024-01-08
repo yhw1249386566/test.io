@@ -2,6 +2,7 @@
 
 import { memo, useMemo, useCallback, useState, useEffect } from 'react'
 import { Tree, Skeleton } from 'antd'
+import MarkNavbar from 'markdown-navbar'
 import classnames from '@yomua/y-classnames'
 import { urlChange } from '~/packages/y-screw'
 import EventEmitter from '@yomua/y-eventemitter'
@@ -13,14 +14,14 @@ import storage from '@/utils/storage'
 import { Markdown } from '@/component'
 import articleDir from '@/article_dir.js'
 import { DEFAULT_EXPANDED_KEYS } from '@/pages/constant'
+import { createFileTree, minDelayTime, get404Md } from '@/utils'
 import {
     EVENT_EMITTER_NAME,
     LOCAL_STORAGE_NAME,
     ARTICLE_SUFFIX_NAME,
 } from '@/utils/constant'
-import { createFileTree, minDelayTime, get404Md } from '@/utils'
 
-import './index.less' // 如果需要使用 'article-markdown'(不用 style.xxx)，就需要这样导入
+import './markNavbar.css'
 import style from './index.less'
 import { useRedirected } from './split'
 
@@ -95,6 +96,7 @@ function Article() {
 
             urlChange(window.location.origin + `/feature${importFilePath}`)
 
+            // 切换文章时, 默认滚动到顶部
             window.scrollTo(0, 0)
 
             // 点击文章或目录: 把此次点击认做是最后一次点击的文件路径 =>/article/xxx.md
@@ -276,13 +278,11 @@ function Article() {
         <div
             className={classnames(style.article, {
                 [style[`article-${theme}`]]: theme,
-            })}
-        >
+            })}>
             <div
                 className={classnames(style.directoryTreeBox, {
                     [style.showDirectorOnlyArticle]: isOpenDirectoryOnlyArticle,
-                })}
-            >
+                })}>
                 <DirectoryTree
                     className={style.directoryTree}
                     treeData={(fileTree as any[]) || []}
@@ -300,18 +300,25 @@ function Article() {
                 style={{
                     maxWidth: '900px',
                     margin: '0 auto',
+                    flex: 1,
                 }}
-                paragraph={{ rows: 20 }}
-            >
+                paragraph={{ rows: 20 }}>
                 <Markdown
-                    className={classnames(style.markdown, 'article-markdown', {
+                    className={classnames(style.markdown, {
                         [style.hideMarkdownOnlyArticle]:
                             isOpenDirectoryOnlyArticle,
-                    })}
-                >
+                    })}>
                     {markdownData}
                 </Markdown>
             </Skeleton>
+
+            <div className={style.markNavbarBox}>
+                <MarkNavbar
+                    ordered={false}
+                    headingTopOffset={40}
+                    source={isHaveSkeleton ? '' : markdownData}
+                />
+            </div>
         </div>
     )
 }

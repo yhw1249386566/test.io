@@ -60,7 +60,7 @@ object本身→instace2.protype(若指向另一个object3)→object3.prototype(�
 
 ### 其原型链的图形表示
 
-<img title="" src="./picture/原型链.png" alt="">
+<img title="" src=".//picture/原型链.png" alt="">
 
 # [_ proto_和prototype](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain)
 

@@ -26,7 +26,7 @@ HTTP 消息由采用 ASCII 编码的多行文本构成，在 HTTP/1.1 及早期�
 
 总的来说，就是左边的 4 个点在 HTTP/1.x message 和 HTTP/2 stream 的不同表现形式。
 
-![](picture/Activity initiation.png)
+![](/picture/Activity initiation.png)
 
 （Activity initiation）
 
@@ -115,7 +115,7 @@ HTTP/2 二进制框架机制被设计为不需要改动任何API或配置文件�
 - *General headers，*例如 [`Via`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Via), [`Connection`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Connection)，适用于整个报文。
 - *Entity headers，*例如 [`Content-Length`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Length)，适用于请求的 body。显然，如果请求中没有任何 body，则不会发送这样的头文件。
 
-![](picture/HTTP 可用请求头的种类.png)
+![](/picture/HTTP 可用请求头的种类.png)
 
 （HTTP 可用请求头的种类）
 
@@ -160,7 +160,7 @@ HTTP 响应的起始行被称作 *状态行* *(status line)*，你或许也可�
 - *General headers，*例如 [`Via`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Via)，适用于整个报文。
 - *Entity headers*，例如 [`Content-Length`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Length)，适用于请求的 body。显然，如果请求中没有任何 body，则不会发送这样的头文件。
 
-![](picture/HTTP 可用响应头的种类.png)
+![](/picture/HTTP 可用响应头的种类.png)
 
 （HTTP 可用响应头的种类）
 
@@ -208,7 +208,7 @@ Body 大致可分为三类：
 
 下图是将 HTTP/1.x 的消息翻译成 HTTP/2 的 stream 的对应表，其中 Frame header 为报头帧，Frame body 为数据帧。
 
-![](picture/HTTP 1.x 的消息翻译成 HTTP 2 的帧的对应表.png)
+![](/picture/HTTP 1.x 的消息翻译成 HTTP 2 的帧的对应表.png)
 
 （HTTP 1.x 的消息翻译成 HTTP 2 的帧的对应表.png）
 
