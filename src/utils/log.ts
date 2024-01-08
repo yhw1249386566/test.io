@@ -28,10 +28,6 @@ const logoGroup = (
 }
 
 export default {
-    info: console.info,
-    warn: console.warn,
-    trace: console.trace,
-    error: console.error,
-    log: console.log,
+    ...console,
     group: logoGroup,
 }

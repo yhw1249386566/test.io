@@ -1,7 +1,7 @@
 import { memo, useCallback, useState, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
-import classnames from '~/packages/y-classnames'
+import { getType } from '~/packages/y-screw'
+import classnames from '@yomua/y-classnames'
 import { useWindowEventListener } from '~/packages/y-hooks'
 
 import log from '@/utils/log'
@@ -29,7 +29,7 @@ function Sidebar() {
                     return
                 }
 
-                if (typeof SCROLL_SPEED !== 'number' || isNaN(SCROLL_SPEED)) {
+                if (getType(SCROLL_SPEED) !== 'number' || isNaN(SCROLL_SPEED)) {
                     log.group('SCROLL_SPEED ERROR', {
                         sub: [
                             { type: 'info', message: SCROLL_SPEED },

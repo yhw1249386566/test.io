@@ -4,6 +4,7 @@ import { history } from 'umi'
 import { Card } from '@/component'
 
 import { FeatureList } from '../constant'
+
 import style from './index.less'
 
 const cache = {}

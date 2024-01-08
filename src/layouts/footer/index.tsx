@@ -1,6 +1,5 @@
 import { memo } from 'react'
-
-import classnames from '~/packages/y-classnames'
+import classnames from '@yomua/y-classnames'
 
 import { useTheme } from '@/hooks'
 import { Text, Direction } from '@/component'
