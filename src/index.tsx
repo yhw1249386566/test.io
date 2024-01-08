@@ -29,6 +29,9 @@ IndexedDB.singleInstance.open({
     specifyKey: 'filepath',
 })
 
+// 匹配路由 '/', 所以可以认为此文件类似入口文件;
+// 类似? 因为 umi 已经配置了入口文件(使用者无感知), src/.umi/umi.ts,
+// => Ref: /umi_webpack_dev.js 或 umi_webpack_prod.js - entry 字段
 const Index = (props: { children: React.ReactNode }) => {
     const [theme, setTheme] = useState<Theme>('light')
 

@@ -27,7 +27,7 @@ https://{{xxx}}/user
 - 点击包含请求的文件
 - 点击 run
 
-![](picture/send_one or_more _requests_repeatedly.png)
+![](/picture/send_one or_more _requests_repeatedly.png)
 
 NOTES：如果在头部存在 Runner 按钮，则点击 Runner 按钮也可以设置重复发送1个或多个请求。
 

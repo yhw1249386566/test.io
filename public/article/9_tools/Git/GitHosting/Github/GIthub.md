@@ -18,7 +18,7 @@
 
 1. 先 fork 别人的仓库，相当于拷贝一份，相信我，不会有人直接让你改修原仓库的
 
-   ![](picture/fork 所在位置.png)
+   ![](/picture/fork 所在位置.png)
 
    （fork 所在位置）
 
@@ -60,17 +60,17 @@
 
    Pull request：点击此按钮，会进入另一个界面，详情继续往下看。
 
-   ![](picture/pull request 所在位置.png)
+   ![](/picture/pull request 所在位置.png)
 
    （pull request 所在位置）
 
 5. Pull request：点击此按钮后，会进入另一个界面，该界面存在一个如下图的按钮
 
-   ![](picture/create pull request.png)
+   ![](/picture/create pull request.png)
 
    当点击上图中的按钮时，Github 会让你填一些信息，用来作为通知源仓库作者的信息，如下图：
 
-   ![](picture/点击 create pull request 后出现的需要填写的注释信息 .png)
+   ![](/picture/点击 create pull request 后出现的需要填写的注释信息 .png)
 
    （点击 create pull request 后出现的需要填写的注释信息）
 
@@ -80,13 +80,13 @@
 
    而你的修改你也可以查看，即：点击你 fork 下来的项目，找到如下图的位置：
 
-   ![](picture/查看对 fork 下来的仓库的修改（推送）.png)
+   ![](/picture/查看对 fork 下来的仓库的修改（推送）.png)
 
    （查看对 fork 下来的仓库的修改（推送））
 
    下图，则是当你点击上图的 Pull requests 后出现的内容，很明显的，通过下图，我们可以发现：我们的修改已经暴露给了源作者。
 
-   ![](picture/查看对 fork 下来的仓库的修改 成功.png)
+   ![](/picture/查看对 fork 下来的仓库的修改 成功.png)
 
    （查看对 fork 下来的仓库的修改 成功）
 

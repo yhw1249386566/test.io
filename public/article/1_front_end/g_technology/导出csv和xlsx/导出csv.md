@@ -105,7 +105,7 @@ const dataSource =[
 
 以上数据源需要导出在 csv，且格式为：
 
-![](./picture/datasource.png)
+![](.//picture/datasource.png)
 
 这种情况，一个简单的思路是：将子项中的数组摊平到最外层数组，这样就能使用 exportCsv()
 

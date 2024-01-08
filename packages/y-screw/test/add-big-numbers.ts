@@ -8,6 +8,6 @@ const value = addBigNumbers(
 
 console.log(
     value === '33333333333.44444444444444444444444444444444444444444444444',
-)
+) // true
 
-console.log(addBigNumbers('123').get() === '123')
+console.log(addBigNumbers('123').get() === '123') // true

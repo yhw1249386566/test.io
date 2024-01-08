@@ -3,26 +3,6 @@
     justify-content: space-between;
 }
 
-.markNavbarBox {
-    top: 0;
-    width: 250px;
-    height: 100vh;
-    position: sticky;
-}
-
-.markNavbar {
-    overflow: auto;
-    height: 100%;
-    border-radius: 10px;
-    position: -webkit-sticky;
-    transition: @boxShadowTransition;
-    .scrollStyle();
-
-    &:hover {
-        .boxShadowHover(@color:var(--global-box-shadow-hover-color));
-    }
-}
-
 .markdownBodyBox {
     max-width: 900px;
 }

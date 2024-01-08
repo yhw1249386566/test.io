@@ -1,4 +1,6 @@
 # http://editorconfig.org
+# 此文件作用在这里似乎没有, 被 prettier 平替了.
+# 先保留此文件吧, 暂时不删.
 root = true
 
 [*]
