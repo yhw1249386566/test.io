@@ -2,6 +2,7 @@
 
 import { memo, useMemo, useCallback, useState, useEffect } from 'react'
 import { Tree, Skeleton } from 'antd'
+import { SkeletonParagraphProps } from 'antd/lib/skeleton/paragraph'
 import MarkNavbar from 'markdown-navbar'
 import classnames from '@yomua/y-classnames'
 import { urlChange } from '~/packages/y-screw'
@@ -26,6 +27,8 @@ import style from './index.less'
 import { useRedirected } from './split'
 
 const { DirectoryTree } = Tree
+
+const PARAGRAPH: SkeletonParagraphProps = { rows: 20 }
 
 function Article() {
     const theme = useTheme()
@@ -295,14 +298,9 @@ function Article() {
 
             <Skeleton
                 active
+                paragraph={PARAGRAPH}
                 loading={isHaveSkeleton}
-                className={style.skeleton}
-                style={{
-                    maxWidth: '900px',
-                    margin: '0 auto',
-                    flex: 1,
-                }}
-                paragraph={{ rows: 20 }}>
+                className={style.skeleton}>
                 <Markdown
                     className={classnames(style.markdown, {
                         [style.hideMarkdownOnlyArticle]:

@@ -20,7 +20,7 @@
     li {
         list-style: none;
         display: flex;
-        height: 105px;
+        height: 150px;
         position: relative;
         left: 30px;
         width: 480px;
@@ -43,17 +43,15 @@
             visibility: hidden;
             top: -31px;
             &::after {
-                content: "";
-                position: absolute;
+                content: '';
                 border: 1px solid black;
                 width: 20px;
                 height: 20px;
-                display: inline-block;
+                display: flex;
                 visibility: visible;
-                padding-left: 0px;
-                text-align: center;
-                top: 0;
                 border-radius: 50%;
+                align-items: center;
+                justify-content: center;
             }
             &:checked + .todocontent {
                 transition: all @transitionDuration 0s ease-out;
@@ -65,25 +63,24 @@
                 color: #38363a;
             }
             &:checked::after {
-                content: "✓";
-                font-size: 1px;
+                content: '✔';
                 font-weight: bold;
-                position: relative;
-                top: -9px;
             }
         }
+
         .todocontent {
             width: 378px;
+            font-size: 20px;
             position: absolute;
             left: 30px;
-            height: 100%;
+            height: 100px;
             // cursor: pointer;
             border: none;
             background-color: #ffffff00;
             outline: none;
             top: 6px;
             resize: none;
-            overflow: hidden;
+            .scrollStyle();
         }
         .deletetodoicon {
             width: 1em;
@@ -112,7 +109,7 @@
             }
             position: relative;
             left: 308px;
-            top: 41px;
+            top: 62px;
             .userinputtime {
                 position: relative;
                 right: 33px;
@@ -126,7 +123,7 @@
                 }
                 .duetotime {
                     position: absolute;
-                    right: -3px;
+                    right: -9px;
                     border: none;
                     outline: none;
                     background-color: #fae7e7;
@@ -146,7 +143,7 @@
 
             .timehourglass {
                 display: inline-block;
-                background: url("./assets/timehourglass.png") no-repeat;
+                background: url('./assets/timehourglass.png') no-repeat;
                 width: 13px;
                 height: 13px;
                 background-size: 13px 13px;
@@ -159,25 +156,25 @@
                 position: relative;
                 bottom: 3px;
                 left: 5px;
-                font-size: 1px;
+                font-size: 11px;
                 color: #c2c0c4;
                 cursor: default;
                 &::after {
-                    content: "（正在做）";
+                    content: '（正在做）';
                 }
             }
             .willExpire {
                 color: #f2e700;
 
                 &::after {
-                    content: "（将过期）";
+                    content: '（将过期）';
                 }
             }
             .expiredL {
                 color: #ff4b00;
                 text-decoration: line-through;
                 &::after {
-                    content: "（已过期）";
+                    content: '（已过期）';
                 }
             }
         }
@@ -185,7 +182,7 @@
             text-decoration: none;
             color: #d4d4d4;
             &::after {
-                content: "（已完成）";
+                content: '（已完成）';
             }
         }
         // 完成任务，移除沙漏动画

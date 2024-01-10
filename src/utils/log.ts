@@ -1,7 +1,7 @@
 const LOG_COLOR_MAP = {
     error: 'color: #fff; background-color: #f00',
     info: 'color: #fff; background-color: #00f',
-    logo: 'color: #fff; background-color: #000',
+    log: 'color: #fff; background-color: #000',
     trace: 'color: #000; background-color: #fff',
 }
 

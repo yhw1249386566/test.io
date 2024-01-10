@@ -6,11 +6,6 @@ function hashString(inputString: string) {
     return hash.digest('hex')
 }
 
-interface Fn {
-    (...args: any[]): void
-    cache?: Map<any, Fn> // 静态属性
-}
-
 type Options = {
     // 一个持久化上下文, 即: cache, 存放要被缓存的函数
     context?: Map<any, (...rest: any[]) => any>
@@ -28,7 +23,13 @@ type Options = {
 // => 所以现在如果将 cache 挂载到 fn 上, 由于永远会返回新的 fn, 所以 memo 就没效果.
 const cache = new Map()
 
-export default function memoizeFn(fn: Fn, options?: Options) {
+export default function memoizeFn(
+    fn: {
+        (...args: any[]): void
+        cache?: Map<any, (...args: any[]) => void> // 静态属性
+    },
+    options?: Options,
+) {
     if (typeof fn !== 'function') {
         throw new Error('fn must be a function')
     }
@@ -47,5 +48,8 @@ export default function memoizeFn(fn: Fn, options?: Options) {
         fn.cache.set(key, fn)
     }
 
-    return fn.cache.get(key) as Fn
+    return fn.cache.get(key) as {
+        (...args: any[]): void
+        cache?: Map<any, (...args: any[]) => void> // 静态属性
+    }
 }

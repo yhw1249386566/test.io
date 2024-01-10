@@ -2,7 +2,6 @@ import { memo } from 'react'
 import { history } from 'umi'
 import { memoizeFn } from '~/packages/y-screw'
 import { Button, message, Upload } from 'antd'
-import { UploadOutlined } from '@ant-design/icons'
 
 import { Card } from '@/component'
 
@@ -23,7 +22,9 @@ function handleGotoFeature(featureName: string) {
 
 function Index() {
     const data = {
-        name: 'image',
+        multiple: true,
+        showUploadList: false,
+        name: 'file',
         action: 'http://192.168.3.143:4000/upload',
         headers: {},
         onChange(info) {
@@ -69,8 +70,35 @@ function Index() {
                 )
             })}
 
+            <form
+                method='post'
+                encType='multipart/form-data'
+                action='http://192.168.3.143:4000/upload'>
+                <div>
+                    <input
+                        onChange={(e) => {
+                            const formData = new FormData()
+
+                            for (let i = 0; i < e?.target?.files?.length; i++) {
+                                formData.append('file', e?.target?.files?.[i])
+                            }
+
+                            fetch('http://192.168.3.143:4000/upload_files', {
+                                method: 'POST',
+                                body: formData,
+                            })
+                        }}
+                        multiple
+                        id='profile_pic'
+                        type='file'
+                        name='file'
+                        accept='.jpg, .jpeg, .png'
+                    />
+                </div>
+            </form>
+
             <Upload {...data}>
-                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                <Button>Click to Upload</Button>
             </Upload>
         </div>
     )
