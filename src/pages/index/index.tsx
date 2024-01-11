@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import { history } from 'umi'
-import { memoizeFn } from '~/packages/y-screw'
+import { memoizeFn } from '@yomua/y-screw'
 import { Button, message, Upload } from 'antd'
 
 import { Card } from '@/component'
@@ -73,7 +73,8 @@ function Index() {
             <form
                 method='post'
                 encType='multipart/form-data'
-                action='http://192.168.3.143:4000/upload'>
+                action='http://192.168.3.143:4000/upload'
+            >
                 <div>
                     <input
                         onChange={(e) => {

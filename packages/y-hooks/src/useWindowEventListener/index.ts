@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { debounce } from '~/packages/y-screw'
+import { debounce } from '@yomua/y-screw'
 
 import { Options } from './index.d'
 

@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 
-import { getType } from '~/packages/y-screw'
+import { getType } from '@yomua/y-screw'
 
 import request from './request'
 

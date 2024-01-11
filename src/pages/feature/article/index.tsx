@@ -5,7 +5,7 @@ import { Tree, Skeleton } from 'antd'
 import { SkeletonParagraphProps } from 'antd/lib/skeleton/paragraph'
 import MarkNavbar from 'markdown-navbar'
 import classnames from '@yomua/y-classnames'
-import { urlChange } from '~/packages/y-screw'
+import { urlChange } from '@yomua/y-screw'
 import EventEmitter from '@yomua/y-eventemitter'
 
 import log from '@/utils/log'
@@ -281,11 +281,13 @@ function Article() {
         <div
             className={classnames(style.article, {
                 [style[`article-${theme}`]]: theme,
-            })}>
+            })}
+        >
             <div
                 className={classnames(style.directoryTreeBox, {
                     [style.showDirectorOnlyArticle]: isOpenDirectoryOnlyArticle,
-                })}>
+                })}
+            >
                 <DirectoryTree
                     className={style.directoryTree}
                     treeData={(fileTree as any[]) || []}
@@ -300,12 +302,14 @@ function Article() {
                 active
                 paragraph={PARAGRAPH}
                 loading={isHaveSkeleton}
-                className={style.skeleton}>
+                className={style.skeleton}
+            >
                 <Markdown
                     className={classnames(style.markdown, {
                         [style.hideMarkdownOnlyArticle]:
                             isOpenDirectoryOnlyArticle,
-                    })}>
+                    })}
+                >
                     {markdownData}
                 </Markdown>
             </Skeleton>

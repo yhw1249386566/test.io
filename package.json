@@ -28,8 +28,9 @@
     },
     "dependencies": {
         "@fortawesome/react-fontawesome": "^0.2.0",
-        "@yomua/y-classnames": "0.0.2",
+        "@yomua/y-classnames": "^0.0.2",
         "@yomua/y-eventemitter": "^0.0.2",
+        "@yomua/y-screw": "^0.0.5",
         "antd": "^5.12.7",
         "github-markdown-css": "^5.2.0",
         "markdown-navbar": "^1.4.3",
