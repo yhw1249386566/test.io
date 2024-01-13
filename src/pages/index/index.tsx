@@ -70,7 +70,7 @@ function Index() {
                 )
             })}
 
-            <form
+            {/* <form
                 method='post'
                 encType='multipart/form-data'
                 action='http://192.168.3.143:4000/upload'
@@ -100,7 +100,7 @@ function Index() {
 
             <Upload {...data}>
                 <Button>Click to Upload</Button>
-            </Upload>
+            </Upload> */}
         </div>
     )
 }
