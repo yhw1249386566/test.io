@@ -8,7 +8,7 @@ import {
     faYoutubeSquare,
     faFacebookSquare,
 } from '@fortawesome/free-brands-svg-icons'
-import IndexedDB from '~/packages/y-indexeddb'
+import IndexedDB from '@yomua/y-indexeddb'
 
 import style from './index.less'
 import Footer from './layouts/footer'
