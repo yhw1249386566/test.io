@@ -1,5 +1,6 @@
 import { memo, useCallback, useEffect, useState } from 'react'
-import { useHistory, useLocation } from 'umi'
+import { useHistory } from 'umi'
+import { useLocation } from 'react-router-dom'
 import classnames from '@yomua/y-classnames'
 import EventEmitter from '@yomua/y-eventemitter'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -83,8 +84,7 @@ const Header = (props: HeaderProps) => {
             <Direction
                 alignItems='center'
                 justifyContent='space-between'
-                className={style.headerInfo}
-            >
+                className={style.headerInfo}>
                 {/* <FontAwesomeIcon
                     className={classnames(style.back, {
                         [style.hideLeftIcon]:

@@ -2,9 +2,10 @@
 
 import { memo, useMemo, useCallback, useState, useEffect } from 'react'
 import { Tree, Skeleton } from 'antd'
+import { SkeletonParagraphProps } from 'antd/lib/skeleton/paragraph'
 import MarkNavbar from 'markdown-navbar'
 import classnames from '@yomua/y-classnames'
-import { urlChange } from '~/packages/y-screw'
+import { urlChange } from '@yomua/y-screw'
 import EventEmitter from '@yomua/y-eventemitter'
 
 import log from '@/utils/log'
@@ -26,6 +27,8 @@ import style from './index.less'
 import { useRedirected } from './split'
 
 const { DirectoryTree } = Tree
+
+const PARAGRAPH: SkeletonParagraphProps = { rows: 20 }
 
 function Article() {
     const theme = useTheme()
@@ -278,11 +281,13 @@ function Article() {
         <div
             className={classnames(style.article, {
                 [style[`article-${theme}`]]: theme,
-            })}>
+            })}
+        >
             <div
                 className={classnames(style.directoryTreeBox, {
                     [style.showDirectorOnlyArticle]: isOpenDirectoryOnlyArticle,
-                })}>
+                })}
+            >
                 <DirectoryTree
                     className={style.directoryTree}
                     treeData={(fileTree as any[]) || []}
@@ -295,19 +300,16 @@ function Article() {
 
             <Skeleton
                 active
+                paragraph={PARAGRAPH}
                 loading={isHaveSkeleton}
                 className={style.skeleton}
-                style={{
-                    maxWidth: '900px',
-                    margin: '0 auto',
-                    flex: 1,
-                }}
-                paragraph={{ rows: 20 }}>
+            >
                 <Markdown
                     className={classnames(style.markdown, {
                         [style.hideMarkdownOnlyArticle]:
                             isOpenDirectoryOnlyArticle,
-                    })}>
+                    })}
+                >
                     {markdownData}
                 </Markdown>
             </Skeleton>

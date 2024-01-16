@@ -8,6 +8,8 @@
     --component-card-background-color: #000000;
 }
 
+@borderRadius: 70px;
+
 :global {
     .ant-image-mask {
         background-color: transparent;
@@ -23,17 +25,24 @@
     .ant-card-hoverable:hover {
         .boxShadowHover(@color:var(--global-box-shadow-hover-color));
     }
+
+    // 打包时这个生效
+    :where(.css-17sses9).ant-image .ant-image-mask,
+    // 本地这个生效
+    :where(.css-dev-only-do-not-override-17sses9).ant-image .ant-image-mask {
+        border-radius: @borderRadius;
+    }
 }
 
 .card {
     width: 450px;
     height: 514px;
-    border-radius: 70px;
+    border-radius: @borderRadius;
     background-color: var(--component-card-background-color);
 }
 
 .image {
-    border-radius: 70px;
+    border-radius: @borderRadius;
 }
 
 .content {

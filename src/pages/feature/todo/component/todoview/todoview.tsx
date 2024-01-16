@@ -6,8 +6,7 @@ import { action } from 'mobx'
 import Style from './todoview.less'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import classNames from 'classnames/bind'
-let cx = classNames.bind(Style)
+import classnames from '@yomua/y-classnames'
 
 const TodoView = inject((allStores) => ({
     todos: allStores.store.todos,
@@ -33,8 +32,7 @@ const TodoView = inject((allStores) => ({
                         aria-hidden='true'
                         onClick={action(() => {
                             handleDeleteClick(todo, index)
-                        })}
-                    >
+                        })}>
                         <use xlinkHref='#icon-weiwancheng' />
                     </svg>
                 </li>
@@ -85,10 +83,10 @@ const TodoItem = inject((allStores) => ({
         useEffect(() => {
             storageTodos('todoscopy', todoscopy)
         })
-        const classNameChecbox = cx({
+        const classNameChecbox = classnames({
             // 当复选框被勾选时，添加 class
-            circularcheck_checked: todo.finished,
-            circularcheck: true,
+            [Style.circularcheck_checked]: todo.finished,
+            [Style.circularcheck]: true,
         })
         return (
             <>
@@ -101,13 +99,8 @@ const TodoItem = inject((allStores) => ({
                 />
                 <textarea // 显示待办事项
                     className={Style.todocontent}
-                    maxLength={40}
-                    rows={4}
                     value={userChangeValue}
                     onChange={action((e: any) => handleChange(e.target?.value))}
-                    onKeyDown={(e) =>
-                        e.key === 'Enter' ? e.preventDefault() : null
-                    } // 禁止回车
                     onBlur={
                         !userChangeValue
                             ? action(() => handleOnblur(todo))
@@ -138,16 +131,17 @@ const TodoTime = inject((allStores) => ({
         const [showTodoCreatedTime, setShowTodoCreatedTime] = useState(0) // 显示已创建时间（s/m/h/day）
         const [duetotime, setDueToTime] = useState('1') // 用户设置的天数，默认 1 天
         const [showIsDue, setShowIsDue] = useState('') // 提示用户 todo 是否过期
-        const classNameHourglass = cx({
+        const classNameHourglass = classnames({
             // 设置差 1 小时 todo 即将过期时沙漏的 class
-            isAboutToExpire: duetotime * 24 * 60 - todoCreatedTime <= 60,
-            timehourglass: true,
+            [Style.isAboutToExpire]:
+                duetotime * 24 * 60 - todoCreatedTime <= 60,
+            [Style.timehourglass]: true,
         })
-        const classNameTodoCreatedTime = cx({
+        const classNameTodoCreatedTime = classnames({
             // 设置即将到期和已过期的‘已创建时间’的颜色
-            willExpire: duetotime * 24 * 60 - todoCreatedTime <= 60,
-            expiredL: duetotime * 24 * 60 - todoCreatedTime <= 0,
-            countdown: true,
+            [Style.willExpire]: duetotime * 24 * 60 - todoCreatedTime <= 60,
+            [Style.expiredL]: duetotime * 24 * 60 - todoCreatedTime <= 0,
+            [Style.countdown]: true,
         })
         const handleDueToTimeChange = (e: any) =>
             setDueToTime(
@@ -218,7 +212,6 @@ const TodoTime = inject((allStores) => ({
         }) // 将用户更改到期时间后的数据存入本地
         return (
             <div className={Style.timer}>
-                {' '}
                 {/* 过输入的期时间 + 已创建时间 */}
                 <div className={Style.userinputtime}>
                     <span className={Style.durationTime}>任务时间:</span>
