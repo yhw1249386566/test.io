@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { Link } from 'umi'
+import { Link } from 'react-router-dom'
 
 import { Text } from '../index'
 

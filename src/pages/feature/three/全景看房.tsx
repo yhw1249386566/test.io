@@ -1,6 +1,6 @@
 import { memo, useEffect, useRef } from 'react'
 import * as THREE from 'three'
-import { useWindowEventListener } from '~/packages/y-hooks'
+import { useWindowEventListener } from '@yomua/y-hooks'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 import up from '@/assets/img/room/up.jpg'

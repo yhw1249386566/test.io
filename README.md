@@ -84,17 +84,17 @@ loader
 
 # Module
 
-对于 npm 的包来说，其实有些包不需要下载，可以自己写在 npm 仓库中，比如：
-
--   y-screw
-
--   y-enchant
-
-注意: 目前此仓库中的 /packages 可以完全使用自己的 [npm 仓库](https://www.npmjs.com/settings/yomua/packages)代替。
-
 ## Module 说明
 
 **production**
+
+-   `@fortawesome/react-fontawesome`
+
+    用于加载 FontAwesome
+
+-   `antd`
+
+    antd 组件库
 
 -   `umi`
 
@@ -103,10 +103,6 @@ loader
 -   `mobx`, `mobx-react`
 
     目前只用于 page - Todo
-
--   `react-markdown`, `rehype-raw`, `remark-gfm`, `markdown-navbar`, `github-markdown-css`
-
-    目前只用于 markdown
 
 -   `openai`
 
@@ -120,27 +116,61 @@ loader
 
     用于美化 scrollbar 样式
 
--   `eventemitter3`
+`@yomua/*`
 
-    用于分发订阅事件
+-   `@yomua/y-classnames`
 
--   `@ant-design/pro-layout`
+    轻量级 class 处理
 
-    用于加载 ant-design 相关组件; 如: `import { Card } from 'antd'`
+-   `@yomua/y-eventemitter`
 
-    为什么不使用 `antd` 此包？ 当然可以，不过都一样，我懒得换，后面可能会换。
+    轻量级事件处理 - 分发, 订阅事件
 
-    TIP: `antd` 的版本号为: "4.24.15", 可以从导入的 `antd` 包点进去查看。
+-   `@yomua/y-hooks`
 
--   `@fortawesome/react-fontawesome`
+    轻量级 react hook
 
-    用于加载 FontAwesome
+-   `@yomua/y-indexeddb`
+
+    轻量级处理浏览器 Indexed DB
+
+-   `@yomua/y-screw`
+
+    轻量级工具函数库, 类似 lodash
+
+`react`
+
+-   `react`
+
+-   `react-dom`
+
+-   `react-router-dom`
+
+    react 路由
+
+`markdown`
+
+-   `react-markdown`
+
+    `rehype-raw`
+
+    `remark-gfm`
+
+    `markdown-navbar`
+
+    `github-markdown-css`
+
+    目前只用于 markdown
 
 **dev**
 
 -   `dotenv`
 
     目前生产不需要它, 我们只需要在打包前、打包时将 .env 文件注入到 process.env 中即可。
+
+-   `fs-extra`
+
+    用来提取图片 - generate_img.ts
 
 # 命名
 
@@ -185,6 +215,8 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 -   对于组件、页面能使用全局样式就使用全局样式，实在不行才写局部样式。
 
     为什么变了？这是为了方便以后将每个 Card 作为微应用时，可以更好的进行样式替换。
+
+    -   即: 能很快的找到对应样式, 然后抽取到微应用中
 
     并且这样做，能更好的适配各种主题，不需要在每一个地方都改变。
 
@@ -330,29 +362,17 @@ Reference: src/pages/feature - dynamicFeature.tsx
 
 -   三端：PC(网页 + 手机端适配) + Mobile(ios, Android) + 小程序，可使用 taro
 
--   搞一个 SDK 包，比如：yhook，直接使用 monorepo 项目管理方式 √ 已经有初始项目了，
-
-    参见：[npm 仓库](https://www.npmjs.com/settings/yomua/packages)
-
-    注意: 目前我们以项目中的 packages 作为最新包使用, 等到各个包稳定后, 才更新到 npm 仓库,
-
-    不然, 可能后续要经常更新包, 会很麻烦.
-
 -   实时更新已有文章，并且更新完成之后可以下载已有文章成为 md 文件，但是刷新之后不保留此文件。
 
 -   React 已经升级到 18.x, 将为现有代码和后续代码渐进式升级到 18.x
-
--   解决 history 路由挂载到 github pages 上，访问时出现 404 问题。
-
-    原因：访问 https://www.whyhw.com/article/test.md 时，路径不匹配，找不到对应文件。
-
-    可以做一个代理，当访问 article/ 目录或访问 .md 文件，则代理到 xxx
 
 -   让图片解决方法更通用，即：找 article/ 下的所有图片（而非只是 picture/ 的目录），
 
     如果在非 picture/ 目录下发现的图片，就将此目录（如：目录 img/test.png）同样提取到 /public/ 中（比如：/public/img/test.png）
 
--   采用微前端架构，每一个 item 都是一个独立应用，可采用 [qiankun](https://qiankun.umijs.org/zh),
+    这种方式需要递归每个文件夹, 需要较长的耗时.
+
+-   采用微前端架构，每一个 Card 都是一个独立应用，可采用 [qiankun](https://qiankun.umijs.org/zh),
 
     或其他框架: [Single-spa](https://github.com/single-spa/single-spa), [Garfish](https://www.garfishjs.org/) 等。
 
@@ -380,7 +400,7 @@ Reference: src/pages/feature - dynamicFeature.tsx
 
 -   考虑暂存文章内容到本地, 并设置过期时间, 这样就不需要每次点击都要发送请求.
 
--   目前此项目使用的包管理器是 `yarn`, 但是由于 `yarn` 和 `npm` 它们安装包的时候, 都是将包摊平安装到 node_modules
+-   目前此项目使用的包管理器是 `yarn`, 但是由于 `yarn` 和 `npm` 它们安装包的时候, 都是将包摊平安装到 node_modules -> 幻影依赖
 
     即: 若一个包有依赖, 依赖还有依赖, 那么就把它们摊平到同一层再安装, Ref: [npm's flat tree](https://www.pnpm.cn/pnpm-vs-npm#npms-flat-tree).
 

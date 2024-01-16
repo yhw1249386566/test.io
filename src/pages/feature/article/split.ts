@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 
 import { useEffect } from 'react'
-import { urlChange } from '~/packages/y-screw'
+import { urlChange } from '@yomua/y-screw'
 
 import log from '@/utils/log'
 import request from '@/utils/request'

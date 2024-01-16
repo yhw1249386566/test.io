@@ -56,7 +56,8 @@ export const CONVERT_TYPE_MAP: Record<
 }
 
 // 这里的目的是因为: constants 存在打包之前就需要的 process.env 中的变量
-// 所以需要在这里提前注入环境变量
+// 所以需要在这里提前注入环境变量(否则运行时, 是获取不到打包之前就需要的 process.env 的变量的)
+// - Ref: /** 以下变量用于打包之前的准备 */
 const currentWorkingDir = process.cwd()
 Dotenv.config({ path: path.join(currentWorkingDir, '.env') })
 

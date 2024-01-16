@@ -29,8 +29,6 @@ interface CustomProps extends CardProps {
 }
 
 const CustomCard = (props: CustomProps) => {
-    console.log('__card')
-
     const {
         img,
         previewImg,

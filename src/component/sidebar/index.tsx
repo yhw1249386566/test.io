@@ -1,8 +1,8 @@
 import { memo, useCallback, useState, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { getType } from '~/packages/y-screw'
+import { getType } from '@yomua/y-screw'
 import classnames from '@yomua/y-classnames'
-import { useWindowEventListener } from '~/packages/y-hooks'
+import { useWindowEventListener } from '@yomua/y-hooks'
 
 import log from '@/utils/log'
 import { useTheme } from '@/hooks'

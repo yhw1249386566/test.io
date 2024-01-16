@@ -1,6 +1,6 @@
 /* eslint-disable react/no-children-prop */
 import { ReactNode, memo } from 'react'
-import { useLocation, useParams } from 'umi'
+import { useLocation, useParams, Location } from 'react-router-dom'
 
 import Error404 from '@/pages/404'
 
@@ -8,8 +8,8 @@ import { FeatureName } from '../constant'
 
 import Todo from './todo'
 import Gpt3 from './gpt3'
-import Article from './article'
 import Three from './three'
+import Article from './article'
 import style from './index.less'
 
 function renderFeature(
