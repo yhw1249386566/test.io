@@ -1,2 +1,0 @@
-(self["webpackChunk"]=self["webpackChunk"]||[]).push([[428],{56863:function(e,n,u){"use strict";u.r(n);var c=u(67294),r=u(85893);function s(){return(0,r.jsx)("div",{children:"Type"})}n["default"]=(0,c.memo)(s)}}]);
-//# sourceMappingURL=p__type.71a5f420.async.js.map
