@@ -9,6 +9,7 @@ import {
     faFacebookSquare,
 } from '@fortawesome/free-brands-svg-icons'
 import IndexedDB from '@yomua/y-indexeddb'
+import { useWindowEventListener } from '@yomua/y-hooks'
 
 import style from './index.less'
 import Footer from './layouts/footer'
@@ -22,6 +23,7 @@ import { LOCAL_STORAGE_NAME } from './utils/constant'
 library.add(fas, faFacebookSquare, faYoutubeSquare, faLinkedin, faTwitterSquare)
 
 // 初始化 IndexedDB
+// 注意: 目前不需要用它
 IndexedDB.singleInstance.open({
     dbVersion: 1,
     dbName: 'yomuaDB',
@@ -29,11 +31,15 @@ IndexedDB.singleInstance.open({
     specifyKey: 'filepath',
 })
 
-// 匹配路由 '/', 所以可以认为此文件类似入口文件;
-// 类似? 因为 umi 已经配置了入口文件(使用者无感知), src/.umi/umi.ts,
+// 此文件匹配路由 '/', 所以可以认为此文件类似入口文件;
+// 为什么说类似? 因为 umi 已经配置了入口文件(使用者无感知), src/.umi/umi.ts,
 // => Ref: /umi_webpack_dev.js 或 umi_webpack_prod.js - entry 字段
 const Index = (props: { children: React.ReactNode }) => {
     const [theme, setTheme] = useState<Theme>('light')
+
+    useWindowEventListener('resize', () => {
+        console.log('__fff')
+    })
 
     const handleChangeTheme = useCallback((theme: Theme) => {
         setTheme(theme)

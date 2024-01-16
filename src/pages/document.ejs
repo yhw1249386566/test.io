@@ -50,6 +50,13 @@
         }
 
         html {
+            line-height: 1.15;
+            /* 1 */
+            -webkit-text-size-adjust: 100%;
+            /* 2 */
+        }
+
+        body {
             /* 
              *  解决因为切换页面时, body 滚动条出现/消失 而导致页面看起来像是在抖动的问题 
                 => 视区 vw 包含滚动条宽度, 而实际元素内容在参与 css 规则时, 会去掉滚动条宽度
@@ -65,13 +72,7 @@
                 => 这可能会让一些页面布局, 如: 背景色, 覆盖不到整个页面, 出现缺失的情况.
              */
             width: 100vw;
-            line-height: 1.15;
-            /* 1 */
-            -webkit-text-size-adjust: 100%;
-            /* 2 */
-        }
-
-        body {
+            overflow-x: hidden;
             background-color: var(--global-primary-bg-color);
         }
 
@@ -82,8 +83,6 @@
         body::-webkit-scrollbar-track {
             opacity: 0;
         }
-
-        
 
         body::-webkit-scrollbar-thumb {
             background: #0000004d;
