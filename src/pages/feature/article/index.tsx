@@ -7,8 +7,8 @@ import MarkNavbar from 'markdown-navbar'
 import classnames from '@yomua/y-classnames'
 import { urlChange } from '@yomua/y-screw'
 import EventEmitter from '@yomua/y-eventemitter'
+import log from '@yomua/y-tlog'
 
-import log from '@/utils/log'
 import { useTheme } from '@/hooks'
 import request from '@/utils/request'
 import storage from '@/utils/storage'
@@ -220,19 +220,17 @@ function Article() {
                 setArticleLoading(false)
             })
             .catch((error) => {
-                log.group('initFileDataWhenFirstLoad error', {
-                    sub: [
-                        {
-                            type: 'error',
-                            message: error,
-                        },
+                log.group('initFileDataWhenFirstLoad error', [
+                    {
+                        type: 'error',
+                        message: error,
+                    },
 
-                        {
-                            type: 'log',
-                            message: `filepath: ${filepath}`,
-                        },
-                    ],
-                })
+                    {
+                        type: 'log',
+                        message: `filepath: ${filepath}`,
+                    },
+                ])
 
                 // 如果的错误被执行, 说明第一次进来就出错了, 这很严重, 所以放弃所有本地存储, 重新再存储.
                 storage.clearAllLocalStorage()

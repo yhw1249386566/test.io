@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getType } from '@yomua/y-screw'
 import classnames from '@yomua/y-classnames'
 import { useWindowEventListener } from '@yomua/y-hooks'
+import log from '@yomua/y-tlog'
 
-import log from '@/utils/log'
 import { useTheme } from '@/hooks'
 import { SCROLL_SPEED } from '@/utils/constant'
 
@@ -30,12 +30,9 @@ function Sidebar() {
                 }
 
                 if (getType(SCROLL_SPEED) !== 'number' || isNaN(SCROLL_SPEED)) {
-                    log.group('SCROLL_SPEED ERROR', {
-                        sub: [
-                            { type: 'info', message: SCROLL_SPEED },
-                            { type: 'trace', message: 'trace' },
-                        ],
-                    })
+                    log.group('SCROLL_SPEED ERROR', [
+                        { type: 'info', message: SCROLL_SPEED },
+                    ])
                     window.scrollTo(0, 0)
                     return
                 }

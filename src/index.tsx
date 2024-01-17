@@ -9,7 +9,6 @@ import {
     faFacebookSquare,
 } from '@fortawesome/free-brands-svg-icons'
 import IndexedDB from '@yomua/y-indexeddb'
-import { useWindowEventListener } from '@yomua/y-hooks'
 
 import style from './index.less'
 import Footer from './layouts/footer'
@@ -36,10 +35,6 @@ IndexedDB.singleInstance.open({
 // => Ref: /umi_webpack_dev.js 或 umi_webpack_prod.js - entry 字段
 const Index = (props: { children: React.ReactNode }) => {
     const [theme, setTheme] = useState<Theme>('light')
-
-    useWindowEventListener('resize', () => {
-        console.log('__fff')
-    })
 
     const handleChangeTheme = useCallback((theme: Theme) => {
         setTheme(theme)
