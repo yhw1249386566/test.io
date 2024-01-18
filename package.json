@@ -33,7 +33,7 @@
         "@yomua/y-hooks": "^0.0.5",
         "@yomua/y-indexeddb": "^0.0.6",
         "@yomua/y-screw": "0.0.7",
-        "@yomua/y-tlog": "^0.0.8",
+        "@yomua/y-tlog": "^0.1.0",
         "antd": "^5.12.7",
         "github-markdown-css": "^5.2.0",
         "markdown-navbar": "^1.4.3",
