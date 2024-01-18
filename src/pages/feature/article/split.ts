@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react'
 import { urlChange } from '@yomua/y-screw'
+import log from '@yomua/y-tlog'
 
-import log from '@/utils/log'
 import request from '@/utils/request'
 import storage from '@/utils/storage'
 import { get404Md } from '@/utils'

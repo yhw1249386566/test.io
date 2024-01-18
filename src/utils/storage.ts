@@ -1,4 +1,5 @@
-import log from './log'
+import log from '@yomua/y-tlog'
+
 import { EnvValueType, JSValueType } from './utils.d'
 import { CONVERT_TYPE_MAP, LOCAL_STORAGE_NAME } from './constant'
 
@@ -25,7 +26,8 @@ const saveBatchLocalStorage = (data: StorageDataKey<LOCAL_STORAGE_NAME>[]) => {
         const { key, value } = item ?? {}
 
         if (!key) {
-            log.error('saveBatchLocalStorage key 不存在: ', key)
+            log.error('saveBatchLocalStorage key 不存在')
+
             return false
         }
 
@@ -59,7 +61,7 @@ const getLocalStorage = <
 
 const clearLocalStorage = (key: LOCAL_STORAGE_NAME) => {
     if (!key) {
-        log.warn('clearLocalStorage: key 不存在')
+        log.error('clearLocalStorage: key 不存在')
         return false
     }
 

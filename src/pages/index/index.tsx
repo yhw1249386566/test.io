@@ -21,23 +21,22 @@ function handleGotoFeature(featureName: string) {
 }
 
 function Index() {
-    const data = {
-        multiple: true,
-        showUploadList: false,
-        name: 'file',
-        action: 'http://192.168.3.143:4000/upload',
-        headers: {},
-        onChange(info) {
-            if (info.file.status !== 'uploading') {
-                console.log(info.file, info.fileList)
-            }
-            if (info.file.status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully`)
-            } else if (info.file.status === 'error') {
-                message.error(`${info.file.name} file upload failed.`)
-            }
-        },
-    }
+    // const data = {
+    //     multiple: true,
+    //     showUploadList: false,
+    //     name: 'file',
+    //     action: 'http://192.168.3.143:4000/upload',
+    //     headers: {},
+    //     onChange(info) {
+    //         if (info.file.status !== 'uploading') {
+    //         }
+    //         if (info.file.status === 'done') {
+    //             message.success(`${info.file.name} file uploaded successfully`)
+    //         } else if (info.file.status === 'error') {
+    //             message.error(`${info.file.name} file upload failed.`)
+    //         }
+    //     },
+    // }
 
     return (
         <div className={style.index}>

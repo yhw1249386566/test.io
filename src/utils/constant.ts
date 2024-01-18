@@ -1,7 +1,7 @@
 import path from 'path'
 import Dotenv from 'dotenv'
+import log from '@yomua/y-tlog'
 
-import log from './log'
 import { EnvValueType, JSValueType } from './utils.d'
 
 export const CONVERT_TYPE_MAP: Record<
@@ -19,17 +19,14 @@ export const CONVERT_TYPE_MAP: Record<
         try {
             return JSON.parse(value)
         } catch (error) {
-            log.group('JSON.parse 失败', {
-                sub: [
-                    { type: 'error', message: error },
-                    {
-                        type: 'log',
-                        message: `要解析的值为: ${
-                            value === '' ? '空字符串' : value
-                        }`,
-                    },
-                ],
-            })
+            log.group('JSON.parse 失败', [
+                { type: 'error', message: error },
+                {
+                    message: `要解析的值为: ${
+                        value === '' ? '空字符串' : value
+                    }`,
+                },
+            ])
             return null
         }
     },
@@ -37,17 +34,14 @@ export const CONVERT_TYPE_MAP: Record<
         try {
             return JSON.parse(value)
         } catch (error) {
-            log.group('JSON.parse 失败', {
-                sub: [
-                    { type: 'error', message: error },
-                    {
-                        type: 'log',
-                        message: `要解析的值为: ${
-                            value === '' ? '空字符串' : value
-                        }`,
-                    },
-                ],
-            })
+            log.group('JSON.parse 失败', [
+                { type: 'error', message: error },
+                {
+                    message: `要解析的值为: ${
+                        value === '' ? '空字符串' : value
+                    }`,
+                },
+            ])
 
             return null
         }
