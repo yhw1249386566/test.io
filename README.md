@@ -138,6 +138,10 @@ loader
 
     轻量级工具函数库, 类似 lodash
 
+-   `@yomua/y-tlog`
+
+    轻量级日志记录库, 并提供染色, 日志风格等美化 API
+
 `react`
 
 -   `react`

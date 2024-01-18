@@ -1,4 +1,4 @@
-import log from './log'
+import log from '@yomua/y-tlog'
 
 type RequestOptions = {
     // 添加到 url 后: https://test.com?test=test
@@ -94,7 +94,7 @@ const handleResult = <R>(result: R) => {
 }
 
 const handleError = (error: Error) => {
-    log.error('Request Error: ', error)
+    log.error('Request Error: ', error as any)
 
     interceptorsMap.response?.forEach(({ onRejected }) => {
         if (onRejected) {
