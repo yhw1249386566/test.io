@@ -2,6 +2,7 @@ import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 import Cute from '@/assets/img/cute.jpeg'
 import CompressCute from '@/assets/img/compress_cute.jpeg'
+import { ARTICLE_COMMIT_LAST_DATE } from '@/utils/constant'
 
 export enum FeatureName {
     Three = 'three',
@@ -53,8 +54,7 @@ export const FeatureList: FeatureType[] = [
         author: 'Yomua',
         time: '2023年02月25日',
         description: '个人笔记',
-        // lastUpdateTime: getCurrentDate(), // 每次页面刷新, 都会更新时间
-        lastUpdateTime: '2024年1月16日',
+        lastUpdateTime: ARTICLE_COMMIT_LAST_DATE,
         tag: [
             {
                 name: 'Article',

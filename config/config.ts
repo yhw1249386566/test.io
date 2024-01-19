@@ -81,7 +81,7 @@ export default defineConfig({
         const umiEnv = process.env
 
         // 注入 .env 中的配置到 process.env, 同时保留 umi env
-        // 这样就可以在运行时(跑到浏览器的时候)使用 process.env 获取对应的变量
+        // 这样就可以在运行时(跑到浏览器的时候)使用 process.env 获取对应的 env 的变量 (通过 src/utils/constant)
         config.plugin('define').use(webpack.DefinePlugin, [
             {
                 'process.env': JSON.stringify({ ...getEnvConfig(), ...umiEnv }),

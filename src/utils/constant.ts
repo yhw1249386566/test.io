@@ -63,6 +63,7 @@ enum ENV_KEY {
     WRITE_ARTICLE_DIR = 'WRITE_ARTICLE_DIR',
     ARTICLE_PICtURE = 'ARTICLE_PICtURE',
     ARTICLE_SUFFIX_NAME = 'ARTICLE_SUFFIX_NAME',
+    ARTICLE_COMMIT_LAST_DATE = 'ARTICLE_COMMIT_LAST_DATE',
 }
 
 const getEnvValue = <ReturnType extends JSValueType = 'string'>(
@@ -124,6 +125,10 @@ export const SCROLL_SPEED = getEnvValue(ENV_KEY.SCROLL_SPEED, {
 })
 
 /** 以下变量即用于打包之前, 也用于打包后的运行时 */
+
+export const ARTICLE_COMMIT_LAST_DATE = getEnvValue(
+    ENV_KEY.ARTICLE_COMMIT_LAST_DATE,
+)
 
 export const ARTICLE_SUFFIX_NAME = getEnvValue(ENV_KEY.ARTICLE_SUFFIX_NAME)
 
