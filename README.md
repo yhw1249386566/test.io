@@ -86,7 +86,7 @@ loader
 
 ## Module 说明
 
-**production**
+### production
 
 -   `@fortawesome/react-fontawesome`
 
@@ -166,7 +166,7 @@ loader
 
     目前只用于 markdown
 
-**dev**
+### dev
 
 -   `dotenv`
 
@@ -175,6 +175,10 @@ loader
 -   `fs-extra`
 
     用来提取图片 - generate_img.ts
+
+-   `cross-env`
+
+    用来为 package.json 的 scripts 设置一些环境变量
 
 # 命名
 
