@@ -276,7 +276,7 @@ var module = {
 - 其次会准备一个名为:load的函数,接收上面的module对象 ,然后向module对象的属性exoports*(存放的是另一个对象)*中添加你想要对外输出的接口（即我们在模块中使用 module.exports 导出的值），最后 load 函数的返回值返回 module.exports
 
   ```js
-var load = function(module) {
+  var load = function(module) {
       
       function hello(name) {
       	console.log(`你好:${name}`);
@@ -290,13 +290,13 @@ var load = function(module) {
           
   }
   ```
-  
+
   ​	需要注意的是:这个函数中,存放的是模块内部需要对外暴露出接口的有关代码.
-  
+
   ​	然后被这个函数的返回值为module.exports,当load()函数被执行,那么外部的module对象中的exports属性值将被改变成load()函数的返回值.
-  
+
   ​	因为对象是易变的,***参见<对象.md>,***不像普通的变量(存值)传入过去之后,形参如同一个实参的副本.
-  
+
   ​		*实参为对象,则形参只会指向这个对象所在的内存地址空间,而不会生成一个副本**(参见:<对象.md>)***
 
 - 然后会调用以上load(module)函数,向之传入module对象,并赋值给一个变量.
@@ -313,7 +313,7 @@ var exported = load(module);
   ```js
   save(module,exported);
   ```
-  
+
 - 最后，当你使用 require(路径名)  导入暴露出的 module 时，其实就是导入 node 帮你存的 module.exports。
 
 --------------
@@ -375,7 +375,9 @@ save(module,exported);
 
 **所以,在这里,我们强烈建议使用module.exports = {} / module.exports.xxx=xxx的方式来输出模块变量，这样，你只需要记忆一种方法。**
 
+# Reference
 
+- [CommonJS - node](https://nodejs.cn/api/v18/modules.html#%E6%A8%A1%E5%9D%97commonjs-%E6%A8%A1%E5%9D%97) 
 
 
 

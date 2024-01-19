@@ -45,11 +45,11 @@ export default [
             { path: '/', redirect: '/index', exact: true },
             ...BASE_ROUTES,
             ...EXTRACT_ROUTES,
-            // 目前这个路由没啥用了, 因为采用了 history 路由模式;
+            // 目前这个路由作用不大了, 因为采用了 history 路由模式;
             // => 对于 github pages 托管的且采用了 history 的页面, 如果通过 url 找不到资源, 则会直接访问根路径的 404.html(若有)
             // => REF: https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-custom-404-page-for-your-github-pages-site
             // 当然也不能说一点用没有, 如果不是直接从浏览器第一次加载进来的, 那么后续 umi 的路由监听仍然起效,
-            // 只要我们代码中跳到的路由是没有相匹配的资源, 就会走这个兜底路由
+            // 即: 从代码中跳到的路由如果没有相匹配的资源, 就会走这个兜底路由
             { path: '/*', component: '@/pages/404' },
         ],
     },
