@@ -1,1 +1,4 @@
-v16.15.0
+v16.15.0 // 主版本
+
+v18.19.0 // 使用了 NODE_OPTIONS="--openssl-legacy-provider", 所以也能支持这个版本
+// 为什么? 因为 @yomua/y-tlog 引入的依赖 chalk 使用了 node 高版本的 API
