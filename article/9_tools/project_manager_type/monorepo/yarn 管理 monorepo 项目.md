@@ -29,17 +29,30 @@
 
 # 快速上手
 
-工作区（根目录）本身不需要被发布到 npm 这类包仓库。因为它不是一个实际的包（或模块）。工作区是一种组织多包项目的方式，它通过帮助管理包之间的依赖关系、提供共享依赖和更好地组织项目结构来改善项目管理。
+工作区（根目录）本身不需要被发布到 npm 这类包仓库, 因为它不是一个实际的包（或模块）。
 
+工作区是一种组织多包项目的方式，它通过帮助管理包之间的依赖关系、提供共享依赖和更好地组织项目结构来改善项目管理。
 
+# 如何在其他包中使用另一个包
 
-# 常用命令
+```js
+// package @yomua/y-screw
+
+// pakcage @yomua/y-server
+import server from '@yomua/y-screw'
+```
+
+可以这样直接使用，并不需要安装依赖到 `@yomua/y-server` 中，会自动引用 `@yomua/y-screw` 包本地所在的位置。
+
+但是需要注意：你需要将 `@yomua/y-screw` 设置为 `@yomua/y-server` 的 dep 或 devDep.
+
+#  常用命令
 
 - `yarn workspaces info` 
   显示当前 packages 的信息，其中 key 代表每个包的名字：每个包 `package.json  ` 的 name
 
 - `yarn workspace <workspace_name> <command>`
-  在指定的package中运行指定的命令，如：
+  在指定的 package 中运行指定的命令，如：
   `yarn workspace @yomua/yscrew add react`: 将 React 添加到 `@yomua/yscrew` 项目中。
 
 - `yarn <add|remove> <package> -W`
@@ -50,4 +63,47 @@
 
   将指定的 包（package.json 的 name） 发布到 npm
 
+  注意: 中括号的意思代表可选
+
   `[--access=public]`: 当需要把包发布到组织时，如果不是付费的，那么需要添加此命令才能发布共享包，否则只能是私有包。
+
+-  `yarn workspaces run build`
+
+    空间下的所有包都执行 `yarn run build` 命令
+
+    对于执行成功的成功打包, 执行失败的, 命令则中断.
+
+# FAQ
+
+## 无法在一个包 a 中使用另一个包 b
+
+需要先发布一版正确的，带有类型的包 a 到 npm 仓库
+
+- 可能是要让 yarn monorepo 识别吧.
+
+## 使用发布命令时却发布到 yarn 的仓库？
+
+这可能是因为你配置了 package.json, 然后使用 `yarn 命令` 的形式, 如:
+
+```js
+{
+  scripts:{
+    "p:screw": "yarn workspace @yomua/y-screw publish --access=public",
+  }
+}
+```
+
+执行:
+
+- `yarn p:screw`
+
+这会导致 publish 到 yarn 的仓库: `https://registry.yarnpkg.com`
+
+解决方法是: 使用 `npm run 命令` 的形式,即: 
+
+- `npm run p:screw`
+
+这样就能发布到 npm 仓库: ``https://registry.npmjs.org``
+
+
+

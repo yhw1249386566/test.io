@@ -3,7 +3,7 @@
 - 进程: 简单来说就是程序在处理机上执行时的活动称为进程，比如正在运行的浏览器，它就会有一个进程.***参见: <操作系统基础.md>*** 
 
 - 线程: 进程中一个相对独立的步骤，行话来说就是: 程序中独立运行的代码块.
-  
+
   一个进程由多个线程组成， 线程是用来执行程序的代码的，即: 堆**，栈，队列都是因为线程执行代码时而产生的概念.**
 
 PS:程序和进程是不同的两个概念，***参见: <操作系统基础.md>***
@@ -30,7 +30,7 @@ PS:程序和进程是不同的两个概念，***参见: <操作系统基础.md>*
 
 返回地址:  当子程序运行完毕，返回主程序后，当前子程序的下一条指令的地址被称之为:  返回地址。
 
-![](.//picture/栈的可视化.png)
+![](./picture/栈的可视化.png)
 
 ## 堆(heap)
 
@@ -56,7 +56,7 @@ PS:程序和进程是不同的两个概念，***参见: <操作系统基础.md>*
 
 注意：堆内存中对象的地址将会存储在栈内存中，当我们访问对象时（（如通过 JavaScript），代码解释器将先检索此对象在栈内存中的地址，通过此地址访问堆，从而拿到对象。如果未拿到，则报错。
 
-![](.//picture/堆的可视化.png)
+![](./picture/堆的可视化.png)
 
 ## 堆内存和栈内存的区别
 
@@ -174,27 +174,27 @@ function stack2() {
 
 - 通过浏览器的控制台可以直接查看到 Call Stack 的内容(Sources页面的右边)
 
-![](.//picture/调用栈1.png)
+![](./picture/调用栈1.png)
 
 一开始的时候，调用栈里面没有任何内容.
 
 当执行stack1()时，函数的调用就会形成帧，从而组成栈，如下图，其中(anonymous)是页面暂停的为止，即断点，只要存在暂停它就会自动出现，不必理会.
 
-![](.//picture/调用栈2.png)
+![](./picture/调用栈2.png)
 
 现在程序已经开始执行stack1()了，且当return stack2()语句被执行时，就又会形成一个新的帧，被压入栈中， 也就是如下图stack2;
 
-![](.//picture/调用栈3.png)
+![](./picture/调用栈3.png)
 
 由于stack2()函数中又存在语句return stack1(); 这就会导致又会新成一个新的帧，stack1，这样如此反复， 栈中的帧就会越来越多， 直到栈溢出.
 
-![](.//picture/调用栈4.png)
+![](./picture/调用栈4.png)
 
 栈溢出，浏览器就会报错，就如同我刚才所说的那样， 栈溢出这个机制成功限制了电脑不会因为CPU和内存被占满从而导致的宕机. 
 
 即: 未捕获范围错误: 超过最大 调用栈 大小.
 
-![](.//picture/栈溢出的报错.png)
+![](./picture/栈溢出的报错.png)
 
 注意：计算机给 JavaScript 的调用栈分配的内存空间是有限的，此内存空间属于计算机的一部分，但非全部，所以即使调用栈被爆（溢出），顶多当前浏览器的标签“卡死”，计算机是不会”卡死”。
 
@@ -251,7 +251,7 @@ JavaScript 是单线程的。
 
 4. 主线程会不断重复第三步，直到队列也空.
 
-# 宏任务和微任务
+# 非微任务的其他异步任务和微任务
 
 我们已经知道在 JavaScript 中，所有任务广义上被看作是同步任何和异步任务两类。
 
@@ -261,7 +261,7 @@ JavaScript 是单线程的。
    非微任务的其他异步任务（现在的概念）
 2. 微任务
 
-## 非微任务的其他异步任务
+## 非微任务的其他异步任务 - 常规任务
 
 - AJAX, fetch, async
 
@@ -272,15 +272,14 @@ JavaScript 是单线程的。
 - 事件监听器
   主线程之外的某个线程将会一直观察是否有事件被注册和被触发，一旦有事件注册且触发，则此线程将会将关于此事件的任务推入到主线程的任务队列中。
 
-  
 
 ## 微任务
 
 上一个微任务结束之后将会立即执行下一个微任务(同一个微任务队列)，而第一个微任务的执行将会在主线程执行完整个 Script 脚本时执行。
 
-如果在微任务执行期间，又新加了一个微任务，则[此微任务会加入到当前为任务队列的尾部，并且之后该微任务也仍将被执行](https://codesandbox.io/s/wei-ren-wu-zhi-xing-shi-chuang-de-xin-wei-ren-wu-jiang-bei-tian-jia-dao-dang-qian-wei-ren-wu-dui-lie-de-mo-wei-qrf4ht?file=/src/index.ts)。
+如果在微任务执行期间，又新加了一个微任务，则[此微任务会加入到当前微任务队列的尾部，并且之后该微任务也仍将被执行](https://codesandbox.io/s/wei-ren-wu-zhi-xing-shi-chuang-de-xin-wei-ren-wu-jiang-bei-tian-jia-dao-dang-qian-wei-ren-wu-dui-lie-de-mo-wei-qrf4ht?file=/src/index.ts)。
 
-微任务有: Promise的回调函数(如:then()) 以及 [mutation observe](https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver)的回调， [queueMicrotask](https://developer.mozilla.org/zh-CN/docs/Web/API/HTML_DOM_API/Microtask_guide)。
+微任务有: Promise 的回调函数(如:then()) 以及 [mutation observe](https://developer.mozilla.org/zh-CN/docs/Web/API/MutationObserver) 的回调， [queueMicrotask](https://developer.mozilla.org/zh-CN/docs/Web/API/HTML_DOM_API/Microtask_guide)。
 
 ```js
 new Promise((r) => {
@@ -549,7 +548,7 @@ ok，到现在除了setTimeout还在宏任务队列中，队列中已经没有�
 
 # [事件循环](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/EventLoop#%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF)
 
-有一个线程在进行无限循环——从队列中取任务执行。[此处](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model)
+有一个线程在进行无限循环——从队列中取任务执行。[此处](https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-processing-model) 
 
 ### 事件循环执行流程
 
@@ -583,11 +582,11 @@ ok，到现在除了setTimeout还在宏任务队列中，队列中已经没有�
 
 事件循环模型会帮助程序正确的工作。
 
-![队列-堆-栈的可视化描述2](././/picture/队列-堆-栈的可视化描述2.png)
+![队列-堆-栈的可视化描述2](././picture/队列-堆-栈的可视化描述2.png)
 
 下图是一个简单的堆-栈-队列的可视化描述.
 
-![](.//picture/队列-堆-栈的可视化描述.png)
+![](./picture/队列-堆-栈的可视化描述.png)
 
 ### 概念
 
@@ -675,7 +674,7 @@ setTimeout也是这个理，当延迟时间到->触发回调函数***(不一定�
 输出结果为:  
 
 - 这是来自 setTimeou 回调的消息
-  
+
   animationstart 事件
 
 这是因为动画事件在UI线程中优先级最低，***参见:《权威指南 P919》***
@@ -777,15 +776,15 @@ JavaScript的事件循环模型与许多其他语言不同的一个非常有趣�
 1. 首先主线程会执行script中的所有同步任务，如果执行过程中有栈，那去执行 栈，有"消息"就放入队列，等待执行。
 
 2. 当script中的所有同步任务完成，会先执行完微任务队列中的所有微任务。
-   
+
    接下来如果不触发任何事件，则相当于程序待机。
-   
+
    若触发了某(些)事件(如:setTimeout， 单击事件)，则主线程会读取消息队列（该消息队列是因为触发某(些)事件导致一系列相关操作被执行，从而形成的消息队列）
-   
+
    - 消息队列分为两种: 宏任务队列， 微任务队列。
 
 3. 主线程读取宏任务队列，每次执行完一个宏任务，就去执行微任务队列(如果有的话，就执行到空)
-   
+
    TIP：当主线程执行宏任务时，相当于一个新的线程（子线程，一个新的执行栈），此新线程的执行机制和主线程一模一样。
 
 4. 反复执行第二步和第三步，直到宏任务队列清空或程序待机。
@@ -807,9 +806,9 @@ JavaScript的事件循环模型与许多其他语言不同的一个非常有趣�
 - 局部变量，全局变量，
 
 - 异步任务，两种状态：
-  
+
   被动状态->被动等待数据输入，
-  
+
   主动状态->执行对数据的操作或任务失败的操作。
 
 # 参考资料
