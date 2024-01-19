@@ -2,7 +2,7 @@
     "private": true,
     "author": "Yomua",
     "scripts": {
-        "start": "yarn build-article && cross-env NODE_OPTIONS=\"--openssl-legacy-provider\" umi dev",
+        "start": "yarn build-article && umi dev",
         "build": "umi build",
         "build-article": "ts-node src/scripts/index.ts",
         "postinstall": "umi generate tmp",

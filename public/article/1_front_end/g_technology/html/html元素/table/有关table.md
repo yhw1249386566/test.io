@@ -4,7 +4,7 @@
    
    `max-width` 道理也是如此，若因内容多导致每列宽度相加 > max-width，则实际宽度以每列宽度相加为准。
    
-   <img src='/picture/表格总宽度取决于每个列宽而非一定是min_width.png' width='500px'/>
+   <img src='picture/表格总宽度取决于每个列宽而非一定是min_width.png' width='500px'/>
    
    yomua 单元格设置了 white-space:nowrap，否则将会换行保证 table 的 min-width 指定的值。
 
@@ -12,7 +12,7 @@
    
    NOTICE：表头 \<thead /> 也包含在此。
    
-   <img src='/picture/列宽取决于最大单元格宽度.png' width="300px"/>
+   <img src='picture/列宽取决于最大单元格宽度.png' width="300px"/>
 
 3. 单独为任意一个单元格 \<td /> 设置 `width`  时，存在两种情况：
    
@@ -25,11 +25,11 @@
 
 4. \<td /> 标签只能设置最小宽度，而不能是设置最大宽度，且最小宽度需要使用：`max-width` 属性设置，这很奇怪，但是在实际实现时，效果就是这么表现的，如下所示：
    
-   <img src='/picture/td中的max_width就是最小宽度1.png' width="500px"/>
+   <img src='picture/td中的max_width就是最小宽度1.png' width="500px"/>
    
    ​                                            (最小宽度为100，已无法继续缩小，这里102是因为此 td 有边框)
    
-   <img src='/picture/td中的max_width就是最小宽度2.png' width="500px"/>
+   <img src='picture/td中的max_width就是最小宽度2.png' width="500px"/>
    
    ​                                        （很明显，192px 已经 > max-width:100px）
 

@@ -1,5 +1,3 @@
-[TOC]
-
 # 异常
 
 ## 描述
@@ -188,59 +186,59 @@ catch(e) {
 ###### 代码解析
 
 1. **inTry.undefined('我发生异常');**
-   
+
    ​    内层中的try抛出异常
 
 2. **inCatch.undefined('我是内层发生异常');**
-   
+
    ​    内层中的catch处理try抛出的异常时也发生了异常(错误), 将跳过当前所属的try语句块中剩余的所有代码.
-   
+
    ​    即跳过outTry.jump('由于内层catch发生异常，所以我会被跳过'); 
 
 3. **console.log('我是内层catch将被跳过执行');**
-   
+
    ​    此代码行是内层中catch发生异常后接下来的代码,它将会被跳过
 
 4. **console.log('我是内层finally');**
-   
+
    ​    这行代码无论如和都会被执行.
-   
+
    ​    此语句块可以释放内层try和catch中的占用的空间.(即使其中的某些代码被跳过依然能释放)
 
 5. **outTry.jump('我发生异常但我会被跳过');** 
-   
+
    ​    外层try中的代码块
 
 6. **console.log('inCatch:' + err);**
-   
+
    ​    此行是外层catch中的,它用来捕获外层try出现的异常,由于try中嵌套了另一个try..catch..finally语句块, 
-   
+
    ​    且在内层的try语句块抛出异常,catch处理此异常也发生错误(抛出异常)时, 就会被外层的catch所捕获并处理
-   
+
    ​    所以它会输出 → inCatch:ReferenceError: inCatch is not defined
-   
+
    ​    即引用错误,在内层的catch中,inCatch变量是未定义的.
-   
+
    ​    且由于嵌套中的try..catch两个语句都发生了异常,所以若外层try语句块在嵌套的语句块try..catch..finally之后还有代码需要执行,则这所有代码都将被跳过.
-   
+
    ​    也就是说外层的catch处理内层的catch抛出的异常和外层的try抛出的异常.
 
 7. **console.log('我是外层finally');** 
-   
+
    ​    此语句块可以释放外层try和catch中的占用的空间.(即使其中的某些代码被跳过依然能释放)
 
 > 很明显的我们可以看到,内层的catch出现错误的那个代码行后接下来的所有属于当前作用域的代码 都会被跳过执行, 
-> 
+>
 > 且因为嵌套的catch出现异常,这导致了外层try本该执行的指令也跳过了执行,直接执行外层的catch, 这是不好的,因为被跳过执行的代码块它本身还是存在的,占用了空间,
-> 
+>
 > 所以我们需要即使可能被跳过也要让之释放,此时finally的重要性就体现出来了,无论你是否抛出异常,是否被跳过,此语句块都可以让你指定哪些标识符会被释放.
-> 
+>
 > 而应该使用内层的finally还是外层的finally呢? 你是不是这么想的,内层finally既然是嵌套的,那么为什么不使用一个外层的finally就行了呢?
-> 
+>
 > 而多此一举的使用一个内层的finally?
-> 
+>
 > 个人理解是因为在嵌套的try..catch..finally语句块中,能提早的用finally释放try..catch中占用的空间,为什么不提早释放呢?
-> 
+>
 > 反正执行到finally时,try..catch中的空间已经用不到了,况且我们可以选择的释放,而不是全部释放,不是吗?
 
 ##### 从finally语句块返回
@@ -282,45 +280,45 @@ catch(e) {
 ###### 代码解析
 
 1. ​    内层try..catch语句中的return ex;
-   
+
    ​    都将会被跳过,不因为其他什么原因,就是因为有throw抛出异常
-   
+
    当前的函数执行将会被停止,throw后的代码将不会被执行
-   
+
    ​    想一想也是,都出现异常了,后面的代码还有执行的必要吗?
 
 2. 内层finally中的return ex;
-   
+
    ​    上面也说过了.
-   
+
    ​    如果从finally块中返回一个值,那么这个值会成为整个try..catch..finally的返回值,无论是否有return语句在try..catch中,这个值都会是整个try..catch..finally的返回值.
-   
+
    ​    即使在catch块中抛出的异常,它的返回值也是finally中返回的值.
 
 3. console.log("outer", ex.message); 
-   
+
    ​    输出: outer ex is not defined; 即ex未定义
-   
+
    ​    这里的ex本来指的是内层catch中抛出的异常,内层 catch 将抛出一个ex变量，但最终由于内层 finally 中存在返回值（return 语句）
-   
+
    ​    <u>***为什么抛出的是一个未定义的变量,而不是try中抛出的异常信息:oops.***</u> 
-   
+
    ​    这是因为内层的**finally中 写了一个return语句**,它的返回值将会成为同层(内层)catch所抛出的异常的返回值,即变成**内层catch抛出的异常信息.**
-   
+
    ​    又由于finally中的ex根本没有定义,所以它会输出ex is not defined.
-   
+
    NOTICE:
-   
+
    ​    内层finally中的return语句只能用于返回一个标识符(变量等),若返回一个具体的值,例如return 2, 
-   
+
    ​    则当前函数将会被终止执行.因为return语句就是终止当前函数执行,且返回一个值给函数的. 即返回一个值给当前函数,同时给内层catch所抛出的异常信息,但是这个值是具体值,哪里来的异常?
-   
+
    ​    *<u>**而且为什么我这里要用自调用函数,而不是直接使用try..catch..finally这样写下来.**</u>*
-   
+
    ​    这是因为我们使用到了return语句啊! 
-   
+
    ​    上面不是说了吗?return语句是终止函数执行的,如果没有函数,它终止什么? 
-   
+
    ​    所以如果不把try..catch..finally放入函数内部,就直接会报语法错误:即预期表达式, 这里的预期表达式指的就是return用错地方了!
 
 ### 嵌套try..catch..finally
@@ -353,17 +351,17 @@ catch(e) {
 1. 注意,任何被抛出的异常,它只会被最近的catch捕捉一次且仅一次
 
 2. catch代码块也能抛出异常. 它也会被最近的catch捕捉一次且仅一次.
-   
+
    ​    即使此catch(外)是包含抛出异常的catch(内)语句
 
 3. 当然了,finally也能抛出一个异常,如同try语句那样,它也会被最近的catch语句所捕捉且能处理.
-   
+
    ```js
    finally { throw new Error('Yomua')}
    ```
-   
+
    ​    若将以上的代码替换内层嵌套的finally{}, 那外层的catch(ex){}会输出哪个呢? 是输出:<u>inner oops</u>; 还是输出: <u>outer Yomua</u>呢?
-   
+
    ​    结果而论:输出的是后者,即outer Yomua; 这是因为就近原则,即内层finally{}抛出的异常覆盖了内层catch(){}抛出的异常.
 
 ### 无条件的catch语句
@@ -465,9 +463,9 @@ try {
 3. catch语句中可进行条件判断,有规范/非规范写法.
 
 4. try和catch和finally皆可抛出异常, 所抛出的异常将由最近的catch捕捉. 
-   
+
    若不同的作用域中抛出的多个异常被同一个catch捕捉,那么后抛出的异常会覆盖先抛出的异常,即catch会只捕捉一个异常,
-   
+
    即后抛出的异常.
 
 ## throw
@@ -496,7 +494,7 @@ try {
 3. ​    也就是说哪个catch块先执行,那个catch就将throw抛出的异常信息捕获,并可以将之处理.
 
 4. ​    非常简单来说,也就是throw抛出的异常信息,将会被离它最近的catch捕获并可以处理.(虽然不准确,但是便于理解)
-   
+
    ​    (离它最近,通常来说就会先被执行,当然在堆栈中,就会是第一个了.)
 
 堆：一大块非结构化的内存区域，用来存放对象。
@@ -588,47 +586,47 @@ throw true; // 抛出一个异常信息:为true的布尔值.
 ##### 代码解析
 
 1. **UserExceptionObject(){}**
-   
+
    ​    很显然,这个是类,而不是对象,或者方法什么的. 此类将会被实例化过后被抛出.
-   
+
    ​    此类用来确定实例化后的对象,它的属性/方法.
-   
+
    ​    其实就是用来确定捕获到异常时该输出些什么.
 
 2. **yomua(){}**
-   
+
    ​    单纯的一个方法. 用来判断两个字符串是否相等,若相等则输出字符串
-   
+
    ​    若不相等,则实例化UserExceptionObject类,并将之抛出.
 
 3. **try...catch**
-   
+
    ​    try用来测试可能出现的异常代码块是哪些并抛出,catch捕获抛出的异常且处理.
-   
+
    ​    很显然,这里try抛出的异常是yomua(string); 
-   
+
    ​    而又由于在调用yomua()方法时,会执行一遍其方法里面的需要被执行的语句(例如声明), 
-   
+
    ​    所以执行时遇到throw时,将会立即停止执行此函数(方法)并抛出其指定的异常.
-   
+
    ​    而这里的指定的异常就是UserExceptionObject的实例.
 
 4. **console.log(err.message,err.name);**
-   
+
    ​    这里的形参err, 就是其UserExceptionObject的实例,因为在try捕获到异常是throw语句抛过来的,而throw语句抛过来的是一个类的实例,
-   
+
    ​    即对象,所以err当然也接收到的是一个类的实例(对象)
-   
+
    ​    所以我们可以使用err(对象).调用其对象中的属性/方法.即UserExceptionObject对象中的属性/方法,
-   
+
    > ​    这里说UserExceptionObject对象,是因为它被实例化了.
-   > 
+   >
    > ​    所以变成了对象,但是类UserExceptionObject !== 对象UserExceptionObject,
-   > 
+   >
    > ​    因为应该是在实例化类时,会复制其一摸一样的类到内存空间中去,而原本的类还是存在的,只不过是虚拟存在,不存在于内存空间中.
-   > 
+   >
    > ​    每一次实例化类都会经历这一个步骤,因为要知道,所谓的类就是还不存在于内存空间中而已,
-   > 
+   >
    > ​    换个说法也就是存在于内存空间中的类,就可以称之为对象.
 
 #### Example 2
@@ -707,63 +705,63 @@ function ZipCode(zip) {
 ##### 代码解析
 
 1. **ZipCode(){}** 
-   
+
    ​    一个'类',抽象了: 用来判断传入的参数是否符合邮编格式,若不符合则抛出一个异常对象,若符合则返回某个值.
 
 2. **ZipCodeFormatException(){}**
-   
+
    ​    一个'类',此类抽象了: 发生异常时,抛出的这个类的实例(对象),即若发生异常,将此类的对象抛出. 
-   
+
    ​    具体是用来说明异常的信息和种类.
 
 3. **verifyZipCode(){}**
-   
+
    ​    某个函数(方法),执行某段代码.
-   
+
    ​    具体的意思: 测试某个代码块是否出现异常,若出现异常则将之捕获并进行一些必要的处理
 
 4. **test() & match()**
-   
+
    ​    test(): 检测一个正则表达式是否与指定的字符串匹配,返回值为true/false.
-   
+
    ​    match(); 检测一个字符串是否匹配正则表达式的结果,其返回值可能为字符串/数组等. 
-   
+
    ​        而match()[0]; 代表只返回一串/个值.
 
 5. **this.valueOf = function (){}**
-   
+
    ​    若调用此方法将返回被正则表达式匹配到的一串字符串值.
 
 6. **function verifyZipCodetry() { try {z = new ZipCode(z); } }**
-   
+
    ​    若 z = new ZipCode(z); 出现异常则将之抛出.
-   
+
    ​    有趣的是,若z = new ZipCode(z);出现异常前,它会先执行ZipCode类代码块,[因为new了它(实例化了它/声明了它),所以要执行.]
-   
+
    ​    然后判断其zip传入的参数是否满足某种格式,不满足则会抛出异常,
-   
+
    ​    即`throw new ZipCodeFormatException(zip); ` , 此异常是一个类的实例,即一个对象.
-   
+
    ​    然后会JS会让程序传递(跳转)到调用堆栈中的第一个catch块去执行.这里的堆栈中的第一个catch块指verifyZipCode(){}中的catch块.
-   
+
    ​    所以在调用verifyZipCodetry()方法时若执行try{}中的语句块出现了异常,那此异常将会被抛出,而所抛出的异常其实就是 :
-   
+
    ​    ``        new ZipCodeFormatException(zip); ``  此对象,或者说是异常对象.
 
 7. **function verifyZipCodetry() { catch(e) { ... } }**
-   
+
    ​    此catch(e)将捕获``new ZipCodeFormatException(zip); ``此异常对象,并可以使用一些代码处理它.
-   
+
    ​    而这里的e即代表``new ZipCodeFormatException(zip); ``异常对象.
-   
+
    ​    因为上面有解释过了,即throw会使JS让程序传递到调用堆栈中的第一个catch块去执行.(若不存在此catch,程序将会终止)
 
 8. **return z;**
-   
+
    ​    返回形参z,即输入的需要被判断的数值.其目的是让其它代码块使用z数值,否则会因为作用域的关系而使此函数以外的地方无法使用
 
 9. **document.write(e = verifyZipCode("xxxx").valueOf() + '</br>');** 
-   
+
    ​    其传递一个需要被判断格式的数值xxxx, 最后返回其字符串匹配到的正则表达式为true的字符串(结果),即返回其xxxx数值.
 
 ### throw可以重新抛出异常
@@ -785,17 +783,17 @@ try {
 ```
 
 1. ​    catch中的else中的 `throw  n;`就是将捕获到的异常信息重新使用throw将之抛出, 
-   
+
    ​    那抛出之后,谁来处理它? 根据throw的描述,我们知道:
-   
+
    ​    首先当前函数的执行被终止(不执行当前作用域的throw之后的语句)
-   
+
    ​    然后控制将会被传递,也就是程序将会去哪里执行: 即使用(使用)堆栈中的第一个catch块,
-   
+
    ​        也就是说哪个catch块先调用堆栈,那个catch就将 [开头所说的catch块重新抛出的异常信息 ]捕获,并将之处理.
-   
+
    ​    非常简单来说,也就是catch块重新抛出的异常信息,将会被离它最近的catch捕获并可以处理.(虽然不准确,但是便于理解)
-   
+
    ​    (离它最近,通常来说就会先被执行,当然在堆栈中,就会是第一个了.)
 
 ### 总结
@@ -803,3 +801,66 @@ try {
 1. 这两个例子很显然的写出了 throw是如何抛出对象，且throw的作用以及用法是什么样的了。
 2. 简而言之,throw能抛出各种类型（数值,字符串等)，包括对象在内.
 3. throw还会终止当前函数的执行,并且控制将被传递到调用堆栈中的第一个catch块,若没有此catch块,整个程序将被终止.
+
+## try...catch 捕获一步错误?
+
+1. try catch不能捕获异步代码.
+   所以不能捕获 promise.reject() 的错误,并且 promise 故意将异步行为封装起来，从而隔离外部的同步代码
+2. try catch 能对 promise 的 reject() 落定状态的结果进行捕获
+3. try catch能捕捉到的异常，必须是`主线程执行`已经进入 try catch, 但 try catch 尚未执行完的时候抛出来的,
+  意思是如果将执行 try catch 分为运行前, 运行时, 运行完毕, 只有运行时才能捕获到异常
+
+```js
+async function exampleAsyncFunction() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error("异步错误"));
+    }, 1000);
+  });
+}
+
+async function main() {
+  try {
+    await exampleAsyncFunction();
+  } catch (error) {
+    // 这里能捕获异步错误
+    console.error("try_catch:", error.message);
+  }
+}
+
+main();
+
+```
+
+以上示例之所以可以捕获异步错误, 是因为使用了 `await exampleAsyncFunction();` 语法.
+
+这表示当程序执行到 await 时会先记下此函数地址到内存, 先去执行当前主线程的剩余同步代码, 
+
+那么这就表明, 此时 try... catch 并没有执行完毕, 所以它能捕获到里面的错误.
+
+相当于使用了 awai 后, 对于 await 下面的代码来说, await 跟着的表达式就属于同步任务了(这只是相当于, 而不是说就变成了同步任务)
+
+如果是以下示例, 就不行了:
+
+```js
+async function exampleAsyncFunction() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error("异步错误"));
+    }, 1000);
+  });
+}
+
+async function main() {
+  try {
+    exampleAsyncFunction().then(()=>{})
+  } catch (error) {
+    // 这里不能捕获异步错误, 因为 try...catch 此时执行完毕了.
+    console.error("try_catch:", error.message);
+  }
+}
+
+main();
+
+```
+

@@ -28,7 +28,6 @@ TypeScript 可以运行在任何 JavaScript 可以运行的平台上，如：浏
 
   `tsc helloworld.ts`
 
-  
 
 - 注： `tsc ts的文件名` 命令只是将一个 TS 文件编译成 JS 文件，node 并不会主动执行 TS 编译后的文件，我们可以通过下载库：ts-node 库，编译后使得 node 主动执行 JS 文件
 
@@ -73,7 +72,7 @@ TypeScript 可以运行在任何 JavaScript 可以运行的平台上，如：浏
   `npm i -D @types/node`
 
   注意：使用了配置文件之后 tsc编译的时候不需要跟文件名，否则不会使用配置文件，如：`tsc hellowold`
-  
+
   ```json
   // 一些行之有效的配置
   compilerOptions:{
@@ -86,7 +85,7 @@ TypeScript 可以运行在任何 JavaScript 可以运行的平台上，如：浏
       "noImplicitThis": false
   }
   ```
-  
+
   TIPS：当你配置完 tsconfig.json 文件却报错，这可能是因为 "include" 字段定义的文件夹中没有任何可编译的 ts 文件，任意新建一个就可以。
 
 - ts-node: 将ts文件在内存中完成编译、同时完成运行
@@ -371,13 +370,15 @@ export default Text
 
 这因为编译器在编译 typescript 时，不会去引入那些可能做为输出的文件到编译目标目录，参见：[搜索：编译器不会去引入那些可能做为输出的文件](https://www.tslang.cn/docs/handbook/tsconfig-json.html)。
 
-目前已知解决方法有两种：[Typescript does not copy d.ts files to build](https://stackoverflow.com/questions/56018167/typescript-does-not-copy-d-ts-files-to-build) 
+目前已知解决方法有三种：[Typescript does not copy d.ts files to build](https://stackoverflow.com/questions/56018167/typescript-does-not-copy-d-ts-files-to-build) 
 
 1. 将 .d.ts 这种文件改为 .ts 文件，然后在每一个使用类型的地方，导入一遍 .ts 中对应的类型声明。
 
 2. 在编译完成后，复制 .d.ts 或相关目录到编译后生成的目录
 
    复制命令，参见：[cp 命令](http://c.biancheng.net/view/746.html) 
+
+3. 通过一些打包工具 (webpack, [rollup](https://www.rollupjs.com/tutorial/) 的 [dts](https://github.com/Swatinem/rollup-plugin-dts) 等) 帮助我们做这种工作.
 
 实行第 2 种方法最后可能在 package.json 中的配置：
 

@@ -3,11 +3,11 @@
 ## 没有报错，但数据却不正确
 
 - 没有报错，但数据却是不正确的（或不是最新的），请考虑你是否在某个地方使得当前数据是缓存的
-  
+
   如：使用了 React.memo / useMemo() / useCallback() / shouldComponentUpdate() 等
 
 - 更新时并没有让当前数据更新。
-  
+
   使用了 uesEffect() 
 
 注意：
@@ -233,7 +233,7 @@ mobile 打不开项目，可能是因为 watchman 没用启动，打开 `Termina
 修改其中任意一方的名字，让二者匹配即可。参见：[此处](https://github.com/mc1arke/sonarqube-community-branch-plugin/issues/283#issuecomment-1028076692)。
 
 2. 解决方法：查看合并分支（feature）和被合并分支（master）是否都在 Sonarqbue 上，如果不在，需要让二者都存在于 Sonarqube 中。
-   
+
    参见：[此处](https://github.com/mc1arke/sonarqube-community-branch-plugin/issues/533#issuecomment-1092381833)。
 
 ## npx yarn install 失败
@@ -248,9 +248,9 @@ mobile 打不开项目，可能是因为 watchman 没用启动，打开 `Termina
 如果成功启动就跳过以下步骤，如果没有，请继续看：
 
 1. 根据失败的信息做事，如果错误信息缺少依赖，则根据哪里缺少依赖，就去哪里安装。
-   
+
    如：可能会提示你 mono repo 根目录缺少依赖，那么就去根目录安装指定依赖（不要直接使用 yarn）。
-   
+
    注意：别在根目录使用 `yarn`，因为这可能会导致你在启动某个项目时，提示依赖错误
 
 # Browser Error
@@ -258,9 +258,9 @@ mobile 打不开项目，可能是因为 watchman 没用启动，打开 `Termina
 ## chrome 您的连接不是私密连接
 
 - 点击高级 - 直接敲击键盘输入：`thisisunsafe` - 回车
-  
+
   **NOTICE：是直接键盘输入后回车，并不是在地址栏输入。也就是说直接空敲即可。**
-  
+
   Reference: [手把手教会你解决 Chrome 访问非受信证书页面时，提示「您的连接不是私密连接」错误的方法..._运维之美的博客-CSDN博客](https://blog.csdn.net/easylife206/article/details/107171565) 
 
 # github 进不去
@@ -290,39 +290,59 @@ mobile 打不开项目，可能是因为 watchman 没用启动，打开 `Termina
 6. 通过bug发生的原因提出解决方案
 
 7. 应用解决方案，并思考解决方案是否会带来的新的问题。
-   
+
    如果会，那么就重复第6，第7步骤，直到提出合理的解决方案。
 
 或详见《方法论.md》
 
 > 1. 问题是什么？
->    
+>
 >    如：点击 Login 按钮后，登录页面卡住不同
-> 
+>
 > 2. 找到问题发生于何处？
->    
+>
 >    如：发生于登录页面
-> 
+>
 > 3. 问题如何发生的，怎么才能稳定触发问题的发生？
->    
+>
 >    如：每次点击 Login 按钮时，登录页面就会卡住不动。
-> 
+>
 > 4. 为什么能稳定触发此问题的发生？
->    
+>
 >    如：在代码中，点击 Login 按钮时，会进入死循环，导致页面卡住。
-> 
+>
 > 5. 解决问题后要达到什么效果？
->    
+>
 >    如：解决问题后达到的效果为：点击 Login 按钮，进入系统，而非卡在登陆界面。
-> 
+>
 > 6. 如何解决问题？
->    
+>
 >    如：将死循环代码解析，替换/删除即可解决。 
-> 
+>
 > 7. 解决此问题后，会影响到其他任何地方吗？如果会影响，为什么会影响？影响是好还是坏？如果是坏的，那如何避免此影响的产生或如何解决此影响？如果是好的，那就保留该影响。
->    
+>
 >    如：不会对其他任何地方产生影响。
->    
+>
 >    如：会影响到模块 A，因为模块 A 依赖于此改动，此影响是不好的，只需要做 xxx 即可避免此影响/解决此影响。
-> 
+>
 > 按照以上的方式将一个问题剖析之后，就可以有个良好的思路去解决该问题
+
+# ts 报错
+
+## This is not the tsc command you are looking for
+
+This is not the tsc command you are looking for
+
+To get access to the TypeScript compiler, tsc, from the command line either:
+
+- Use npm install typescript to first add TypeScript to your project before using npx
+- Use yarn to avoid accidentally running code from un-installed packages
+
+解决方法:
+
+1. `yarn add typescript`
+   `npm i typescript`
+2. 或者你安装了 `tsc` 在项目中, 这实际上并不需要; typescript 自带 tsc; 
+   `yarn remove tsc`
+   `npm install tsc`
+   `pnpm remove tsc`

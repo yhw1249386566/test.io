@@ -12,9 +12,9 @@ import {
 import generateImg from './generate_img'
 import generateArticleFolderStructure from './generate_article_folder_structure'
 
-// __dirname: 当前此文件夹所在路径, 比如: D:\code\yomua\src\scripts
+// __dirname: 当前文件所处文件夹的所在路径, 比如: D:\code\yomua\src\scripts
 
-// => / or
+// Node.js 进程的当前工作目录
 // => D:\code\yomua
 const currentWorkingDir = process.cwd()
 
@@ -29,7 +29,7 @@ const folderStructure = generateArticleFolderStructure(articleDir, {
     includeFiles: [ARTICLE_SUFFIX_NAME],
 })
 
-// 写入数据到文件
+// 写入文章目录数据到指定路径的文件中
 fs.writeFileSync(
     WRITE_ARTICLE_DIR,
     `export default ${JSON.stringify(folderStructure)}`,

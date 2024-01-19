@@ -930,17 +930,17 @@ customElements.define('x-focus', class extends HTMLElement {
 
 **结果**
 
-![img](/picture/处理焦点1.png)
+![img](picture/处理焦点1.png)
 
 上面是 获得焦点（用户点击、点按和 focus() 等）、点击“Clickable Shadow DOM text”或内部 获得焦点（包括 autofocus）时的结果.
 
 如果是设置 delegatesFocus: false.下面将是您看到的结果：
 
-![img](/picture/处理焦点2.png)delegatesFocus: false 和内部input 获得焦点.
+![img](picture/处理焦点2.png)delegatesFocus: false 和内部input 获得焦点.
 
-![img](/picture/处理焦点3.png)delegatesFocus: false 和 x-focus获得焦点（例如.tabindex="0"`）.
+![img](picture/处理焦点3.png)delegatesFocus: false 和 x-focus获得焦点（例如.tabindex="0"`）.
 
-![img](/picture/处理焦点4.png)`delegatesFocus: false` 并且点击“Clickable Shadow DOM text”（或点击元素 shadow DOM 内的其他空白区域）.
+![img](picture/处理焦点4.png)`delegatesFocus: false` 并且点击“Clickable Shadow DOM text”（或点击元素 shadow DOM 内的其他空白区域）.
 
 ## 提示与技巧
 

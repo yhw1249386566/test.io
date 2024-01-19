@@ -4,13 +4,14 @@
 /node_modules
 /npm-debug.log*
 /yarn-error.log
-/yarn.lock
 /package-lock.json
+
+# article
+article_dir.js
+public/picture
 
 # production
 /dist
-/src/article_dir.js
-article_dir.js
 y-tlog.log
 
 # misc
@@ -24,4 +25,4 @@ umi_webpack_dev.js
 umi_webpack_prod.js
 
 # env
-/.env.local
+.env.local
