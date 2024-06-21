@@ -27,7 +27,7 @@ const articlePictureDir = path.join(currentWorkingDir, ARTICLE_PICtURE)
 
 // 生成文件目录树, 并认为此 ARTICLE_SUFFIX_NAME 后缀名的目录是文件
 const folderStructure = generateArticleFolderStructure(articleDir, {
-    includeFiles: [ARTICLE_SUFFIX_NAME],
+    includeFiles: [...ARTICLE_SUFFIX_NAME],
 })
 
 // 写入文章目录数据到指定路径的文件中

@@ -4,7 +4,7 @@ import Dotenv from 'dotenv'
 
 import routes from './routes'
 
-// umi 进行打包, 读取此文件配置 webpack 时, 额外注入 '../.env' 到 process.env
+// umi 进行打包, 读取此文件, 然后配置 webpack 时, 额外注入 yomua/.env 到 process.env
 const getEnvConfig = () => {
     Dotenv.config({ path: path.resolve(__dirname, '../.env') })
     return process.env
@@ -22,8 +22,11 @@ export default defineConfig({
     // mfsu 可能会造成一些 bug
     mfsu: {},
     // 使用 hash: 避免部署到 github pages 时，当地址为 /feature/article 或其他没有 html 的路由时，刷新页面 404 的问题。
+    // => 这种使用 history 遇到的情况如果是自己的服务器, 只需要做一个代理即可, 比如: nginx.
+    // => 通过 nginx 判断, 当访问到一个没有 .html 文件对应的路由时, 返回 /index.html 文件, 并由此文件接管路由,
+    // => 这样 /index.html 文件中的引入的 .js 文件就能接管你访问的路由, 渲染正确的组件.
     // 使用 browser, github pages 需要做一些特别的操作
-    // => 即: 需要为 github pages 导航不到对应的路由时, 设置一个 404.html, 然后再跳转回来即可.
+    // => 即: 需要为 github pages 导航不到对应的路由时, 设置一个 404.html (public/404.html), 然后再跳转回来即可.
     history: {
         type: 'browser',
     },

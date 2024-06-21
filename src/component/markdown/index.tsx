@@ -8,7 +8,6 @@ import classnames from '@yomua/y-classnames'
 
 import { useTheme } from '@/hooks'
 
-import './index.less'
 import './markdown.css'
 import style from './index.less'
 
@@ -29,7 +28,8 @@ const Markdown = (props: MarkdownProps) => {
                     [`markdown-${theme}`]: theme,
                 },
                 className,
-            )}>
+            )}
+        >
             <ReactMarkdown
                 // markdown-body 是导入 github-markdown-css
                 className={classnames('markdown-body', style.markdownBody)}

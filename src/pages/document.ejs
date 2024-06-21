@@ -82,12 +82,17 @@
 
         body::-webkit-scrollbar-track {
             opacity: 0;
+            background-color: var(--global-primary-bg-color);
         }
 
         body::-webkit-scrollbar-thumb {
-            background: #0000004d;
+            background: var(--global-scroll-thumb-color);
             opacity: 0.2;
             border-radius: 25px;
+        }
+
+        body.overflowHidden {
+            overflow: hidden;
         }
 
         main {
@@ -126,25 +131,26 @@
 
             /** 如果用户是直接通过地址栏访问 /feature/article/xxx.md */
 
-            // 并非第一次进入网页, 则存在
+            // 若并非是第一次进入网页, 则存在
             const selectedArticleKeyBefore =
                 localStorage.getItem('selectedArticleKey') || ''
 
-            // 通过选中的 .md 文件的 key, 找到 public 文件夹所在的位置
-            // => /home/runner/work/yomua/yomua/public/
-            // => D:/code/yomua/public/
+            // 通过选中的 .md 文件的 key, 找到 public 文件夹所在的位置, 如:
+            // => github 服务器: /home/runner/work/yomua/yomua/public/
+            // => 本地: D:/code/yomua/public/
             let rootPath = selectedArticleKeyBefore.slice(
                 0,
                 selectedArticleKeyBefore.indexOf('article'),
             )
 
+            // 如果没办法找到 public 文件夹所在的位置, 则手动写
             if (!rootPath) {
                 rootPath = window.location.origin.includes('whyhw.com')
-                    ? '/home/runner/work/yomua/yomua/public/'
+                    ? '/home/runner/work/yomua/yomua/public/' // 在线上直接打开开发者工具查看 local storage 即可看到此路径。
                     : 'D:/code/yomua/public/'
             }
 
-            // 得到文章存储在服务器的完整路径
+            // 得到具体文章存储在服务器的完整路径
             // 例如: /home/runner/work/yomua/yomua/public/article/xxx.md
             const selectedArticleKeyAfter = `${rootPath}${pathname.replace(
                 '/feature/', // 删除 feature, 是因为我们将文章存储于 public/article
@@ -152,7 +158,7 @@
             )}`
 
             // 此时页面已经加载, umi 已经可以成功拦截路由
-            // 所以此时再把页面的地址改成 => https://www.whyhw.com/feature/article/xxx.md
+            // 所以此时再把页面的地址改成 => https://www.whyhw.com/feature/article/xxx.md#heading-4
             history.replaceState(
                 null,
                 null,

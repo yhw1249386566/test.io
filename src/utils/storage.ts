@@ -22,14 +22,22 @@ const saveLocalStorage = (
 }
 
 const saveBatchLocalStorage = (data: StorageDataKey<LOCAL_STORAGE_NAME>[]) => {
+    let isHaveKey = true
+
+    data.forEach((item) => {
+        if (!item.key) {
+            isHaveKey = false
+            log.error(
+                '批量保存数据到本地失败: saveBatchLocalStorage key 不存在',
+            )
+            return
+        }
+    })
+
+    if (!isHaveKey) return false
+
     data.forEach((item) => {
         const { key, value } = item ?? {}
-
-        if (!key) {
-            log.error('saveBatchLocalStorage key 不存在')
-
-            return false
-        }
 
         localStorage.setItem(key, value)
     })

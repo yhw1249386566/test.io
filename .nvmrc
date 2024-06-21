@@ -1,8 +1,22 @@
-v16.15.0 // 主版本
+# 此文件用来决定当使用 `nvm use` 时使用哪个 node 版本号
+# 注意: 此文件有且仅有一个 node 版本号才会生效, 
+# 这里之所以写多个版本号, 是因为即使只写一个版本号, 通过 `nvm use` 也不能切换到此文件指定的版本号,
+# 所以这里不如写 2 个版本号, 表示该项目都支持这 2 个版本号.
 
-v18.19.0 // 如果启动服务时设置 NODE_OPTIONS="--openssl-legacy-provider", 那么就能支持这个版本
-// 为什么需要这么高的版本? 因为 @yomua/y-tlog 引入的依赖 chalk 使用了 node 高版本的 API
-// => 即使把 chalk 内置到 @yomua/y-tlog 项目中, 使用的 node 高版本的 API 也是没变的.
-// 注意: 我使用的 github pages 不支持 --openssl-legacy-provider, 因为 node 版本为 16.20.2
-// => /opt/hostedtoolcache/node/16.20.2/x64/bin/node: --openssl-legacy-provider is not allowed in NODE_OPTIONS
-// 所以 build 不允许使用这个设置
+# 主版本
+v16.15.0 
+
+# 若使用此版本, 需要启动服务时设置 NODE_OPTIONS=--openssl-legacy-provider
+# => 如: set NODE_OPTIONS=--openssl-legacy-provider && umi dev
+# 为什么需要这么高的版本? 因为 @yomua/y-tlog 引入的依赖 chalk 使用了 node 高版本的 API
+# 为什么最后没有使用此版本?
+# => 我使用的 github pages 不支持 --openssl-legacy-provider, 
+# => 因为 github workflow 使用的 JamesIves/github-pages-deploy-action@v4 的 node 版本为 16.20.2
+# => 报错: /opt/hostedtoolcache/node/16.20.2/x64/bin/node: --openssl-legacy-provider is not allowed in NODE_OPTIONS
+# 所以 build 不允许使用 --openssl-legacy-provider
+# 为什么最后使用了 16.15.0 走 github workflow 又没问题了?
+# => 把 chalk 内置到了 @yomua/y-tlog 项目中, 并且通过 rollup 在打包后的 tlog 文件中注入了一些变量
+# => Ref: https://github.com/yomua/y-packages/blob/master/packages/y-tlog/rollup.config.mjs - intro
+# 为什么本地也需要设置 NODE_OPTIONS=--openssl-legacy-provider ?
+# => 虽然 chalk 内知道了 @yomua/y-tlog, 但是基本源码没用更改它, 所以 chalk 包需要高版本 node, 内置进来仍需要低版本 node.
+v18.19.0 

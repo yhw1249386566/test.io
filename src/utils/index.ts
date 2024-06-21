@@ -2,12 +2,16 @@
 
 import { getType } from '@yomua/y-screw'
 
+import { ARTICLE_SUFFIX_NAME } from '@/utils/constant'
+
+import { ArticleFileTree } from './utils.d'
 import request from './request'
 
 /** start --- 不需要导出 --- start */
-type DirData = {
-    [fileName: string]: string | DirData
+type ArticleDirData = {
+    [fileName: string]: string | ArticleDirData
 }
+
 /** end --- 不需要导出 --- end */
 
 export const delay = async (time: number) =>
@@ -20,7 +24,7 @@ export const invertColor = (color: string) => {
 }
 
 export const createFileTree = (
-    dirData: DirData,
+    dirData: ArticleDirData,
     options?: {
         parentPath?: string
     },
@@ -29,15 +33,7 @@ export const createFileTree = (
 
     const { parentPath = '' } = options ?? {}
 
-    type FileTree = {
-        type: 'file' | 'directory'
-        title: string
-        path: string
-        key: string
-        children?: FileTree[] // when directory
-    }
-
-    const fileTree: FileTree[] = []
+    const fileTree: ArticleFileTree[] = []
 
     for (const [title, value] of Object.entries(dirData)) {
         const fullPath = parentPath ? `${parentPath}/${title}` : title
@@ -45,7 +41,7 @@ export const createFileTree = (
         const isObject = getType(value) === 'object'
 
         if (isObject) {
-            const subTree = createFileTree(value as DirData, {
+            const subTree = createFileTree(value as ArticleDirData, {
                 parentPath: fullPath,
             })
             fileTree.push({
@@ -141,4 +137,44 @@ export const get404Md = async () => {
 
         return data as string
     })
+}
+
+// path => 1_front_end/0_base/JS设计模式/设计模式.md
+// return => [ "1_front_end", "1_front_end/0_base", "1_front_end/0_base/JS设计模式"]
+export function parseArticlePath(path: string) {
+    // 移除以 / 开始且以 ARTICLE_SUFFIX_NAME 中的项 结尾的部分 (['.md']) => abc/a/xxx.md 保留 abc/a
+    // => 1_front_end/0_base/JS设计模式
+    ARTICLE_SUFFIX_NAME.forEach((suffix) => {
+        if (!suffix) {
+            return
+        }
+
+        const reg = new RegExp(`/[^/]+${suffix}$`)
+        path = path.replace(reg, '')
+    })
+
+    const segments = path.split('/').filter(Boolean)
+
+    const result: string[] = []
+
+    let currentPath = ''
+
+    // 遍历路径, 然后拼接, 最后得出
+    // => [ "1_front_end", "1_front_end/0_base", "1_front_end/0_base/JS设计模式"]
+    for (let i = 0; i < segments.length; i++) {
+        if (i === 0) {
+            currentPath += `${segments[i]}`
+            result.push(currentPath)
+        } else {
+            currentPath += `/${segments[i]}`
+            result.push(currentPath)
+        }
+    }
+
+    return result
+}
+
+// 对数组每一个项进行遍历, 判断是否有一个满足字符串包含数组某项.
+export function stringIncludesArray(str: string, arr: string[]) {
+    return arr.some((item) => str.includes(item))
 }

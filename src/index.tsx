@@ -8,27 +8,28 @@ import {
     faYoutubeSquare,
     faFacebookSquare,
 } from '@fortawesome/free-brands-svg-icons'
-import IndexedDB from '@yomua/y-indexeddb'
+// import IndexedDB from '@yomua/y-indexeddb'
 
 import style from './index.less'
-import Footer from './layouts/footer'
+// import Footer from './layouts/footer'
 import { Sidebar } from './component'
 import Header from './layouts/header'
 import storage from './utils/storage'
 import { ThemeProvider } from './contexts'
 import { LOCAL_STORAGE_NAME } from './utils/constant'
+import { StoreProvider } from './store'
 
 // 添加 fontawesome 免费版: https://fontawesome.com/search?q=menu&o=r&m=free
 library.add(fas, faFacebookSquare, faYoutubeSquare, faLinkedin, faTwitterSquare)
 
 // 初始化 IndexedDB
 // 注意: 目前不需要用它
-IndexedDB.singleInstance.open({
-    dbVersion: 1,
-    dbName: 'yomuaDB',
-    dbStoreName: 'yomua',
-    specifyKey: 'filepath',
-})
+// IndexedDB.singleInstance.open({
+//     dbVersion: 1,
+//     dbName: 'yomuaDB',
+//     dbStoreName: 'yomua',
+//     specifyKey: 'filepath',
+// })
 
 // 此文件匹配路由 '/', 所以可以认为此文件类似入口文件;
 // 为什么说类似? 因为 umi 已经配置了入口文件(使用者无感知), src/.umi/umi.ts,
@@ -62,18 +63,20 @@ const Index = (props: { children: React.ReactNode }) => {
     }, [])
 
     return (
-        <ThemeProvider theme={theme}>
-            <Layout className={style.layout}>
-                <Header theme={theme} onToggleTheme={handleChangeTheme} />
+        <StoreProvider store={null}>
+            <ThemeProvider theme={theme}>
+                <Layout className={style.layout}>
+                    <Header theme={theme} onToggleTheme={handleChangeTheme} />
 
-                <Layout.Content className={style.content}>
-                    <Sidebar />
-                    {props.children}
-                </Layout.Content>
+                    <Layout.Content className={style.container}>
+                        <Sidebar />
+                        {props.children}
+                    </Layout.Content>
 
-                {/* <Footer /> */}
-            </Layout>
-        </ThemeProvider>
+                    {/* <Footer /> */}
+                </Layout>
+            </ThemeProvider>
+        </StoreProvider>
     )
 }
 

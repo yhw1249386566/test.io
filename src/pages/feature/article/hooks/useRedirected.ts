@@ -6,53 +6,17 @@ import log from '@yomua/y-tlog'
 
 import request from '@/utils/request'
 import storage from '@/utils/storage'
-import { get404Md } from '@/utils'
+import { get404Md, parseArticlePath, stringIncludesArray } from '@/utils'
 import { DEFAULT_EXPANDED_KEYS } from '@/pages/constant'
 import { LOCAL_STORAGE_NAME, ARTICLE_SUFFIX_NAME } from '@/utils/constant'
 
-// 简单拆分一下 article 逻辑
-
-// path => 1_front_end/0_base/JS设计模式/设计模式.md
-// return => [ "1_front_end", "1_front_end/0_base", "1_front_end/0_base/JS设计模式"]
-function parseArticlePath(path: string) {
-    // 移除以 / 开始且以 .md 结尾的部分 => abc/a/xxx.md 保留 abc/a
-    // => 1_front_end/0_base/JS设计模式
-    const reg = new RegExp(`\/[^/]+\.${ARTICLE_SUFFIX_NAME}$`)
-
-    path = path.replace(reg, '')
-
-    const segments = path.split('/').filter(Boolean)
-
-    const result: string[] = []
-
-    let currentPath = ''
-
-    // 遍历路径, 然后拼接, 最后得出
-    // => [ "1_front_end", "1_front_end/0_base", "1_front_end/0_base/JS设计模式"]
-    for (let i = 0; i < segments.length; i++) {
-        if (i === 0) {
-            currentPath += `${segments[i]}`
-            result.push(currentPath)
-        } else {
-            currentPath += `/${segments[i]}`
-            result.push(currentPath)
-        }
-    }
-
-    return result
-}
+import { Action } from '../types.d'
 
 // 处理重定向
-export function useRedirected(
-    action: {
-        setMarkdownData: (markdown: string) => void
-        setSelectedKey: (key: string) => void
-        setExpandedKeys: (keys: string[]) => void
-    },
+export default function useRedirected(
+    dispatch: React.Dispatch<Action>,
     dep?: React.DependencyList,
 ) {
-    const { setMarkdownData, setSelectedKey, setExpandedKeys } = action
-
     useEffect(() => {
         const url = new URL(window.location.href)
         const urlParams = new URLSearchParams(url.search)
@@ -61,6 +25,9 @@ export function useRedirected(
             return
         }
 
+        // 设置相关 state 数据
+        // 设置相关数据到 local storage
+        // 更改 url: 显示更为友好的 url 地址
         async function getArticle() {
             // 只有当 try...catch 没有运行完毕时, 才能捕获错误;
             // 所以对于使用 await promise 这样语法代码来说, 相当于 try...catch 再运行期间就能捕获 promise 中的错误
@@ -81,7 +48,12 @@ export function useRedirected(
                 const filePathRemoveFeature = pathname.replace('/feature', '')
 
                 // 防止跳转过来的页面没有 ARTICLE_SUFFIX_NAME
-                if (!filePathRemoveFeature.includes(ARTICLE_SUFFIX_NAME)) {
+                if (
+                    !stringIncludesArray(
+                        filePathRemoveFeature,
+                        ARTICLE_SUFFIX_NAME,
+                    )
+                ) {
                     throw new Error(
                         `filePathRemoveFeature: is not a ${ARTICLE_SUFFIX_NAME} file`,
                     )
@@ -114,23 +86,33 @@ export function useRedirected(
                 const parseKeys = parseArticlePath(filePath)
 
                 const keys = localExpandKeys
-                    ? [...new Set([...parseKeys, ...localExpandKeys])]
+                    ? // 跳转过来的文章路径的父目录 + 本地已存储的展开目录
+                      [...new Set([...parseKeys, ...localExpandKeys])]
                     : [
+                          // 跳转过来的文章路径 + 其父目录 + 默认需要展开的目录
                           ...new Set([
                               expandKey,
                               ...parseKeys,
                               ...DEFAULT_EXPANDED_KEYS,
                           ]),
                       ]
-
                 // 更改 url 为更友好显示的地址
                 urlChange(`${url.origin}${pathname}${url.hash}`)
 
-                setMarkdownData(data)
+                dispatch({
+                    type: 'setMarkdownData',
+                    payload: data,
+                })
 
-                setSelectedKey(selectedArticleKey)
+                dispatch({
+                    type: 'setSelectedKey',
+                    payload: selectedArticleKey,
+                })
 
-                setExpandedKeys(keys)
+                dispatch({
+                    type: 'setExpandedKeys',
+                    payload: keys,
+                })
 
                 storage.saveBatchLocalStorage([
                     {
@@ -141,17 +123,15 @@ export function useRedirected(
                         key: LOCAL_STORAGE_NAME.SELECTED_ARTICLE_KEY,
                         value: selectedArticleKey,
                     },
-                    {
-                        key: LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH,
-                        value: filePathRemoveFeature, // 保留 /article/
-                    },
                 ])
             } catch (error) {
                 log.error(error)
 
                 urlChange(`${url.origin}/feature/article`)
 
-                get404Md().then((res) => setMarkdownData(res))
+                get404Md().then((res) =>
+                    dispatch({ type: 'setMarkdownData', payload: res }),
+                )
             }
         }
 

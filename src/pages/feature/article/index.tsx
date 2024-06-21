@@ -1,71 +1,70 @@
 /* eslint-disable no-useless-escape */
-
-import { memo, useMemo, useCallback, useState, useEffect } from 'react'
+import {
+    memo,
+    useMemo,
+    useCallback,
+    useState,
+    useEffect,
+    useReducer,
+} from 'react'
+import { createPortal } from 'react-dom'
 import { Tree, Skeleton } from 'antd'
 import { SkeletonParagraphProps } from 'antd/lib/skeleton/paragraph'
 import MarkNavbar from 'markdown-navbar'
+import log from '@yomua/y-tlog'
 import classnames from '@yomua/y-classnames'
 import { urlChange } from '@yomua/y-screw'
 import EventEmitter from '@yomua/y-eventemitter'
-import log from '@yomua/y-tlog'
+import { useWindowEventListener } from '@yomua/y-hooks'
 
 import { useTheme } from '@/hooks'
 import request from '@/utils/request'
 import storage from '@/utils/storage'
 import { Markdown } from '@/component'
 import articleDir from '@/article_dir.js'
-import { DEFAULT_EXPANDED_KEYS } from '@/pages/constant'
-import { createFileTree, minDelayTime, get404Md } from '@/utils'
 import {
-    EVENT_EMITTER_NAME,
+    createFileTree,
+    minDelayTime,
+    get404Md,
+    stringIncludesArray,
+} from '@/utils'
+import {
+    EVENT_NAME,
     LOCAL_STORAGE_NAME,
     ARTICLE_SUFFIX_NAME,
 } from '@/utils/constant'
+import { useSelector, useDispatch } from '@/store'
+import { DEFAULT_EXPANDED_KEYS } from '@/pages/constant'
+
+import { setSearchValue } from '@/storeData/article'
 
 import './markNavbar.css'
 import style from './index.less'
-import { useRedirected } from './split'
+import SearchPanel from './SearchPanel'
+import useRedirected from './hooks/useRedirected'
+import reducer, { initialState } from './reducer'
 
 const { DirectoryTree } = Tree
 
 const PARAGRAPH: SkeletonParagraphProps = { rows: 20 }
 
+const fileTree = createFileTree(articleDir)
+
 function Article() {
     const theme = useTheme()
 
-    const [articleLoading, setArticleLoading] = useState(false)
+    // const dispatch = useDispatch()
+    // const state = useSelector((state) => state)
 
-    const [markdownData, setMarkdownData] = useState('')
+    const [state, dispatch] = useReducer(reducer, initialState)
 
-    // 如果重复点击一样的目录, 则不再重新加载数据
-    const [prevSelectedFilePath, setPrevSelectedFilePath] = useState('')
-
-    const [isOpenDirectoryOnlyArticle, setIsOpenDirectoryOnlyArticle] =
-        useState(false)
-
-    const [expandedKeys, setExpandedKeys] = useState(DEFAULT_EXPANDED_KEYS)
-
-    // 点击 .md 文件 =>  D:/code/yomua/public/article/0_base/函数式编程/函数式编程.md
-    const [selectedKey, setSelectedKey] = useState('')
-
-    const fileTree = useMemo(() => createFileTree(articleDir), [articleDir])
-
-    // 有 article path 但没有 markdownData, 说明正在获取数据, 或 loading 为 true
-    const isHaveSkeleton = useMemo(
-        () =>
-            (storage.getLocalStorage(LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH) &&
-                !markdownData) ||
-            articleLoading,
-        [markdownData, articleLoading],
-    )
-
-    // 是否为从 public/404.html 重定向过来
+    // 是否为从 public/404.html 重定向过来 (要放到此组件中, 每次渲染此组件都需要判断)
     const isRedirected = window.location?.search?.includes('redirected=true')
 
     // 点击文件夹或者文件名会触发 onSelect 和 onExpand
     const handleTreeSelect = useCallback(
         async (
-            path: string[],
+            path: string[], // 选中的文章路径 (在这里也就是每一个树的项对应的 key)
             info: { node: { type: 'file' | 'directory' } },
         ) => {
             // 若点击文件夹: 0_base/优秀的编程方式
@@ -74,23 +73,30 @@ function Article() {
 
             if (
                 !activePath ||
-                info?.node?.type !== 'file' ||
-                prevSelectedFilePath === activePath
+                info?.node?.type !== 'file' || // 点击非文件 (点击目录) 不进行计算
+                state.prevSelectedFilePath === activePath // 重复点击不进行计算
             ) {
                 return
             }
 
-            // 点击的是文章: 存储并设置最后一次文章 key; 每次点击都认为是最后一次
-            if (activePath.includes(ARTICLE_SUFFIX_NAME)) {
-                // => D:/code/yomua/public/article/xxx.md
-                storage.saveLocalStorage({
-                    key: LOCAL_STORAGE_NAME.SELECTED_ARTICLE_KEY,
-                    value: activePath,
-                })
-                setSelectedKey(activePath)
+            // 选中的路路径后缀没有在 ARTICLE_SUFFIX_NAME 里面
+            if (!stringIncludesArray(activePath, ARTICLE_SUFFIX_NAME)) {
+                return
             }
 
-            setPrevSelectedFilePath(activePath)
+            // 选中路径的后缀在 ARTICLE_SUFFIX_NAME 里面
+            // => activePath: D:/code/yomua/public/article/xxx.md (D:/code/yomua/public 表示当前项目所在根路径)
+            storage.saveLocalStorage({
+                key: LOCAL_STORAGE_NAME.SELECTED_ARTICLE_KEY,
+                value: activePath,
+            })
+
+            dispatch({ type: 'setSelectedKey', payload: activePath })
+
+            dispatch({
+                type: 'setPrevSelectedFilePath',
+                payload: activePath,
+            })
 
             // => /article/*.md
             const importFilePath = activePath.slice(
@@ -102,21 +108,16 @@ function Article() {
             // 切换文章时, 默认滚动到顶部
             window.scrollTo(0, 0)
 
-            // 点击文章或目录: 把此次点击认做是最后一次点击的文件路径 =>/article/xxx.md
-            storage.saveLocalStorage({
-                key: LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH,
-                value: importFilePath,
-            })
-
             // 仅显示文章, 且此时打开了所有文章目录时
             // 当选中某个目录时，将 X（打 X 按钮）切换到 bars, 并切换到文章.
-            if (isOpenDirectoryOnlyArticle) {
-                EventEmitter.emit(EVENT_EMITTER_NAME.SHOW_HEADER_X, false)
+            // 适配移动端
+            if (state.isOpenDirectoryOnlyArticle) {
+                EventEmitter.emit(EVENT_NAME.HEADER_MENU_ICON, 'bars')
 
-                EventEmitter.emit(EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY)
+                EventEmitter.emit(EVENT_NAME.OPEN_ARTICLE_DIRECTORY)
             }
 
-            setArticleLoading(true)
+            dispatch({ type: 'setArticleLoading', payload: true })
 
             const startTime = Date.now()
 
@@ -137,18 +138,31 @@ function Article() {
 
                     // 将 setArticleLoading(false) 放到 setMarkdownData 后面 -> 先设置数据，再取消 loading;
                     // 否则, 就会看见数据还未 set， 但是 loading 已经取消了, 最后数据再被设置, 从而造成画面闪烁.
-                    setMarkdownData(data)
-                    setArticleLoading(false)
+                    dispatch({
+                        type: 'setMarkdownData',
+                        payload: data,
+                    })
+                    dispatch({ type: 'setArticleLoading', payload: false })
                 })
                 .catch((error) => {
                     log.error('handleTreeSelect error', error)
 
                     get404Md()
-                        .then((result) => setMarkdownData(result))
-                        .finally(() => setArticleLoading(false))
+                        .then((result) =>
+                            dispatch({
+                                type: 'setMarkdownData',
+                                payload: result,
+                            }),
+                        )
+                        .finally(() =>
+                            dispatch({
+                                type: 'setArticleLoading',
+                                payload: false,
+                            }),
+                        )
                 })
         },
-        [prevSelectedFilePath, isOpenDirectoryOnlyArticle],
+        [state.prevSelectedFilePath, state.isOpenDirectoryOnlyArticle],
     )
 
     const handleTreeExpand = useCallback((expandKeys: string[]) => {
@@ -157,21 +171,35 @@ function Article() {
             value: JSON.stringify(expandKeys),
         })
 
-        setExpandedKeys(expandKeys)
+        dispatch({ type: 'setExpandedKeys', payload: expandKeys })
+    }, [])
+
+    const handleSearchArticle = useCallback((value: string) => {
+        setSearchValue(value)
     }, [])
 
     // 如果 queryString 包含 redirected=true, 则此 hook 触发.
-    useRedirected(
-        {
-            setMarkdownData,
-            setSelectedKey,
-            setExpandedKeys,
-        },
-        [],
-    )
+    useRedirected(dispatch, [])
 
-    /**
-     * 刷新/切换路由，然后再点进来时，加载最后一次点击的目录的文件数据
+    // 监听键盘 CTRL + SHIFT + F 按下, 从而打开文章搜索框, 用来搜索文章目录, 或文章内容.
+    useWindowEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && state.showSearchPanel) {
+            dispatch({ type: 'setShowSearchPanel', payload: false })
+        }
+
+        // 检查按下的键是否符合组合
+        if (event.ctrlKey && event.shiftKey && event.key === 'F') {
+            event.preventDefault()
+            // 在这里执行你的操作
+            log('CTRL + Shift + F 被按下！')
+            dispatch({
+                type: 'setShowSearchPanel',
+                payload: !state.showSearchPanel,
+            })
+        }
+    })
+
+    /** 刷新/切换路由，然后再点进来时，加载最后一次点击的目录的文件数据
      * 注意: 启动本地服务, 不会走 public/404.html, 并且类似 URL: /feature/article/xx.md 是可以获取数据的.
      * why? 可能是本地启动服务数据加载不一样吧; 如果先打包(yarn build), 然后将打包文件放入服务器(http-server dist)
      * 这样再访问 /feature/article/xx.md 就没有问题, 会走 public/404.html
@@ -181,25 +209,32 @@ function Article() {
             return
         }
 
-        const filepath = storage.getLocalStorage(
-            LOCAL_STORAGE_NAME.ARTICLE_FILE_PATH,
+        const sk = storage.getLocalStorage(
+            LOCAL_STORAGE_NAME.SELECTED_ARTICLE_KEY,
         )
+
+        const filepath = sk.slice(sk.indexOf('/article'))
 
         urlChange(
             `${window.location.origin}/feature${filepath}${window.location.hash}`,
         )
 
-        if (!filepath || !filepath.includes(ARTICLE_SUFFIX_NAME)) {
+        if (!filepath || !stringIncludesArray(filepath, ARTICLE_SUFFIX_NAME)) {
             urlChange(`${window.location.origin}/feature/article`)
 
-            get404Md().then((result) => setMarkdownData(result))
+            get404Md().then((result) =>
+                dispatch({
+                    type: 'setMarkdownData',
+                    payload: result,
+                }),
+            )
 
             return
         }
 
         const startTime = Date.now()
 
-        setArticleLoading(true)
+        dispatch({ type: 'setArticleLoading', payload: true })
 
         request(filepath)
             .then(async (res) => {
@@ -216,8 +251,11 @@ function Article() {
                 }
 
                 // 先设置数据再取消 loading
-                setMarkdownData(data)
-                setArticleLoading(false)
+                dispatch({
+                    type: 'setMarkdownData',
+                    payload: data,
+                })
+                dispatch({ type: 'setArticleLoading', payload: false })
             })
             .catch((error) => {
                 log.group('initFileDataWhenFirstLoad error', [
@@ -232,12 +270,19 @@ function Article() {
                     },
                 ])
 
-                // 如果的错误被执行, 说明第一次进来就出错了, 这很严重, 所以放弃所有本地存储, 重新再存储.
+                // 如果错误被执行, 说明第一次进来就出错了, 这很严重, 所以放弃所有本地存储, 重新再存储.
                 storage.clearAllLocalStorage()
 
                 get404Md()
-                    .then((result) => setMarkdownData(result))
-                    .finally(() => setArticleLoading(false))
+                    .then((result) =>
+                        dispatch({
+                            type: 'setMarkdownData',
+                            payload: result,
+                        }),
+                    )
+                    .finally(() =>
+                        dispatch({ type: 'setArticleLoading', payload: false }),
+                    )
             })
     }, [])
 
@@ -259,39 +304,55 @@ function Article() {
             LOCAL_STORAGE_NAME.SELECTED_ARTICLE_KEY,
         )
 
-        localSelectedArticleKey && setSelectedKey(localSelectedArticleKey)
+        localSelectedArticleKey &&
+            dispatch({
+                type: 'setSelectedKey',
+                payload: localSelectedArticleKey,
+            })
 
-        localExpandedKeys && setExpandedKeys(localExpandedKeys)
+        localExpandedKeys &&
+            dispatch({
+                type: 'setExpandedKeys',
+                payload:
+                    localExpandedKeys.length > 0
+                        ? localExpandedKeys
+                        : DEFAULT_EXPANDED_KEYS,
+            })
     }, [])
 
     // 监听 Header - 打开菜单按钮点击事件; 用来控制 显示/隐藏 所有文章目录
     useEffect(() => {
-        EventEmitter.on(EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY, () => {
-            setIsOpenDirectoryOnlyArticle(!isOpenDirectoryOnlyArticle)
+        EventEmitter.on(EVENT_NAME.OPEN_ARTICLE_DIRECTORY, () => {
+            dispatch({
+                type: 'setIsOpenDirectoryOnlyArticle',
+                payload: !state.isOpenDirectoryOnlyArticle,
+            })
         })
 
         return () => {
-            EventEmitter.off(EVENT_EMITTER_NAME.OPEN_ARTICLE_DIRECTORY)
+            EventEmitter.off(EVENT_NAME.OPEN_ARTICLE_DIRECTORY)
         }
-    }, [isOpenDirectoryOnlyArticle])
+    }, [state.isOpenDirectoryOnlyArticle])
 
     return (
         <div
             className={classnames(style.article, {
-                [style[`article-${theme}`]]: theme,
+                [style[`article-${theme}`]]: true,
             })}
         >
             <div
                 className={classnames(style.directoryTreeBox, {
-                    [style.showDirectorOnlyArticle]: isOpenDirectoryOnlyArticle,
+                    [style.showDirectorOnlyArticle]:
+                        state.isOpenDirectoryOnlyArticle,
                 })}
             >
+                {/* <input onChange={handleSearchArticle} /> */}
                 <DirectoryTree
                     className={style.directoryTree}
                     treeData={(fileTree as any[]) || []}
-                    expandedKeys={expandedKeys}
+                    expandedKeys={state.expandedKeys}
                     onExpand={handleTreeExpand as any}
-                    selectedKeys={[selectedKey]}
+                    selectedKeys={[state.selectedKey]}
                     onSelect={handleTreeSelect as any}
                 />
             </div>
@@ -299,16 +360,16 @@ function Article() {
             <Skeleton
                 active
                 paragraph={PARAGRAPH}
-                loading={isHaveSkeleton}
+                loading={state.articleLoading}
                 className={style.skeleton}
             >
                 <Markdown
                     className={classnames(style.markdown, {
                         [style.hideMarkdownOnlyArticle]:
-                            isOpenDirectoryOnlyArticle,
+                            state.isOpenDirectoryOnlyArticle,
                     })}
                 >
-                    {markdownData}
+                    {state.markdownData}
                 </Markdown>
             </Skeleton>
 
@@ -316,9 +377,22 @@ function Article() {
                 <MarkNavbar
                     ordered={false}
                     headingTopOffset={40}
-                    source={isHaveSkeleton ? '' : markdownData}
+                    source={state.articleLoading ? '' : state.markdownData}
                 />
             </div>
+
+            {createPortal(
+                <SearchPanel
+                    isShow={state.showSearchPanel}
+                    fileTree={fileTree}
+                    onTreeSelect={handleTreeSelect}
+                    onTreeExpand={handleTreeExpand}
+                    onClose={() =>
+                        dispatch({ type: 'setShowSearchPanel', payload: false })
+                    }
+                />,
+                document.body,
+            )}
         </div>
     )
 }

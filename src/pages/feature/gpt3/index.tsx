@@ -84,12 +84,7 @@ function GPT3() {
 
     return (
         <div className={classnames(style.gpt3, style[`gpt3-${theme}`])}>
-            <Direction
-                className={style.extraInfo}
-                mode='column'
-                alignItems='center'
-                justifyContent='center'
-            >
+            <Direction className={style.extraInfo} mode='column'>
                 <input
                     placeholder='Api Key'
                     className={style.apiKey}

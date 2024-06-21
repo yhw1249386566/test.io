@@ -1,17 +1,13 @@
 .header-light {
-    --layouts-header-back-icon-color: #f7eead;
     --layouts-header-theme-icon-color: #f7eead;
-    --layouts-header-background-color: rgba(255, 255, 255, 0.5);
 }
 .header-dark {
-    --layouts-header-back-icon-color: #f7eead;
     --layouts-header-theme-icon-color: #87c0ca;
-    --layouts-header-background-color: rgba(0, 0, 0, 0.5);
 }
 
 // 若 文章所有目录（左边的目录）存在
 @media screen and (min-width: @showOnlyArticleMaxWidth) {
-    .header .bars {
+    .header .menuIcon {
         opacity: 0;
         pointer-events: none;
     }
@@ -20,12 +16,12 @@
 // 若仅仅显示文章
 @media screen and (max-width: @showOnlyArticleMaxWidth) {
     .header .title,
-    .header .bars {
+    .header .menuIcon {
         font-size: 26px;
     }
 
     .header .themeIcon,
-    .header .bars {
+    .header .menuIcon {
         width: 26px;
         height: 26px;
     }
@@ -36,7 +32,7 @@
     z-index: 1;
 
     position: sticky;
-    background-color: var(--layouts-header-background-color);
+    background-color: var(--global-primary-bg-color);
     backdrop-filter: blur(12px);
     height: 62px;
 }
@@ -44,21 +40,22 @@
 .headerInfo {
     height: 100%;
     padding: 0 16px 0 16px;
+    align-items: center;
+    justify-content: space-between;
 }
 
-.bars {
+.menuIcon {
     cursor: pointer;
     font-size: 30px;
     border-radius: 50%;
 }
 
-.hideBars {
+.hideMenuIcon {
     opacity: 0;
     pointer-events: none;
 }
 
-.bars,
-.back,
+.menuIcon,
 .themeIcon {
     cursor: pointer;
     transition: @boxShadowTransition; // 反向过渡; 即: 结束到开始也触发过渡效果
@@ -67,10 +64,6 @@
     &:hover {
         .boxShadowHover(@color: var(--global-box-shadow-hover-color));
     }
-}
-
-.back {
-    font-size: 32px;
 }
 
 .hideLeftIcon {

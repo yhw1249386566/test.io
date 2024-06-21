@@ -33,7 +33,7 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             // 注意: 当 github pages 使用 404.html 时, 这里会重定向到 origin -> https://www.whyhw.com
-            // 就会 fetch src/pages/document.ejs
+            // 就会 fetch src/pages/document.ejs, 然后再在 document.ejs 进行操作
             window.location.href = `${origin}?redirected=true&pathname=${pathname}${hash}`
         })
     </script>

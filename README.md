@@ -250,7 +250,7 @@ https://naotu.baidu.com/file/051d287cb41ee79e951017bf5980340d
 
 -   css 变量名 => 所在文件夹名-组件名(文件名和组件名一样可忽略)-{任意要取的 className 名}；
 
-    例如：--component-text-primary-color, --article-text-color
+    例如：--component-text-primary-color, --article-text-color (文件名和组件名都是 article)
 
 全局变量 \_global.css 中：
 

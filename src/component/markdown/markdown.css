@@ -41,10 +41,10 @@
     --color-prettylights-syntax-brackethighlighter-angle: #8b949e;
     --color-prettylights-syntax-sublimelinter-gutter-mark: #484f58;
     --color-prettylights-syntax-constant-other-reference-link: #a5d6ff;
-    --color-fg-default: #c9d1d9;
+    --color-fg-default: var(--global-primary-text-color);
     --color-fg-muted: #8b949e;
     --color-fg-subtle: #6e7681;
-    --color-canvas-default: #0d1117;
+    --color-canvas-default: var(--global-primary-bg-color);
     --color-canvas-subtle: #161b22;
     --color-border-default: #30363d;
     --color-border-muted: #21262d;
@@ -87,10 +87,10 @@
     --color-prettylights-syntax-brackethighlighter-angle: #57606a;
     --color-prettylights-syntax-sublimelinter-gutter-mark: #8c959f;
     --color-prettylights-syntax-constant-other-reference-link: #0a3069;
-    --color-fg-default: #24292f;
+    --color-fg-default: var(--global-primary-text-color);
     --color-fg-muted: #57606a;
     --color-fg-subtle: #6e7781;
-    --color-canvas-default: #ffffff;
+    --color-canvas-default: var(--global-primary-bg-color);
     --color-canvas-subtle: #f6f8fa;
     --color-border-default: #d0d7de;
     --color-border-muted: hsla(210, 18%, 87%, 1);

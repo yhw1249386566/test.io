@@ -72,6 +72,7 @@ const handleResponse = (response: Response) => {
 
     let newResponse: Response | Promise<Response> | null = null
 
+    // 响应拦截 (返回响应之前做一些事情)
     interceptorsMap.response?.forEach(({ onFulfilled }) => {
         if (onFulfilled) {
             newResponse = onFulfilled(response)
@@ -125,7 +126,7 @@ async function request<Result = any>(
         url += `?${Object.keys(queryString)
             .map((key) => {
                 const value = queryString[key]
-                // 如果是数组 => a=1&a=2
+                // 如果是数组, 则返回 => a=1&a=2
                 if (Array.isArray(value)) {
                     let result = ''
                     value.forEach((item) => {

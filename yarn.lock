@@ -1473,25 +1473,32 @@
   resolved "https://registry.yarnpkg.com/@yomua/y-eventemitter/-/y-eventemitter-0.0.2.tgz#8d4f703c907fc5e3acfa57e00f76c6da92819fed"
   integrity sha512-BykCn80nOXLiEddxsMLjH+E6gEbKE2/fVj9s9M3iSlwCN4EAdpX8GnYmRPqI/UIBNQ2I5y62xBtBGMNHh6mc+g==
 
-"@yomua/y-hooks@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.npmjs.org/@yomua/y-hooks/-/y-hooks-0.0.5.tgz#80462911533aa80da8c65dcc7aa177454225c0a7"
-  integrity sha512-Vy5O50pmBGOV3CHQpKYFr77Mo9MYquPS1omPIqBF9HcaHQCvj1q26DKyslb8c/0wH0M+fs4xg5fyH/k6hiwPBQ==
+"@yomua/y-hooks@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.npmmirror.com/@yomua/y-hooks/-/y-hooks-0.0.6.tgz#bd4820b272871bbea76ed0c7ca7e4038c4364de9"
+  integrity sha512-uDswFDaz7GpX2WSQOjtLEmN/gnz69jXi+JbF+OkGQIvSy1f9V6pzVcuJa5Btj4fEdEE7YQBWkV5uPMPmhTzyHw==
+  dependencies:
+    "@yomua/y-screw" "^0.0.8"
 
 "@yomua/y-indexeddb@^0.0.6":
   version "0.0.6"
   resolved "https://registry.npmjs.org/@yomua/y-indexeddb/-/y-indexeddb-0.0.6.tgz#4bc1efbd6bee651c315c2c19c06c0a2422122a8b"
   integrity sha512-tTpOlR4uFgR2mLMLxfVPtIiS0T7sLqE/0V+pbKZA2sVrCK2cdQgCApowQnGJlvitTrUKagg9LsNw+Z87i+CDFw==
 
-"@yomua/y-screw@0.0.7":
-  version "0.0.7"
-  resolved "https://registry.npmjs.org/@yomua/y-screw/-/y-screw-0.0.7.tgz#b5ee34b7739401375c45ad291c6d5c16cfa21189"
-  integrity sha512-AyNcaiAVcRddnc4c/67bW/All3KMU1okFS+ahKEhOZcpBZlNBaavlLiBuIHYaPKIiaatZzJ1HQtgSzbogu54Sw==
+"@yomua/y-screw@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.npmmirror.com/@yomua/y-screw/-/y-screw-0.0.8.tgz#33f230ddec89ccd8116e1578927efb13c49d3adc"
+  integrity sha512-7clQNJiQDqQ0PKhbPkK+dl055sQRo3BNW2aYJDZwmQPOhsF8T8bpK+eoas9kMAZcTSh8lb326fTvzrkyk+Njqw==
 
-"@yomua/y-tlog@^0.1.3":
-  version "0.1.3"
-  resolved "https://registry.npmjs.org/@yomua/y-tlog/-/y-tlog-0.1.3.tgz#72c9596f527f1853eef57658a9c36c5e05203357"
-  integrity sha512-MZrSMGVSgueS5lYrEh8sGVsAqWW/bITJ98nC+KH+kvQcD4+VBkDVIOsiWdLkDoW0XQKKd2sHWLBPzKsNnVwdkA==
+"@yomua/y-screw@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.npmmirror.com/@yomua/y-screw/-/y-screw-0.1.1.tgz#5c1a476d8599b467d08092f3d3debba201500565"
+  integrity sha512-XT4rhXzwMImU1CE1AMKGxogQT5tkQnkv7YsC3J/nZUERGI4UKm1dFh2wfwh5Rm3iVQDqFgzqAQTYmuF44JPscg==
+
+"@yomua/y-tlog@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.npmmirror.com/@yomua/y-tlog/-/y-tlog-0.1.6.tgz#f4dc867e5c14369ca8416e571f2c1ada8fc02394"
+  integrity sha512-hCSb4cpNuFSjsodG88RS8vQWu/AkvsRAWixHyJdbboTB0uDrnvXCHpfDPpkRi43oTJhf0nwEeBXj077dXSeZFA==
 
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.6"

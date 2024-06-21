@@ -42,3 +42,11 @@ export type EnvValueType<
         ? string
         : DataType
     : DataType
+
+export type ArticleFileTree = {
+    type: 'file' | 'directory'
+    title: string
+    path: string
+    key: string
+    children?: ArticleFileTree[] // when directory
+}

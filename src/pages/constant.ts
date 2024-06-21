@@ -1,5 +1,7 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
+import ARTICLE_DIR from '@/article_dir.js'
+
 import Cute from '@/assets/img/cute.jpeg'
 import CompressCute from '@/assets/img/compress_cute.jpeg'
 import { ARTICLE_COMMIT_LAST_DATE } from '@/utils/constant'
@@ -107,10 +109,4 @@ export const FeatureList: FeatureType[] = [
     },
 ]
 
-export const DEFAULT_EXPANDED_KEYS = [
-    '0_base',
-    '1_front_end',
-    '6_error_handler',
-    '8_test',
-    '9_tools',
-]
+export const DEFAULT_EXPANDED_KEYS = ARTICLE_DIR ? Object.keys(ARTICLE_DIR) : []
