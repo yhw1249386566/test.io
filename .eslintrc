@@ -32,6 +32,7 @@
         "react/no-deprecated": 2, // 不使用弃用的方法
         "no-unreachable": 2, // 不能有无法执行的代码
         "no-var": 2, // 禁止使用 let 或 const 而不是 var
-        "import/no-extraneous-dependencies": 2 // 禁止导入未在 package.json 中声明的模块; ref: https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-extraneous-dependencies.md#importno-extraneous-dependencies
+        "import/no-extraneous-dependencies": 2, // 禁止导入未在 package.json 中声明的模块; ref: https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-extraneous-dependencies.md#importno-extraneous-dependencies
+        "react/prop-types": "off"
     }
 }

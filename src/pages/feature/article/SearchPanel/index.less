@@ -7,6 +7,15 @@
     --searchPanel-item-weak-text-color: #ffffff20;
 }
 
+// 若仅仅显示文章
+@media screen and (max-width: @showOnlyArticleMaxWidth) {
+    .mask .container {
+        margin: 0;
+        border-radius: 0;
+        max-width: none;
+    }
+}
+
 .mask {
     display: flex;
     justify-content: center;
@@ -41,6 +50,15 @@
 
 .header {
     padding: 0.75rem 1.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+.close {
+    cursor: pointer;
+    white-space: nowrap;
 }
 
 .body {
@@ -70,5 +88,6 @@
     .weak {
         color: var(--searchPanel-item-weak-text-color);
         margin-left: 22px; // searchIcon width 10px + searchIcon 和标题的间距 10px
+        word-break: break-word;
     }
 }
