@@ -1,12 +1,7 @@
-/** 
-* 此文件: 由于 public/.nojekyll 的存在, github pages 将不会使用 jekyll 解析
-* 这会导致线上的 md 文件没有样式的问题。
-* 所以我们手动导入 remark-gfm rehype-raw 两个插件的样式，为我们的 md 文件添加样式
-* TIP: 本地即使没有这个文件一样没问题，文章依然有样式。
-* 疑惑: 我们明明通过 react-markdown 外加两个插件库生成的 md 文件样式，为什么到线上就没有了？
-* 可能的回答: 我们将 public/article 打包时会放到根目录 /article, 这导致两个插件库的样式应用不上(或许)，
-* 而我们手动将样式拷贝并写入一份文件，再导入到项目中，就可以了。
-* 也有可能是 github-markdown-css 不生效（因为添加了 .nojekyll
+/* * 
+* 此文件
+* 由于 public/.nojekyll 的存在, github pages 将不会使用 jekyll 解析, 而这会导致线上的 md 文件没有样式的问题。
+* 所以我们手动导入 remark-gfm rehype-raw 两个插件的样式，以及拷贝一份来自 github-markdown-css 的样式，为我们的 md 文件添加样式, 
 */
 
 [data-theme='dark'] .markdown-body {
@@ -478,6 +473,10 @@
     word-wrap: normal;
 }
 
+.markdown-body pre > div {
+    margin: 0 !important;
+}
+
 .markdown-body .octicon {
     display: inline-block;
     overflow: visible !important;
@@ -859,7 +858,7 @@
 
 .markdown-body .highlight pre,
 .markdown-body pre {
-    padding: 16px;
+    padding: 0;
     overflow: auto;
     font-size: 85%;
     line-height: 1.45;

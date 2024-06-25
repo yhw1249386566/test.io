@@ -1,5 +1,4 @@
 import { useState, memo, useRef, useEffect } from 'react'
-
 import classnames from '@yomua/y-classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFile } from '@fortawesome/free-regular-svg-icons'
@@ -8,12 +7,11 @@ import useTheme from '@/hooks/useTheme'
 import { parseArticlePath } from '@/utils'
 import { ArticleFileTree } from '@/utils/utils.d'
 import { setSearchValue } from '@/storeData/article'
-import { Text } from '@/component'
+import { Text, Search } from '@/component'
+import storage from '@/utils/storage'
+import { LOCAL_STORAGE_NAME } from '@/utils/constant'
 
 import Style from './index.less'
-import Search from './Search'
-import storage from '~/src/utils/storage'
-import { LOCAL_STORAGE_NAME } from '~/src/utils/constant'
 
 type SearchPanelProps = {
     isShow: boolean
@@ -42,9 +40,13 @@ const SearchPanel = (props: SearchPanelProps) => {
     const [searchResult, setSearchResult] = useState<ArticleFileTree[]>([])
 
     useEffect(() => {
+        if (!isShow) {
+            return
+        }
+
         searchRef.current?.focus()
         document.body.classList.add(BodyHiddenClass)
-    }, [])
+    }, [isShow])
 
     if (!isShow) {
         document.body.classList.remove(BodyHiddenClass)
@@ -101,6 +103,10 @@ const SearchPanel = (props: SearchPanelProps) => {
                             setSearchResult(result)
                         }}
                     />
+
+                    <div className={Style.close} onClick={onClose}>
+                        关闭
+                    </div>
                 </div>
                 <div className={Style.body}>
                     <Text style={{ margin: '12px' }}>

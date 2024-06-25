@@ -5,36 +5,39 @@
     --layouts-header-theme-icon-color: #87c0ca;
 }
 
+@iconSizeSmall: 26px;
+@iconSizeNormal: 40px;
+
 // 若 文章所有目录（左边的目录）存在
 @media screen and (min-width: @showOnlyArticleMaxWidth) {
     .header .menuIcon {
-        opacity: 0;
+        display: none;
         pointer-events: none;
     }
 }
 
 // 若仅仅显示文章
 @media screen and (max-width: @showOnlyArticleMaxWidth) {
-    .header .title,
+    // 多一个 .header 增加权重
     .header .menuIcon {
-        font-size: 26px;
+        font-size: @iconSizeSmall;
     }
 
     .header .themeIcon,
-    .header .menuIcon {
-        width: 26px;
-        height: 26px;
+    .header .menuIcon,
+    .header .logo {
+        width: @iconSizeSmall;
+        height: @iconSizeSmall;
     }
 }
 
 .header {
     top: 0;
     z-index: 1;
-
     position: sticky;
     background-color: var(--global-primary-bg-color);
     backdrop-filter: blur(12px);
-    height: 62px;
+    height: var(--header-height);
 }
 
 .headerInfo {
@@ -42,52 +45,41 @@
     padding: 0 16px 0 16px;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
 }
 
-.menuIcon {
-    cursor: pointer;
-    font-size: 30px;
-    border-radius: 50%;
+.searchBox {
+    width: 100%;
+    max-width: 60rem;
 }
 
 .hideMenuIcon {
-    opacity: 0;
+    display: none;
     pointer-events: none;
 }
 
+.left {
+    align-items: center;
+}
+
 .menuIcon,
+.logo,
 .themeIcon {
-    cursor: pointer;
     transition: @boxShadowTransition; // 反向过渡; 即: 结束到开始也触发过渡效果
     color: var(--layouts-header-theme-icon-color);
+    cursor: pointer;
+    border-radius: 50%;
+    width: @iconSizeNormal;
+    height: @iconSizeNormal;
+    padding: 5px;
 
     &:hover {
         .boxShadowHover(@color: var(--global-box-shadow-hover-color));
     }
 }
 
-.hideLeftIcon {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.title {
-    display: flex;
-    font-size: 40px;
-    cursor: pointer;
-    justify-content: center;
-}
-
-.navigation {
-    width: 50%;
-    display: flex;
-    justify-content: space-between;
-}
-
-.themeIcon {
-    width: 40px;
-    height: 40px;
-    padding: 10px;
-    font-size: 30px;
-    border-radius: 50%;
+.logo {
+    background-image: url('../../../public/assets/favicon.png');
+    background-size: contain;
+    background-repeat: no-repeat;
 }

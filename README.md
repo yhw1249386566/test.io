@@ -364,6 +364,10 @@ Reference: src/pages/feature - dynamicFeature.tsx
 
 -   将 umi 框架从项目移除，更改为手动搭建项目流程（基于 webpack）
 
+    已经慢慢开始脱离了, 安装了 `react-route-dom`, 让原本应该从 umi 导入的依赖, 从 `react-route-dom` 导入了.
+
+    注: 后面可能也将 `react-route-dom` 自己写.
+
 -   使用 WebGL 尝试修改首页，比如：一个打开的 3d 书，每一页一个功能，有个目录之类的
 
 -   为 article 添加搜索目录功能，可以根据关键词搜索对应路径、文件。
@@ -384,6 +388,8 @@ Reference: src/pages/feature - dynamicFeature.tsx
 
     或其他框架: [Single-spa](https://github.com/single-spa/single-spa), [Garfish](https://www.garfishjs.org/) 等。
 
+    或根据现有微前端架构, 开发一套新的微前端库.
+
 -   对于 .env 文件，后面可以使用命令加参数的方式去识别是 dev 或 prod, 从而加载不同的 .env 文件。
 
     如: yarn start-dev --mode dev --env file=dev.env (可以写到 package.json)
@@ -395,16 +401,6 @@ Reference: src/pages/feature - dynamicFeature.tsx
 -   后期可以将生产依赖（dependence）手动实现;
 
     react, react-dom, webpack; 希望有时间, 有精力...
-
--   目前文章中的图片出现了问题; 因为我们现在使用了 history 路由模式,
-
-    导致如果文章中的图片是 `[picture/xx.png]` 这样的相对路径时,
-
-    它会拼接当前 url 作为请求 -> `https://www.whyhw.com/feature/article/a_base/xx.png`,
-
-    解决: `[picture/xx.png]` -> `[/picture/xx.png]`;
-
-    由相对路径改成绝对路径, 好处是图片在线上时没有问题, 且使用 markdown 打开 .md 文件也能显示图片; 坏处是在 vscode 中预览图片会失败, 因为解析的是根目录, 比如: `D:/code/yomua/xx.png`
 
 -   考虑暂存文章内容到本地, 并设置过期时间, 这样就不需要每次点击都要发送请求.
 
@@ -427,3 +423,21 @@ Reference: src/pages/feature - dynamicFeature.tsx
     => 也可以[节约大量磁盘空间](https://www.pnpm.cn/motivation), 并且 node_modules 中的文件依赖[更容易被观察](https://www.pnpm.cn/motivation#creating-a-non-flat-node_modules-directory).
 
     [详细对比 npm/yarn, pnpm](https://juejin.cn/post/7098260404735836191)
+
+# FAQ
+
+-   目前文章中的图片出现了问题; 因为我们现在使用了 history 路由模式,
+
+    导致如果文章中的图片是 `[picture/xx.png]` 这样的相对路径时,
+
+    它会拼接当前 url 作为请求, 如 -> `https://www.whyhw.com/feature/article/a_base/xx.png`,
+
+    解决: `[picture/xx.png]` -> `[/picture/xx.png]`;
+
+    由相对路径改成绝对路径, 好处是图片在线上时没有问题, 且使用 markdown 打开 .md 文件也能显示图片; 
+    
+    坏处是在 vscode 中预览图片会失败, 因为解析的是根目录, 比如: `D:/code/yomua/xx.png`.
+
+    对此坏处的解决方法当然也有, 可以选一个图库, 将所有图片上传到图库, 然后更改图片的链接为图库地址;
+
+    但是这也有个坏处: 图库不稳定可能导致图片失效; 迁移工作太多, 麻烦 (不知道可不可以用代码修改所有图片链接).

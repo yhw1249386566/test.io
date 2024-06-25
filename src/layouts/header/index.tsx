@@ -7,10 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 
 import storage from '@/utils/storage'
-import { Text, Direction } from '@/component'
+import { Direction, Search } from '@/component'
 import { RouteLink, EVENT_NAME, LOCAL_STORAGE_NAME } from '@/utils/constant'
 
-import style from './index.less'
+import Style from './index.less'
 
 interface HeaderProps {
     theme?: Theme
@@ -23,7 +23,7 @@ const Header = (props: HeaderProps) => {
     const [menuIcon, setMenuIcon] = useState<'bars' | 'xmark'>('bars')
 
     const history = useHistory()
-    const location = useLocation()
+    const location = useLocation() // 不能替换为 location, 要用 useLocation 来监听 url change, 从而使得组件重新渲染
 
     useEffect(() => {
         EventEmitter.on(EVENT_NAME.HEADER_MENU_ICON, (icon) => {
@@ -36,43 +36,57 @@ const Header = (props: HeaderProps) => {
     }, [])
 
     return (
-        <div className={classnames(style.header, style[`header-${theme}`])}>
-            <Direction className={style.headerInfo}>
-                <FontAwesomeIcon
-                    icon={menuIcon}
-                    className={classnames(style.menuIcon, {
-                        [style.hideMenuIcon]:
-                            !location.pathname.includes('/feature/article'),
-                    })}
+        <div className={classnames(Style.header, Style[`header-${theme}`])}>
+            <Direction className={Style.headerInfo}>
+                <Direction className={Style.left}>
+                    <FontAwesomeIcon
+                        icon={menuIcon}
+                        className={classnames(Style.menuIcon, {
+                            [Style.hideMenuIcon]:
+                                !location.pathname.includes('/feature/article'),
+                        })}
+                        onClick={() => {
+                            setMenuIcon(menuIcon === 'bars' ? 'xmark' : 'bars')
+                            EventEmitter.emit(EVENT_NAME.OPEN_ARTICLE_DIRECTORY)
+                        }}
+                    />
+
+                    <div
+                        className={Style.logo}
+                        onClick={() => {
+                            history.push(`/${RouteLink.Index}`)
+                            setMenuIcon('bars')
+                        }}
+                    ></div>
+                </Direction>
+
+                <div
+                    className={Style.searchBox}
                     onClick={() => {
-                        setMenuIcon(menuIcon === 'bars' ? 'xmark' : 'bars')
-                        EventEmitter.emit(EVENT_NAME.OPEN_ARTICLE_DIRECTORY)
-                    }}
-                />
-                <Text
-                    className={style.title}
-                    onClick={() => {
-                        history.push(`/${RouteLink.Index}`)
-                        setMenuIcon('bars')
+                        EventEmitter.emit(EVENT_NAME.SHOW_SEARCH_PANEL)
                     }}
                 >
-                    青芽
-                </Text>
-                <FontAwesomeIcon
-                    className={style.themeIcon}
-                    icon={theme === 'light' ? faSun : faMoon}
-                    onClick={() => {
-                        const activeTheme = theme === 'light' ? 'dark' : 'light'
+                    <Search />
+                </div>
 
-                        storage.saveLocalStorage({
-                            key: LOCAL_STORAGE_NAME.DATA_THEME,
-                            value: activeTheme,
-                        })
+                <Direction style={Style.right}>
+                    <FontAwesomeIcon
+                        className={Style.themeIcon}
+                        icon={theme === 'light' ? faSun : faMoon}
+                        onClick={() => {
+                            const activeTheme =
+                                theme === 'light' ? 'dark' : 'light'
 
-                        // 将在 @/index 设置主题
-                        onToggleTheme(activeTheme)
-                    }}
-                />
+                            storage.saveLocalStorage({
+                                key: LOCAL_STORAGE_NAME.DATA_THEME,
+                                value: activeTheme,
+                            })
+
+                            // 将在 @/index 设置主题
+                            onToggleTheme(activeTheme)
+                        }}
+                    />
+                </Direction>
             </Direction>
         </div>
     )

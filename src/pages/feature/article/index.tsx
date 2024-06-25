@@ -1,16 +1,9 @@
 /* eslint-disable no-useless-escape */
-import {
-    memo,
-    useMemo,
-    useCallback,
-    useState,
-    useEffect,
-    useReducer,
-} from 'react'
+import { memo, useCallback, useEffect, useReducer } from 'react'
 import { createPortal } from 'react-dom'
 import { Tree, Skeleton } from 'antd'
 import { SkeletonParagraphProps } from 'antd/lib/skeleton/paragraph'
-import MarkNavbar from 'markdown-navbar'
+import MarkdownNavbar from '@/component/markdownNavbar'
 import log from '@yomua/y-tlog'
 import classnames from '@yomua/y-classnames'
 import { urlChange } from '@yomua/y-screw'
@@ -35,10 +28,9 @@ import {
 } from '@/utils/constant'
 import { useSelector, useDispatch } from '@/store'
 import { DEFAULT_EXPANDED_KEYS } from '@/pages/constant'
-
 import { setSearchValue } from '@/storeData/article'
 
-import './markNavbar.css'
+import './navbar.less'
 import style from './index.less'
 import SearchPanel from './SearchPanel'
 import useRedirected from './hooks/useRedirected'
@@ -183,12 +175,15 @@ function Article() {
 
     // 监听键盘 CTRL + SHIFT + F 按下, 从而打开文章搜索框, 用来搜索文章目录, 或文章内容.
     useWindowEventListener('keydown', function (event) {
+        const isCtrlShiftF =
+            event.ctrlKey && event.shiftKey && event.key === 'F'
+
         if (event.key === 'Escape' && state.showSearchPanel) {
             dispatch({ type: 'setShowSearchPanel', payload: false })
         }
 
         // 检查按下的键是否符合组合
-        if (event.ctrlKey && event.shiftKey && event.key === 'F') {
+        if (isCtrlShiftF) {
             event.preventDefault()
             // 在这里执行你的操作
             log('CTRL + Shift + F 被按下！')
@@ -334,6 +329,17 @@ function Article() {
         }
     }, [state.isOpenDirectoryOnlyArticle])
 
+    // 监听搜索面板打开按钮点击事件; 用来控制 显示 搜索面板
+    useEffect(() => {
+        EventEmitter.on(EVENT_NAME.SHOW_SEARCH_PANEL, () => {
+            dispatch({ type: 'setShowSearchPanel', payload: true })
+        })
+
+        return () => {
+            EventEmitter.off(EVENT_NAME.SHOW_SEARCH_PANEL)
+        }
+    }, [])
+
     return (
         <div
             className={classnames(style.article, {
@@ -374,9 +380,9 @@ function Article() {
             </Skeleton>
 
             <div className={style.markNavbarBox}>
-                <MarkNavbar
+                <MarkdownNavbar
                     ordered={false}
-                    headingTopOffset={40}
+                    headingTopOffset={0}
                     source={state.articleLoading ? '' : state.markdownData}
                 />
             </div>
