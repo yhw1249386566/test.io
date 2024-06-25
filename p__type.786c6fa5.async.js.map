@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/pages/type/index.tsx"],"names":["Type","memo"],"mappings":"uHAEA,SAASA,IACL,OAAO,kCACV,CAED,cAAeC,UAAKD,E","file":"p__type.786c6fa5.async.js","sourcesContent":["import { memo } from 'react'\n\nfunction Type() {\n    return <div>Type</div>\n}\n\nexport default memo(Type)\n"],"sourceRoot":""}

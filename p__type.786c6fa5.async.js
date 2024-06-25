@@ -1,0 +1,2 @@
+(self["webpackChunk"]=self["webpackChunk"]||[]).push([[7428],{56863:function(e,n,u){"use strict";u.r(n);var t=u(67294);function c(){return t.createElement("div",null,"Type")}n["default"]=(0,t.memo)(c)}}]);
+//# sourceMappingURL=p__type.786c6fa5.async.js.map
