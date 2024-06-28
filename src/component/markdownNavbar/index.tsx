@@ -190,9 +190,11 @@ export default memo(function MarkdownNavbar(props: MarkdownNavbarProps) {
                 const { listNo } = navStructure[0]
                 setCurrentListNo(listNo)
             }
-            // document.addEventListener('scroll', winScroll, false)
+
             window.addEventListener('hashchange', winHashChange, false)
         }, 500)
+
+        document.addEventListener('scroll', winScroll, false)
 
         return () => {
             if (addTargetTimeout) {

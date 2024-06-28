@@ -59,14 +59,15 @@ const Header = (props: HeaderProps) => {
                         }}
                     ></div>
                 </Direction>
-
                 <div
                     className={Style.searchBox}
                     onClick={() => {
                         EventEmitter.emit(EVENT_NAME.SHOW_SEARCH_PANEL)
                     }}
                 >
-                    <Search />
+                    {location.pathname.includes('/feature/article') && (
+                        <Search />
+                    )}
                 </div>
 
                 <Direction style={Style.right}>
