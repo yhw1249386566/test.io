@@ -36,13 +36,13 @@
 
 1. 选择第 3 个: Manual proxy configuration
 
-![](./picture/手动配置代理.png)
+![](/picture/手动配置代理.png)
 
 2. 然后点击 Check connection, 搜索: `https://play.google.com/store?hl=zh-CN/`, 如果代理配置成功，则会弹出连接成功的提示。
 
 注：这里的主机名、端口号是自己全局代理来的，如 Clash for Windows
 
-![](./picture/clash复制终端命令.png)
+![](/picture/clash复制终端命令.png)
 
 在弹出的窗口中，选择 CMD 即可复制成功。
 

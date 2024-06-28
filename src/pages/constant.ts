@@ -5,6 +5,7 @@ import ARTICLE_DIR from '@/article_dir.js'
 import Cute from '@/assets/img/cute.jpeg'
 import CompressCute from '@/assets/img/compress_cute.jpeg'
 import { ARTICLE_COMMIT_LAST_DATE } from '@/utils/constant'
+console.log('🚀 ~ ARTICLE_COMMIT_LAST_DATE:', ARTICLE_COMMIT_LAST_DATE)
 
 export enum FeatureName {
     Three = 'three',

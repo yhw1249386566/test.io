@@ -23,11 +23,11 @@
 
 这么做通常没有什么问题, 但有些情况却经常出现, 这会导致项目服务无法启动, 或者启动后, 做了某些操作后, 然后挂掉.
 
-**若一个模块只支持 ESModule, 不支持 CommonJS**
+### **若一个模块只支持 ESModule, 不支持 CommonJS** 
 
 ```js
-package.json - types: 'commonjs'
-tsconfig.json - module": "CommonJS"
+package.json - types: 'commonjs' // node 环境执行时的配置
+tsconfig.json - module": "CommonJS" // 用来让 tsc 翻译配置
 ```
 
 以上配置将会在编译时使用 tsconfig - module, 通过 `Commonjs` 的方式解析 ts 文件, 然后输出成 js 文件;
@@ -46,11 +46,13 @@ tsconfig.json - module": "CommonJS"
 
 - 也不是不能用, 你可以在书写 .ts 文件时, 自己判断某个模块是否只支持 esmodule, 然后自己处理成 `await import().default` 形式.
 
+  坏处是: 这样获取包就变成异步的形式了.
+
 **比较好的解决方法是**: 使用 tsc 直接翻译成 ESModule 的 .js 代码, 然后 node 环境运行时使用 ESModule 解析并执行 .js 代码: 
 
 ```js
-package.json - types: 'module'
-tsconfig.json - module": "ES6"
+package.json - types: 'module' // node 环境执行时用什么配置
+tsconfig.json - module": "ES6" // 用来让 tsc 翻译成什么代码的配置
 ```
 
 当然这么做, 还有个问题: 在 **ESModule 中, 你必须显示指定文件后缀名**, 否则 node 运行时(如: node index.js) 将无法解析: [为什么?](https://www.zhihu.com/question/453620623) 
@@ -81,11 +83,13 @@ export { show: () => {} }
 
 你可以在[官网示例 - ESModule](https://nodejs.cn/api/v18/esm.html#%E4%BB%8B%E7%BB%8D) 中, 也能看到每个示例都用了文件扩展名 `.mjs`; 
 
-因为不这么使用, 通过 `node index.js` 运行 ESModule 的 .js 文件时, 无法正确识别你写的 `import utils fom './utils '` 到底是个啥, 文件? 照片?
+因为不这么使用, 通过 `node index.js` 运行 ESModule 的 .js 文件时, 无法正确识别你写的 `import utils fom './utils '` 到底是个啥, 文件?照片?还是其他啥?
 
-这就好像你在 css 中使用 `import(./a.jpg)` 一样, 使用文件后缀名的目的只是一个资源定位符,
+这就好像你在 css 中使用 `import(./a.jpg)` 一样, 使用文件后缀名的目的: 这仅仅只是一个资源定位符, 用来标识具体是指哪个资源.
 
-`require(./utils)` 不用是因为 node 对其进行特殊处理罢了. 
+- 不然 `import a from './a'`,  但是存在 `a.js` 和 `a.png` 导入哪个呢?
+
+`require(./utils)` 不需要后缀, 是因为 node 对其进行特殊处理罢了- [自己的解析逻辑 - require](https://nodejs.cn/api/v18/modules.html#文件模块)
 
 同样的道理, 你使用一些脚手架: umi, 或者通过 webpack 自己配置, 你会发现 `import utils from './utils'` 即使没有文件扩展名, 你的服务也能在 node 环境运行起来, 根本原因就是因为这些脚手架或者 webpack 你配置时都已经处理过了.
 

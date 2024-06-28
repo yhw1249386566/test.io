@@ -8,7 +8,7 @@
 
   下图是执行广度优先遍历时，遍历节点的顺序。
 
-  ![](./picture/breadth-first-search.png)
+  ![](/picture/breadth-first-search.png)
 
   （breadth-first-search）
   
@@ -95,7 +95,7 @@ TIP:单纯论使得页面渲染来说，直接操作 DOM 比任何方式都要�
 
 请看下图：
 
-![](./picture/diff-treediff.png)
+![](/picture/diff-treediff.png)
 
 ​																					（diff-treediff）
 
