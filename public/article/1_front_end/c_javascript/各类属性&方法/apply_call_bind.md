@@ -293,3 +293,93 @@ if (!Function.prototype.bind) {
 如果你选择使用这部分实现，**你不能依赖于那些与 ECMA-262, 5th edition 规定的行为偏离的例子。**在 `bind()` 函数被广泛支持之前，某些情况下（或者为了兼容某些特定需求对其做一些特定修改后）可以选择用这个实现作为过渡。
 
 请访问 https://github.com/Raynos/function-bind 以查找更完整的解决方案
+
+# FAQ
+
+## Function.prototype.apply.call(fn, thisArg, ArrayLike)
+
+大白话相当于:` fn.apply(thisArg, ArrayLike)`, 为什么要这么做? 
+
+答: 防御性编程.
+
+- TIP: 现在可以通过 Reflect.apply 解决这种防御性编程问题
+
+  `Reflect.apply(fn, thisArg, ArrayLike)`
+
+```js
+function print(...args) {
+  console.log('this:', this)
+  console.log('args:', args)
+}
+
+// 由于 JavaScript 引擎会优先寻找最近匹配的代码执行,
+// 所以如果调用 print.apply() 不会执行 Function.prototype.apply
+// 而是执行你手动挂载到 print 的 apply
+print.apply = function(){
+  throw new Error('error')
+}
+
+print.apply({}, []); // error
+
+// 输出
+// this: [1, 2, 3]
+// args: [4, 5, 6]
+Function.prototype.apply.call(print, [1,2,3],[4,5,6])
+```
+
+解析标题这样的使用: 用 `.call` 调用 `Function.prototype.apply` 函数.
+
+```js
+function print(...args) {
+  console.log('this:', this)
+  console.log('args:', args)
+}
+
+// 输出
+// this: [1, 2, 3]
+// args: [4, 5, 6]
+Function.prototype.apply.call(print, [1,2,3],[4,5,6])
+```
+
+- `Function.prototype.apply` 返回一个内置的在 Function.prototype 上的 apply 方法
+
+  `ƒ apply() { [native code] }`
+
+- `Function.prototype.apply.call`
+
+  相当于对内置的 apply 方法调用 `.call`:
+
+  `( ƒ apply() { [native code] } ).call`
+
+- `.call(print, [1,2,3],[4,5,6])`
+
+  将 print 作为 this 传递给内置方法 apply, 并传递 2 个参数: `[1, 2, 3]`, `[4, 5, 6]`
+
+- `( ƒ apply() { [native code] } ).call(print, [1,2,3],[4,5,6])`
+
+  相当于: 将 print 作为 this 传递给 apply, 并将  `[1, 2, 3]`, `[4, 5, 6]` 分别作为 apply 的第 1 个参数和 第 2 个参数.
+
+  由于 调用 `.call` 时, 会执行调用它的函数 (在这里会执行 apply), 所以 apply 将被执行, 
+
+  由于 apply 内部实现: **apply 方法是 Function.prototype 上的方法，只能当 this 为函数时才能调用。** 
+
+  所以当 `.call(print) 时`, apply 内部将会调用 print, 然后 `.call(print, [1,2,3],[4,5,6])`: 
+
+  - .call 的第 2 个参数作为 apply 方法的第一个参数, 
+
+    用作 apply 方法的 this
+
+  - .call 的第 3 个参数作为 apply 方法的第二个参数
+
+    用作 apply 方法的 ArrayLike
+
+具以上分析, 我们我们就可以得出结论: 
+
+执行 Function.prototype.apply.call 时,JS 执行引擎规定第一个参数 this 必须是一个函数, 同时会把第 2 个参数传入给 apply 的第一个参数, 第 3 个参数传入给 apply 的第二个参数,,
+
+然后调用 this (这里是 print), 并将这两个参数, 第一个作为 print 的 this, 第二个作为 print 的参数 (类数组对象), 
+
+最后就是正常执行 print 调用过程了.
+
+
+

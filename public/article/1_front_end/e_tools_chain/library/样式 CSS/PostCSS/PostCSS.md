@@ -11,7 +11,7 @@
 3. PostCss 插件再对此抽象树经过处理，返回成一个新的抽象树
 4. PostCss 将新的抽象树转换成可识别的 css
 
-![](./picture/PostCss执行过程.png)
+![](/picture/PostCss执行过程.png)
 
 ​														(PostCss执行过程)
 

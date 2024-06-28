@@ -71,4 +71,8 @@ https://stackoverflow.com/questions/34043505/chrome-devtools-what-does-queueing-
 
 <img title="" src="picture/time.jpg" alt="">
 
+​								（time）
+
 <img title="" src="picture/总时间.jpg" alt="">
+
+​								（总时间）

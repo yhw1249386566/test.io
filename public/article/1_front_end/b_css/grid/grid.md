@@ -593,7 +593,7 @@ fit-content和min-content/max-content关键字比 比较灵活.
   
   即：如果没有 `grid-template-columns` **和** `grid-template-rows` ，那么 `sonA` 的 width 为 500px.
   
-  ![](./picture/没有grid-template-columns和grid-template-rows.png)
+  ![](/picture/没有grid-template-columns和grid-template-rows.png)
 
 （没有 `grid-template-columns` 或 `grid-template-rows`）
 
