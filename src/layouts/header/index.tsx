@@ -59,7 +59,6 @@ const Header = (props: HeaderProps) => {
                         }}
                     ></div>
                 </Direction>
-
                 <div
                     className={Style.searchBox}
                     onClick={() => {
