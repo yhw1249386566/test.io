@@ -1,5 +1,3 @@
-[TOC]
-
 # 名词提要
 
 ## 依赖关系
@@ -592,7 +590,7 @@ import {myMethod} from './util';
 import {myMethod} form '/util'
 ```
 
-- 当前根目录下的util文件(注意,不是指从盘符开始),而是从整个项目的根目录开始.
+- 当前根目录下的 util 文件(注意, 不是指从盘符开始), 而是从整个项目的根目录开始.
 
 ##### import命令存在提升,会首先执行
 
@@ -1686,11 +1684,9 @@ System.import('app/es6-file').then(function(m) {
 
 上面代码中,`System.import`方法返回的是一个 Promise 对象,所以可以用`then`方法指定回调函数.
 
-# 提案或可能已经实现的功能
+# 动态导入 import() 
 
-## import()
-
-### 简介
+## 简介
 
 前面介绍过,`import`命令会被 JavaScript 引擎静态分析,先于模块内的其他语句执行（`import`命令叫做“连接” binding 其实更合适）.所以,下面的代码会报错.
 
@@ -1716,7 +1712,7 @@ const myModual = require(path);
 
 上面的语句就是动态加载,`require`到底加载哪一个模块,只有运行时才知道.`import`命令做不到这一点.
 
-因此,有一个[提案](https://github.com/tc39/proposal-dynamic-import),建议引入`import()`函数,完成动态加载.
+因此,有一个[提案](https://github.com/tc39/proposal-dynamic-import) (已经实现 2024年2月4日) ,建议引入`import()`函数,完成动态加载.
 
 ```javascript
 import(specifier)
@@ -1744,7 +1740,7 @@ import(`./section-modules/${someVariable}.js`)
 
 这点也是与`import`语句不相同.`import()`类似于 Node 的`require`方法,区别主要是前者是异步加载,后者是同步加载.
 
-### 适用场合
+## 适用场合
 
 下面是`import()`的一些适用场合.
 
@@ -1791,7 +1787,7 @@ import(f())
 
 上面代码中,根据函数`f`的返回结果,加载不同的模块.
 
-### 注意点
+## 注意点
 
 `import()`加载模块成功以后,这个模块会作为一个对象,当作`then`方法的参数.因此,可以使用对象解构赋值的语法,获取输出接口.
 

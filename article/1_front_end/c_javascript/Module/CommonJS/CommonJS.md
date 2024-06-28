@@ -1,18 +1,18 @@
 # CommonJS是什么
 
-## 一
+## 一 组织
 
-[CommonJS](http://wiki.commonjs.org/wiki/CommonJS)是一个有志于构建JavaScript生态圈的组织.
+[CommonJS](http://wiki.commonjs.org/wiki/CommonJS)是一个有志于构建 JavaScript 生态圈的组织.
 
 它有一个 [邮件列表](http://groups.google.com/group/commonjs),很多开发者参与其中. 整个社区致力于提高 JavaScript 程序的可移植性和可交换性,无论是在服务端还是浏览器端.
 
-## 二
+## 二 规范
 
 CommonJS是一种规范,而node(即node.js)是这种规范的实现。就好像ES是规范,然后JS实现了它一样.
 
 - CommonJS规范了模块这个概念的实现,这是它的核心.
 
-## 三
+## 三 项目
 
 [CommonJS](https://zh.wikipedia.org/wiki/CommonJS)是一个项目,其目标是为[JavaScript](https://zh.wikipedia.org/wiki/JavaScript)在[网页浏览器](https://zh.wikipedia.org/wiki/网页浏览器)之外创建[模块](https://zh.wikipedia.org/wiki/子程序)约定,其实就和第二点观点差不多:即CommonJS是一个规范.
 

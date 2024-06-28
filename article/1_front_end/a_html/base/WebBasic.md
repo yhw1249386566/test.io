@@ -113,15 +113,29 @@ Web 团队通常包括一个图形设计师和 [用户体验设计师](https://d
 
 - 你可以随意组合以上方法,比如 ../subdirectory/another-subdirectory/my-image.png.
 
-- 使用当前根目录,`/`; 比如在vscode有个文件夹名为File,而此时我们在它里面的任意一个嵌套的文件夹中的文件中使用: `/index.html`,
+- 使用当前工作区根目录: `/`; 
 
-  则表示: 在当前根目录File下的index.html文件.
+  比如在 vscode 有个文件夹名为 file, 路径是: `D:/code/file` , 且我们通过 vscode 打开的工作区的文件夹路径是: `D:/code`, 而此时我们在它里面的任意一个嵌套的文件夹中的文件中使用: `/index.html`, 
 
-  虽然 `/` 通常指盘符（如：C、D 盘等），但是在 VSCode 中，则是指根目录，即当前 VSCode 打开的文件的目录名。 
+  `/index.html` 则表示: 在当前根目录 `D:/code` 下的 index.html 文件 => `D:/code/index.html`
 
-:bookmark_tabs:Windows 文件系统会使用反斜杠而不是斜杠,比如 C:\windows .
+  ​
+
+TIP: Windows 文件系统会使用反斜杠而不是斜杠,比如 C:\windows .
 
 这在 HTML 里没什么关系,但是若你在 Windows 上开发你的网页,你仍应该在你的代码中使用斜杠.
+
+可以简单地分类一下根目录:
+
+- 工作区根目录
+
+  比如: vscode 打开的 workspace, 就叫做工作区根目录
+
+- 项目根目录
+
+  比如: 通过 node 的 process.pwd() 获取的目录, 就叫做项目根目录 (Node.js 进程的当前工作目录)
+
+例子: vscode 打开的工作区根目录为: D:/code, 项目目录为: D:/code/yomua.
 
 ## [HTML基础](https://developer.mozilla.org/zh-CN/docs/Learn/Getting_started_with_the_web/HTML_basics)
 

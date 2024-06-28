@@ -28,7 +28,7 @@ Git 的分支模型可以称为它的“必杀技特性”，因为 Git 处理�
 
 通过提交对象，Git 就可以在需要的时候重现此次保存的快照，因为提交对象包含所有 Repository 中某个提交的版本的信息*（[使用git commit  生成的快照](https://git-scm.com/book/zh/v2/%E8%B5%B7%E6%AD%A5-Git-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F#_%E7%9B%B4%E6%8E%A5%E8%AE%B0%E5%BD%95%E5%BF%AB%E7%85%A7%E8%80%8C%E9%9D%9E%E5%B7%AE%E5%BC%82%E6%AF%94%E8%BE%83)，**详见：What is the Git - 直接记录快照，而非差异比较**）*。
 
-![](./picture/Git 分支-首次提交对象及其树结构.png)
+![](/picture/Git 分支-首次提交对象及其树结构.png)
 
 （Git 分支-首次提交对象及其树结构）
 
@@ -38,7 +38,7 @@ Git 的分支模型可以称为它的“必杀技特性”，因为 Git 处理�
 
 做些修改后再次提交，那么这次产生的提交对象会包含一个指向上次提交对象（父对象）的指针，如：98ca9 提交对象实际上是 92ec2 的父对象，或如下的 34ac2 提交对象是 f30ab 提交对象的父对象。
 
-![](./picture/Git 分支-提交对象及其父对象.png)
+![](/picture/Git 分支-提交对象及其父对象.png)
 
 ## 什么是 Git 分支？
 
@@ -70,7 +70,7 @@ Note：Git 的 `master` 分支并不是一个特殊分支。 它就跟其它分�
 
 若有两个分支都基于某个提交对象进行派生而来的，那么它们以该提交对象为分界线（含），则所有的父提交对象都是一样的。
 
-![](./picture/Git 分支-两个指向相同提交历史的分支.png)
+![](/picture/Git 分支-两个指向相同提交历史的分支.png)
 
 （两个指向相同提交历史的分支）
 
@@ -122,7 +122,7 @@ master 分支和 testing 分支都是基于 f30ab 提交对象派生而来的，
 
 `HEAD 指针`：在 Git 中，它是一个特殊指针，指向当前所在的本地分支（译注：将 HEAD 想象为当前分支的别名）。
 
-![](./picture/Git 分支-HEAD 特殊指针.png)
+![](/picture/Git 分支-HEAD 特殊指针.png)
 
 （HEAD 特殊指针）
 
@@ -130,7 +130,7 @@ master 分支和 testing 分支都是基于 f30ab 提交对象派生而来的，
 
 如果使用 git checkout testing 命令，切换分支到 testing 分支上：
 
-![](./picture/Git 分支-切换分支，移动 HEAD 指针.png)
+![](/picture/Git 分支-切换分支，移动 HEAD 指针.png)
 
 （切换分支，移动 HEAD 指针）
 
@@ -143,7 +143,7 @@ $ vim test.rb
 $ git commit -a -m 'made a change'
 ```
 
-![](./picture/Git 分支-HEAD 分支随着提交操作自动向前移动.png)
+![](/picture/Git 分支-HEAD 分支随着提交操作自动向前移动.png)
 
 （HEAD 分支随着提交操作自动向前移动）
 
@@ -151,7 +151,7 @@ $ git commit -a -m 'made a change'
 
 现在让我们使用 git checkout master 命令使得当前所在分支切换到 master 分支，看看会有什么变化吧：
 
-![](./picture/Git 分支-切换分支时，HEAD 指针随之移动.png)
+![](/picture/Git 分支-切换分支时，HEAD 指针随之移动.png)
 
 （切换分支时，HEAD 指针随之移动）
 
@@ -174,7 +174,7 @@ $ vim test.txt
 $ git commit -a -m "made a change"
 ```
 
-![](./picture/Git 分支-基于同一个提交对象所产生的不同分支.png)
+![](/picture/Git 分支-基于同一个提交对象所产生的不同分支.png)
 
 （基于同一个提交对象所产生的不同分支）
 
@@ -247,7 +247,7 @@ Fast-forward
  1 file changed, 2 insertions(+)
 ```
 
-![](./picture/Git 分支-git merge 命令 fast-forward 分支合并.png)
+![](/picture/Git 分支-git merge 命令 fast-forward 分支合并.png)
 
 （git merge 命令 fast-forward 分支合并）
 
@@ -255,7 +255,7 @@ Fast-forward
 
 所以这种情况下，Git 只会将 master 分支的指针简单的移动到 `C4`，而这并不会造成 `2（下面的第2点）`中的合并冲突，这种情况称之为：‘fast-forward’。
 
-![](./picture/Git 分支-git merge 命令 fast-forward 分支合并 成功.png)
+![](/picture/Git 分支-git merge 命令 fast-forward 分支合并 成功.png)
 
 （git merge 命令 fast-forward 分支合并 成功）
 
@@ -278,7 +278,7 @@ index.html |    1 +
 1 file changed, 1 insertion(+)
 ```
 
-![](./picture/Git 分支-git merge 命令 三方合并.png)
+![](/picture/Git 分支-git merge 命令 三方合并.png)
 
 （git merge 命令 三方合并.png）
 
@@ -356,13 +356,13 @@ test
 
 针对这种情况，你可以让“快进"变成“三方合并”，如：你基于 B 创建一个新分支 C，让 C 进行一次提交，这样 C 就不会在 A 的后面，而是类似于下图这种"二叉树"的模样：
 
-![](./picture/Git 分支-分支合并-快进时保留落后分支自身的文件.png)
+![](/picture/Git 分支-分支合并-快进时保留落后分支自身的文件.png)
 
 ​                                                                            （快进时保留落后分支自身的文件）
 
 然后我们让 A 分支合并到 C 分支，这样由于 C 一直往下走无法到 A，Git 就会判断此时的合并属于三方合并，即：让 A、C、B 分支进行合并，这样即保留了 B 自身的文件，同时也存在了 A 的文件，最后用图表示如下：
 
-![](./picture/Git 分支-分支合并-解决快进时保留落后分支自身的文件的问题.png)
+![](/picture/Git 分支-分支合并-解决快进时保留落后分支自身的文件的问题.png)
 
                                                                      （解决快进时保留落后分支自身的文件的问题）
 
@@ -408,13 +408,13 @@ test
 
 事实上我们刚才讨论的，是随着你的提交而不断右移的指针。 稳定（主干）分支的指针总是在提交历史中落后一大截，而前沿分支的指针往往比较靠前。
 
-![](./picture/Git 分支-主干分支总是落后于其他分支.png)
+![](/picture/Git 分支-主干分支总是落后于其他分支.png)
 
 （主干分支总是落后于其他分支）
 
 通常把长期分支这种工作流程想象成流水线（work silos），这样子可能更好理解一点，那些经过测试考验的提交会被遴选到更加稳定的流水线上去。
 
-![](./picture/Git 分支-趋于主干（稳定）分支的流水线（silo）视图.png)
+![](/picture/Git 分支-趋于主干（稳定）分支的流水线（silo）视图.png)
 
 （趋于主干（稳定）分支的流水线（silo）视图）
 
@@ -462,7 +462,7 @@ test
 
 同时，Git 也会给你一个与 origin 的 `master` 分支在指向同一个地方的本地 `master` 分支，这样你就有了工作的基础。
 
-![](./picture/Git 分支-克隆之后的服务器与本地仓库.png)
+![](/picture/Git 分支-克隆之后的服务器与本地仓库.png)
 
 （克隆之后的服务器与本地仓库）
 
@@ -470,7 +470,7 @@ test
 
 即便这样，只要你保持**不与** `origin` 服务器连接（并拉取数据），你的 `origin/master` 指针就不会移动，因为此时你的本地 Git 仓库并不能知晓远程仓库所做的更改。
 
-![](./picture/Git 分支-本地与远程仓库的工作可以分叉.png)
+![](/picture/Git 分支-本地与远程仓库的工作可以分叉.png)
 
 （本地与远程仓库的工作可以分叉）
 
@@ -478,7 +478,7 @@ test
 
 该命令查找 \<远程仓库简写名> 是哪一个服务器*（在本例中，它是 git.ourcompany.com）*， 从中抓取本地没有的数据，并且更新本地数据库，最后移动 `origin/master` 指针到更新之后的位置。
 
-![](./picture/Git 分支-git fetch 命令更新远程跟踪分支.png)
+![](/picture/Git 分支-git fetch 命令更新远程跟踪分支.png)
 
 （git fetch 命令更新远程跟踪分支）
 
@@ -648,7 +648,7 @@ TIP：这将摆脱任何未被远程跟踪的分支，无论它是否被合并�
 
 首先存在一个项目，它具有一个分叉的提交历史：
 
-![](./picture/Git 分支-变基 分叉的提交历史.png)
+![](/picture/Git 分支-变基 分叉的提交历史.png)
 
 （分叉的提交历史）
 
@@ -679,7 +679,7 @@ Git 会先找到当前分支（experiment）和需要变基到的目标分支（
 
 下图则是将上述所述操作完成之后的图形表示：
 
-![](./picture/Git 分支-变基 将当前分支变基到指定分支.png)
+![](/picture/Git 分支-变基 将当前分支变基到指定分支.png)
 
 （将当前分支变基到指定分支）
 
@@ -698,7 +698,7 @@ $ git merge experiment
 
 下图可以清楚的看见这一点：
 
-![](./picture/Git 分支-变基 变基操作完成后的一次快进.png)
+![](/picture/Git 分支-变基 变基操作完成后的一次快进.png)
 
 （变基操作完成后的一次快进）
 
@@ -736,7 +736,7 @@ $ git merge experiment
   
   ​    所以我们需要使用别的命令，即：`git rebase --onto`
 
-![](./picture/Git 分支-变基 指定目标分支以外的分支进行变基.png)
+![](/picture/Git 分支-变基 指定目标分支以外的分支进行变基.png)
 
 （指定目标分支以外的分支进行变基）
 
@@ -758,7 +758,7 @@ $ git rebase --onto master server client
 
 下面是执行以上命令成功后的图形所示，可以很清楚的发现 client 分支中的 C8 和 C9 提交对象各自相较于 C3 所做的修改已经在 master 分支（C6）上进行了重新播放。
 
-![](./picture/Git 分支- 变基 指定目标分支以外的分支进行变基 成功.png)
+![](/picture/Git 分支- 变基 指定目标分支以外的分支进行变基 成功.png)
 
 （指定目标分支以外的分支进行变基 成功）
 
@@ -769,7 +769,7 @@ $ git checkout master
 $ git merge client
 ```
 
-下图是 master 分支快进到 client 分支的图形表示：![](./picture/Git 分支-变基 指定目标分支以外的分支进行变基，成功后使得主分支快进到变基后的分支的最新提交.png)
+下图是 master 分支快进到 client 分支的图形表示：![](/picture/Git 分支-变基 指定目标分支以外的分支进行变基，成功后使得主分支快进到变基后的分支的最新提交.png)
 
 （指定目标分支以外的分支进行变基，成功后使得主分支快进到变基后的分支的最新提交）
 
@@ -790,7 +790,7 @@ $ git rebase master
 
 当你执行完成以上命令后，server 分支中的 C3、C4 和 C10 就会变基到 master 分支上，图形如下所示：
 
-![](./picture/Git 分支-变基 将一个分支变基到目标分支上的简写形式.png)
+![](/picture/Git 分支-变基 将一个分支变基到目标分支上的简写形式.png)
 
 （将一个分支变基到目标分支上的简写形式）
 
@@ -806,7 +806,7 @@ $ git branch -d server
 
 最后，Git 仓库的历史提交的图形表示如下所示：
 
-![](./picture/Git 分支-变基 三个分叉历史通过变基成为一个分叉.png)
+![](/picture/Git 分支-变基 三个分叉历史通过变基成为一个分叉.png)
 
 （ 三个分叉历史通过变基成为一个分叉）
 

@@ -26,11 +26,11 @@ CORS 是一个系统，它由一系列传输的 [HTTP头 ](https://developer.moz
 
 服务端响应头
 
-- [`Access-Control-Allow-Origin`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Access-Control-Allow-Origin)
+- [`Access-Control-Allow-Origin`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Access-Control-Allow-Origin) 
 
   指示请求的资源能共享给哪些域。
 
-- [`Access-Control-Allow-Credentials`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials)
+- [`Access-Control-Allow-Credentials`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Access-Control-Allow-Credentials) 
   指示浏览器此次对**跨域**请求的响应, 是否允许暴露给前端 JS 代码.
   ​
   即: 若此次请求使用了 [credentials](https://developer.mozilla.org/zh-CN/docs/Web/API/Request/credentials), 且值为 `include`, 那么这个响应头需要为 `true`, 浏览器才会允许响应内容返回给 JS, 否则浏览器将阻止响应返回给 JS.
@@ -199,23 +199,27 @@ CORS 最初要求该行为（即：报错这一行为），不过[在后续的�
 
 不过，如果请求是由于存在 Authorization 字段而引发了预检请求，则这一方法将无法使用。这种情况只能由服务端进行更改。
 
-### [附带身份凭证的请求](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS#%E9%99%84%E5%B8%A6%E8%BA%AB%E4%BB%BD%E5%87%AD%E8%AF%81%E7%9A%84%E8%AF%B7%E6%B1%82) 
+### [附带身份凭证的请求](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS#%E9%99%84%E5%B8%A6%E8%BA%AB%E4%BB%BD%E5%87%AD%E8%AF%81%E7%9A%84%E8%AF%B7%E6%B1%82)  
 
-[XMLHttpRequest](https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest) 或 [Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) 与 CORS （即：前者和 CORS 或 后者与 CORS）的一个有趣的特性是：可以基于  [HTTP cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies) 和 HTTP 认证信息发送身份凭证。
+[XMLHttpRequest](https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest) 或 [Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) 与 CORS 的一个有趣的特性是：可以基于  [HTTP cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies) 和 HTTP 认证信息发送身份凭证。
 
-一般而言，对于跨域 [XMLHttpRequest](https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest) 或 [Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) 请求，浏览器**不会**发送身份凭证信息。如果要发送凭证信息，需要设置 `XMLHttpRequest `的 `withCredentials = true` 特殊标志位。
+一般而言，对于跨域 [XMLHttpRequest](https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest) 或 [Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) 请求，浏览器**不会**发送身份凭证信息。
+
+如果要发送凭证信息，需要设置 `XMLHttpRequest `的 `withCredentials = true` 特殊标志位。
 
 例子参见：[附带身份凭证的请求](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS#%E9%99%84%E5%B8%A6%E8%BA%AB%E4%BB%BD%E5%87%AD%E8%AF%81%E7%9A%84%E8%AF%B7%E6%B1%82)
 
-#### [附带身份凭证的请求与通配符](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS#%E9%99%84%E5%B8%A6%E8%BA%AB%E4%BB%BD%E5%87%AD%E8%AF%81%E7%9A%84%E8%AF%B7%E6%B1%82%E4%B8%8E%E9%80%9A%E9%85%8D%E7%AC%A6)
+#### [附带身份凭证的请求与通配符](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Access_control_CORS#%E9%99%84%E5%B8%A6%E8%BA%AB%E4%BB%BD%E5%87%AD%E8%AF%81%E7%9A%84%E8%AF%B7%E6%B1%82%E4%B8%8E%E9%80%9A%E9%85%8D%E7%AC%A6) 
+
+**目的：**要不要在请求头中携带 Cookie (身份凭证信息, Cookie 只是其中一种) 发送给后端。	
 
 对于附带身份凭证的请求，服务器不得设置 `Access-Control-Allow-Origin` 的值为“`*`”。
 
-这是因为附带身份凭证的请求的首部中携带了 `Cookie` 信息，如果 `Access-Control-Allow-Origin` 的值为“`*`”，请求将会失败。
+这是因为附带身份凭证的请求头中携带了 `Cookie` 信息，如果 `Access-Control-Allow-Origin` 的值为“`*`”，请求将会失败。
 
 而将 `Access-Control-Allow-Origin` 的值设置为指定的域（domain，如： `http://foo.example`），则请求将成功执行。
 
-另外，响应首部中也携带了 Set-Cookie 字段，尝试对 Cookie 进行修改。如果操作失败，将会抛出异常。
+另外，响应头若也携带了 Set-Cookie 字段，则尝试对 Cookie 进行修改, 如果操作失败，将会抛出异常。
 
 #### 第三方 cookies
 
@@ -238,6 +242,8 @@ CORS 最初要求该行为（即：报错这一行为），不过[在后续的�
 响应首部字段指的是：当客户端发出的请求到服务端，服务端接收请求并法除响应报文，其中：响应报文中的响应头，就是设置响应首部字段的地方。
 
 ### [Access-Control-Allow-Credentials](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CORS#access-control-allow-credentials) 
+
+目的：要不要在请求头中携带 Cookie (身份凭证信息, Cookie 只是其中一种) 发送给后端。	
 
 如果请求的发出带有 `credentials`, 那么请求的响应头必须返回 `Access-Control-Allow-Credentials: true`, 否则浏览器对于发出的请求的响应将不会返回给 JavaScript 代码.
 
@@ -305,7 +311,7 @@ X-Cache-Info: cached
 
 # FAQ
 
-## 跨域请求不携带 cookie
+## 跨域请求不携带 cookie 的问题
 
 - 前端需要设置 [credentials: include](https://developer.mozilla.org/zh-CN/docs/Web/API/Request/credentials) - 对于 fetch
   对于 XHR 则需要设置: [withCredentials: true](https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest/withCredentials) 

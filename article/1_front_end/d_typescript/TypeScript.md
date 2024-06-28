@@ -39,7 +39,7 @@ TypeScript 可以运行在任何 JavaScript 可以运行的平台上，如：浏
 
 # 命令和配置
 
-## tsconifig.json 的作用
+## [tsconifig.json](https://www.typescriptlang.org/zh/docs/handbook/tsconfig-json.html) 的作用
 
 指定你要编译什么文件，用哪个标准编译，编译结果的位置，以及一些其他编译选项。
 
@@ -67,11 +67,11 @@ TypeScript 可以运行在任何 JavaScript 可以运行的平台上，如：浏
   }
   ```
 
-  ##### 'lib'指定ts环境之后，node环境不存在了，需要重新安装：
+  ##### lib 指定 ts 环境之后，node 环境不存在了，需要重新安装：
 
   `npm i -D @types/node`
 
-  注意：使用了配置文件之后 tsc编译的时候不需要跟文件名，否则不会使用配置文件，如：`tsc hellowold`
+  注意：使用了配置文件之后 tsc 编译的时候不需要跟文件名，否则不会使用配置文件，如：`tsc hellowold` 
 
   ```json
   // 一些行之有效的配置

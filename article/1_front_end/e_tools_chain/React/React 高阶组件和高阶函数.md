@@ -380,11 +380,11 @@ export default withGetData;
   
   并且其他文字将会出现在 `WrapComponent.name` 后面，作为注释。
   
-  ![](./picture/hight-order-component-usedisplayname.png)
+  ![](/picture/hight-order-component-usedisplayname.png)
   
   如果没有圆括号包裹，则显示为：
   
-  ![](./picture/hight-order-component-usedisplayname-noparentheses.png)
+  ![](/picture/hight-order-component-usedisplayname-noparentheses.png)
 
 ## [注意事项](https://zh-hans.reactjs.org/docs/higher-order-components.html#caveats)
 
