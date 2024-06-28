@@ -66,7 +66,9 @@ const Header = (props: HeaderProps) => {
                         EventEmitter.emit(EVENT_NAME.SHOW_SEARCH_PANEL)
                     }}
                 >
-                    <Search />
+                    {location.pathname.includes('/feature/article') && (
+                        <Search />
+                    )}
                 </div>
 
                 <Direction style={Style.right}>
