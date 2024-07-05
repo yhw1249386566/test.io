@@ -60,26 +60,29 @@ export default defineConfig({
     },
     chainWebpack(config, { env, webpack, createCSSRule }) {
         // 配置 Markdown Loader
-        config.module
-            .rule('compile')
-            .test(/\.html$/i)
-            .use('html-loader')
-            .loader('html-loader')
-            .end()
-            .rule('markdown')
-            .test(/\.md$/)
-            .use('html-loader')
-            .loader('html-loader')
-            .end()
-            .use('markdown-loader')
-            .loader('markdown-loader')
-            .options({
-                // Pass options to marked
-                // See https://marked.js.org/using_advanced#options
-                // For example, if you want to use a custom renderer:
-                // renderer: new marked.Renderer(),
-            })
-            .end()
+        // 导入 markdown 文件时, 需要 markdown loader
+        // 但是自从我将 markdown 文件移入 public 文件夹, 使用请求的方式 (fetch) 获取,
+        // 似乎就不需要 markdown loader 了; 暂时先保留.
+        // config.module
+        //     .rule('compile')
+        //     .test(/\.html$/i)
+        //     .use('html-loader')
+        //     .loader('html-loader')
+        //     .end()
+        //     .rule('markdown')
+        //     .test(/\.md$/)
+        //     .use('html-loader')
+        //     .loader('html-loader')
+        //     .end()
+        //     .use('markdown-loader')
+        //     .loader('markdown-loader')
+        //     .options({
+        //         // Pass options to marked
+        //         // See https://marked.js.org/using_advanced#options
+        //         // For example, if you want to use a custom renderer:
+        //         // renderer: new marked.Renderer(),
+        //     })
+        //     .end()
 
         const umiEnv = process.env
 

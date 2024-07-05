@@ -132,7 +132,7 @@ export enum EVENT_NAME {
     // 只有当视区内只显示文章时，此事件才会被监听和触发。
     OPEN_ARTICLE_DIRECTORY = 'openArticleDirectoryOnlyArticle',
     HEADER_MENU_ICON = 'headerMenuIcon',
-    SHOW_SEARCH_PANEL = 'showSearchPanel',
+    TOGGLE_SEARCH_PANEL = 'toggleSearchPanel',
 }
 
 /************************* 以下都是 .env 中的变量值 *************************/

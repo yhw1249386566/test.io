@@ -5,11 +5,21 @@ import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 import { useTheme } from '@/hooks'
 
+import Kbd from '../kbd'
+
 import Style from './index.less'
+import { useWindowEventListener } from '@yomua/y-hooks'
 
 type SearchProps = {
     className?: string
     placeholder?: string
+    kbd?: {
+        text: string
+    }[]
+    event?: {
+        name: keyof WindowEventMap
+        handler: (event: any) => void
+    }
     onChange?: (value: string) => void
     onClear?: () => void
 }
@@ -35,6 +45,8 @@ export default memo(
         const {
             className = '',
             placeholder = '',
+            kbd = [],
+            event = { name: 'click', handler: () => null },
             onClear = () => null,
             onChange = () => null,
         } = props
@@ -49,6 +61,8 @@ export default memo(
         useEffect(() => {
             onChange(debouncedValue)
         }, [debouncedValue])
+
+        useWindowEventListener(event.name, event.handler)
 
         return (
             <div
@@ -73,6 +87,8 @@ export default memo(
                         setInputValue(event.target.value)
                     }}
                 />
+
+                {kbd.length > 0 && <Kbd data={kbd} />}
 
                 <FontAwesomeIcon
                     icon={faXmark}

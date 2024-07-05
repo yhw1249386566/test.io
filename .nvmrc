@@ -10,6 +10,10 @@ v16.15.0
 # => 如: set NODE_OPTIONS=--openssl-legacy-provider && umi dev
 
 # 为什么需要这么高的版本? 因为 @yomua/y-tlog 引入的依赖 chalk 使用了 node 高版本的 API
+
+# 为什么本地仍然需要设置 NODE_OPTIONS=--openssl-legacy-provider ?
+# => 虽然 chalk 内置到了 @yomua/y-tlog, 但是基本源码没用更改它, 所以 chalk 包需要高版本 node, 内置进来仍需要低版本 node.
+
 # 为什么最后没有使用此版本?
 # => 我使用的 github pages 不支持 --openssl-legacy-provider, 
 # => 因为 github workflow 使用的 JamesIves/github-pages-deploy-action@v4 的 node 版本为 16.20.2
@@ -21,7 +25,4 @@ v16.15.0
 # => 使得 github workflow 运行 yarn build-article 时, 不依赖 chalk 包, 而是内置到 tlog 中的 chalk,
 # => 从而不会因为 chalk 包在一些特殊情况下 (如: github workflow 中运行 yarn build-article) 被运行, 而导致的异常.
 # => Ref: https://github.com/yomua/y-packages/blob/master/packages/y-tlog/rollup.config.mjs - intro
-
-# 为什么本地也需要设置 NODE_OPTIONS=--openssl-legacy-provider ?
-# => 虽然 chalk 内知道了 @yomua/y-tlog, 但是基本源码没用更改它, 所以 chalk 包需要高版本 node, 内置进来仍需要低版本 node.
 v18.19.0 

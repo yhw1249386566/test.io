@@ -59,11 +59,11 @@
 }
 
 .description {
-    height: 85px;
+    max-height: 52px;
     overflow: hidden;
     text-indent: 1rem;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
 
@@ -100,6 +100,8 @@
     display: flex;
     flex-wrap: wrap;
     max-height: 55px;
+    overflow-y: auto;
+    .scrollStyle();
 
     .tag {
         display: flex;

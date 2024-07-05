@@ -9,6 +9,7 @@ import classnames from '@yomua/y-classnames'
 import { urlChange } from '@yomua/y-screw'
 import EventEmitter from '@yomua/y-eventemitter'
 import { useWindowEventListener } from '@yomua/y-hooks'
+import { useSelector, useDispatch } from '@yomua/y-simdux'
 
 import { useTheme } from '@/hooks'
 import request from '@/utils/request'
@@ -26,9 +27,8 @@ import {
     LOCAL_STORAGE_NAME,
     ARTICLE_SUFFIX_NAME,
 } from '@/utils/constant'
-import { useSelector, useDispatch } from '@/store'
+
 import { DEFAULT_EXPANDED_KEYS } from '@/pages/constant'
-import { setSearchValue } from '@/storeData/article'
 
 import './navbar.less'
 import style from './index.less'
@@ -166,27 +166,22 @@ function Article() {
         dispatch({ type: 'setExpandedKeys', payload: expandKeys })
     }, [])
 
-    const handleSearchArticle = useCallback((value: string) => {
-        setSearchValue(value)
-    }, [])
-
     // 如果 queryString 包含 redirected=true, 则此 hook 触发.
     useRedirected(dispatch, [])
 
     // 监听键盘 CTRL + SHIFT + F 按下, 从而打开文章搜索框, 用来搜索文章目录, 或文章内容.
     useWindowEventListener('keydown', function (event) {
-        const isCtrlShiftF =
-            event.ctrlKey && event.shiftKey && event.key === 'F'
+        const isCtrlShiftX =
+            event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'x'
 
         if (event.key === 'Escape' && state.showSearchPanel) {
             dispatch({ type: 'setShowSearchPanel', payload: false })
         }
 
         // 检查按下的键是否符合组合
-        if (isCtrlShiftF) {
+        if (isCtrlShiftX) {
             event.preventDefault()
             // 在这里执行你的操作
-            log('CTRL + Shift + F 被按下！')
             dispatch({
                 type: 'setShowSearchPanel',
                 payload: !state.showSearchPanel,
@@ -331,12 +326,12 @@ function Article() {
 
     // 监听搜索面板打开按钮点击事件; 用来控制 显示 搜索面板
     useEffect(() => {
-        EventEmitter.on(EVENT_NAME.SHOW_SEARCH_PANEL, () => {
-            dispatch({ type: 'setShowSearchPanel', payload: true })
+        EventEmitter.on(EVENT_NAME.TOGGLE_SEARCH_PANEL, (result: boolean) => {
+            dispatch({ type: 'setShowSearchPanel', payload: result })
         })
 
         return () => {
-            EventEmitter.off(EVENT_NAME.SHOW_SEARCH_PANEL)
+            EventEmitter.off(EVENT_NAME.TOGGLE_SEARCH_PANEL)
         }
     }, [])
 
@@ -352,7 +347,6 @@ function Article() {
                         state.isOpenDirectoryOnlyArticle,
                 })}
             >
-                {/* <input onChange={handleSearchArticle} /> */}
                 <DirectoryTree
                     className={style.directoryTree}
                     treeData={(fileTree as any[]) || []}
@@ -391,6 +385,7 @@ function Article() {
                 <SearchPanel
                     isShow={state.showSearchPanel}
                     fileTree={fileTree}
+                    maskClosable={true}
                     onTreeSelect={handleTreeSelect}
                     onTreeExpand={handleTreeExpand}
                     onClose={() =>
