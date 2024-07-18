@@ -2,14 +2,17 @@ import { useState, memo, useRef, useEffect } from 'react'
 import classnames from '@yomua/y-classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFile } from '@fortawesome/free-regular-svg-icons'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { useDispatch, useSelector } from '@yomua/y-simdux'
 
 import useTheme from '@/hooks/useTheme'
+import useToggleBodyScroll from '@/hooks/useToggleBodyScroll'
 import { parseArticlePath } from '@/utils'
 import { ArticleFileTree } from '@/utils/utils.d'
-import { setSearchValue } from '@/storeData/article'
 import { Text, Search } from '@/component'
 import storage from '@/utils/storage'
 import { LOCAL_STORAGE_NAME } from '@/utils/constant'
+import { setSearchValue } from '@/storeData/article'
 
 import Style from './index.less'
 
@@ -26,45 +29,67 @@ type SearchPanelProps = {
             }
         },
     ) => void
+    maskClosable?: boolean
 }
 
-const BodyHiddenClass = 'overflowHidden'
-
 const SearchPanel = (props: SearchPanelProps) => {
-    const { isShow, fileTree, onTreeSelect, onTreeExpand, onClose } = props
+    const {
+        isShow,
+        fileTree,
+        maskClosable = false,
+        onTreeSelect,
+        onTreeExpand,
+        onClose,
+    } = props
 
     const theme = useTheme()
+
+    const dispatch = useDispatch()
+    const searchValue = useSelector((state) => state?.article?.searchValue)
+    console.log('🚀 ~ SearchPanel ~ searchValue:', searchValue)
 
     const searchRef = useRef<HTMLInputElement>(null)
 
     const [searchResult, setSearchResult] = useState<ArticleFileTree[]>([])
 
-    useEffect(() => {
-        if (!isShow) {
-            return
-        }
-
+    useToggleBodyScroll(() => {
         searchRef.current?.focus()
-        document.body.classList.add(BodyHiddenClass)
+
+        return isShow
     }, [isShow])
 
     if (!isShow) {
-        document.body.classList.remove(BodyHiddenClass)
         return null
     }
 
     return (
-        <div className={classnames(Style.mask, Style[`searchPanel-${theme}`])}>
-            <div className={Style.container}>
+        <div
+            className={classnames(Style.mask, Style[`searchPanel-${theme}`])}
+            onClick={() => {
+                maskClosable && onClose()
+            }}
+        >
+            <div
+                className={Style.container}
+                onClick={(event) => {
+                    // 这里阻止事件冒泡
+                    // 即: 我们为 mask 添加了点击事件, 而 mask 包含 container,, 这意味着, 如果点击 container,
+                    // 会先触发 container 的 click 事件, 然后冒泡到 mask 并触发 mask click 事件
+                    // 就会导致点击 container 触发了 mask click 事件后调用  onClose(), 这会关闭 SearchPanel.
+                    // 所以, 我们阻止这个事件冒泡, 当点击 container 时, 就不会触发 mask click.
+                    maskClosable && event.stopPropagation()
+                }}
+            >
                 <div className={Style.header}>
                     <Search
                         ref={searchRef}
                         placeholder='搜索文章'
                         onClear={() => {
-                            setSearchValue('')
                             setSearchResult([])
                         }}
                         onChange={(value: string) => {
+                            dispatch(setSearchValue(value))
+
                             if (!value) {
                                 setSearchResult([])
                                 return
@@ -86,7 +111,9 @@ const SearchPanel = (props: SearchPanelProps) => {
 
                                     if (
                                         item.type === 'file' &&
-                                        item.title.includes(value)
+                                        item.title // 全部转为小写, 不对 title 和用户输入值 value 区分大小写.
+                                            .toLowerCase()
+                                            .includes(value.toLowerCase())
                                     ) {
                                         result.push(item)
                                     }
@@ -105,7 +132,7 @@ const SearchPanel = (props: SearchPanelProps) => {
                     />
 
                     <div className={Style.close} onClick={onClose}>
-                        关闭
+                        <FontAwesomeIcon icon={faXmark} />
                     </div>
                 </div>
                 <div className={Style.body}>

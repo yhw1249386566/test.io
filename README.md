@@ -64,8 +64,6 @@ github pages [默认使用 jekyll](https://docs.github.com/zh/pages/setting-up-a
 
 ## src/config
 
-目录: /config
-
 由于目前还没有将 umi config 迁移到 webpack, 所以以下说的都是 umi 配置。
 
 plugin
@@ -74,13 +72,37 @@ plugin
 
     添加此插件，用来在打包时注入 /.env 数据到 process.env 中。
 
-loader
+## dist
 
--   `html-loader`
+打包完成后存放打包文件的目录.
 
--   `markdown-loader`
+由于用 umi 作为脚手架, 所以打包文件的命名为以下格式:
 
-    用来解析 .md 文件，提供给 react-markdown 使用。
+1.  文件前缀
+
+-   [chunk](https://www.whyhw.com/feature/article/1_front_end/0_base/前端性能优化常见策略/代码分割.md) 编号: 51, 453.
+
+    umi 构建过程中将代码分割成多个 chunk, 以便于按需加载, 可能是某个/多个公共库 (如: lodash, @yomua/classnames) 被分割了.
+
+    或者某些可以抽离的公共代码, 如: utils 文件中的公共方法.
+
+    又或者是某次/多次使用了 import(filepath) 这样的动态导入, 从而使得打包器 (umi) 抽离了指定 filepath 的模块, 分离成一个 chunk.
+
+-   模块名字: `p__about`, `p_feature`, 表示文件是页面 (路由) 文件, 其中 p 表示 pages, about 表示 pages/about.
+
+2.  基于文件内容的 hash 值
+
+    用于缓存控制, 当内容改变而导致 hash 值改变时, 会使浏览器认为这是一个新文件从而重新加载.
+
+    如: 73d8f1ed
+
+3.  文件后缀
+
+    如: async.js -> 异步加载的 js 模块
+
+    async.js.map -> 对应的 async.js 模块的源映射文件, 可以将编译后的代码映射回源代码,
+
+    可以通过此文件在开发者工具中查看具体模块内容, 而非编译后的内容.
 
 # Module
 
@@ -111,10 +133,6 @@ loader
 -   `three`
 
     目前没用, 曾经使用于 page - Three
-
--   `react-custom-scrollbars-2`
-
-    用于美化 scrollbar 样式
 
 `@yomua/*`
 
@@ -160,11 +178,9 @@ loader
 
     `remark-gfm`
 
-    `markdown-navbar`
+    `react-syntax-highlighter`
 
-    `github-markdown-css`
-
-    目前只用于 markdown
+    目前这些库只用于 markdown
 
 ### dev
 
@@ -175,10 +191,6 @@ loader
 -   `fs-extra`
 
     用来提取图片 - generate_img.ts
-
--   `cross-env`
-
-    用来为 package.json 的 scripts 设置一些环境变量
 
 # 命名
 
@@ -424,6 +436,8 @@ Reference: src/pages/feature - dynamicFeature.tsx
 
     [详细对比 npm/yarn, pnpm](https://juejin.cn/post/7098260404735836191)
 
+-   现在项目中的文件命名很怪, 有 a_b 形式, 有 aB 形式, 需要修改.
+
 # FAQ
 
 -   目前文章中的图片出现了问题; 因为我们现在使用了 history 路由模式,
@@ -434,10 +448,18 @@ Reference: src/pages/feature - dynamicFeature.tsx
 
     解决: `[picture/xx.png]` -> `[/picture/xx.png]`;
 
-    由相对路径改成绝对路径, 好处是图片在线上时没有问题, 且使用 markdown 打开 .md 文件也能显示图片; 
-    
+    由相对路径改成绝对路径, 好处是图片在线上时没有问题, 且使用 markdown 打开 .md 文件也能显示图片;
+
     坏处是在 vscode 中预览图片会失败, 因为解析的是根目录, 比如: `D:/code/yomua/xx.png`.
 
     对此坏处的解决方法当然也有, 可以选一个图库, 将所有图片上传到图库, 然后更改图片的链接为图库地址;
 
     但是这也有个坏处: 图库不稳定可能导致图片失效; 迁移工作太多, 麻烦 (不知道可不可以用代码修改所有图片链接).
+
+-   对于在 `.env` 文件写入文章最新提交时间 `ARTICLE_COMMIT_LAST_DATE`, 当你更新文章, 并提交时, 此时提交完成,
+
+    并不会自动更新最新提交时间, 需要等待你重新 `yarn start` 或 `yarn build` 执行一遍 src/scripts 才行.
+
+    但是请注意: 这不会影响线上的更新. 即: 更新文章提交时间, 即使你没有在本地重新执行 `yarn build`,
+
+    让 `.env - ARTICLE_COMMIT_LAST_DATE` 更新也没关系, 因为在 github actions 时, 会执行 `yarn build`.

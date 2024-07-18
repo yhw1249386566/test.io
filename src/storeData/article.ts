@@ -1,4 +1,4 @@
-import { createSlice } from '@/store'
+import { createSlice } from '@yomua/y-simdux'
 
 export const articleSlice = createSlice({
     name: 'article',
@@ -6,7 +6,7 @@ export const articleSlice = createSlice({
         searchValue: '',
     },
     reducers: {
-        setSearchValue: (state, action) => {
+        setSearchValue: (prevState, action) => {
             return {
                 searchValue: action.payload,
             }

@@ -1,13 +1,11 @@
 import { memo, useState, useCallback } from 'react'
 import classnames from '@yomua/y-classnames'
 import { Tag, Card, Image, CardProps } from 'antd'
-import { Scrollbars } from 'react-custom-scrollbars-2'
 import { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { useTheme } from '@/hooks'
 import { invertColor } from '@/utils'
-
 import { Text } from '@/base_component'
 
 import style from './index.less'
@@ -64,7 +62,8 @@ const CustomCard = (props: CustomProps) => {
                     style[`card-${theme}`],
                     className,
                 )}
-                {...cardProps}>
+                {...cardProps}
+            >
                 <Image
                     src={img}
                     className={style.image}
@@ -106,38 +105,35 @@ const CustomCard = (props: CustomProps) => {
                         </div>
                     )}
 
-                    <Scrollbars style={{ maxHeight: 55 }}>
-                        <div className={style.tags}>
-                            {tag.map((tag, index) => {
-                                const { name, key, icon, color } = tag
+                    <div className={style.tags}>
+                        {tag.map((tag, index) => {
+                            const { name, key, icon, color } = tag
 
-                                return (
-                                    <Tag
-                                        className={style.tag}
-                                        key={key ?? index}
-                                        color={
-                                            theme === 'light'
-                                                ? color
-                                                : invertColor(
-                                                      color ?? '#55acee',
-                                                  )
-                                        }
-                                        icon={
-                                            icon ? (
-                                                <FontAwesomeIcon
-                                                    icon={icon}
-                                                    style={{
-                                                        marginRight: '5px',
-                                                    }}
-                                                />
-                                            ) : null
-                                        }>
-                                        {name}
-                                    </Tag>
-                                )
-                            })}
-                        </div>
-                    </Scrollbars>
+                            return (
+                                <Tag
+                                    className={style.tag}
+                                    key={key ?? index}
+                                    color={
+                                        theme === 'light'
+                                            ? color
+                                            : invertColor(color ?? '#55acee')
+                                    }
+                                    icon={
+                                        icon ? (
+                                            <FontAwesomeIcon
+                                                icon={icon}
+                                                style={{
+                                                    marginRight: '5px',
+                                                }}
+                                            />
+                                        ) : null
+                                    }
+                                >
+                                    {name}
+                                </Tag>
+                            )
+                        })}
+                    </div>
                 </div>
             </Card>
 
@@ -147,7 +143,8 @@ const CustomCard = (props: CustomProps) => {
                         visible,
                         maskClosable: false,
                         onVisibleChange: (vis) => setVisible(vis),
-                    }}>
+                    }}
+                >
                     <Image src={previewImg} />
                 </Image.PreviewGroup>
             </div>

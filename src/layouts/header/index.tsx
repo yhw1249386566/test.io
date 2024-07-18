@@ -62,11 +62,34 @@ const Header = (props: HeaderProps) => {
                 <div
                     className={Style.searchBox}
                     onClick={() => {
-                        EventEmitter.emit(EVENT_NAME.SHOW_SEARCH_PANEL)
+                        EventEmitter.emit(EVENT_NAME.TOGGLE_SEARCH_PANEL, true)
                     }}
                 >
                     {location.pathname.includes('/feature/article') && (
-                        <Search />
+                        <Search
+                            event={{
+                                name: 'keydown',
+                                handler: function (event: KeyboardEvent) {
+                                    const isCtrlShiftX =
+                                        event.ctrlKey &&
+                                        event.shiftKey &&
+                                        event.key.toLowerCase() === 'x'
+
+                                    if (isCtrlShiftX) {
+                                        event.preventDefault()
+                                        EventEmitter.emit(
+                                            EVENT_NAME.TOGGLE_SEARCH_PANEL,
+                                            false,
+                                        )
+                                    }
+                                },
+                            }}
+                            kbd={[
+                                { text: 'Ctrl' },
+                                { text: 'Shift' },
+                                { text: 'X' },
+                            ]}
+                        />
                     )}
                 </div>
 

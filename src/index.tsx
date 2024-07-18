@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { Layout } from 'antd'
-import { fas } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
 import {
     faLinkedin,
     faTwitterSquare,
@@ -17,10 +17,10 @@ import Header from './layouts/header'
 import storage from './utils/storage'
 import { ThemeProvider } from './contexts'
 import { LOCAL_STORAGE_NAME } from './utils/constant'
-import { StoreProvider } from './store'
 
+// Ref: https://docs.fontawesome.com/web/use-with/react/add-icons/#using-the-library
 // 添加 fontawesome 免费版: https://fontawesome.com/search?q=menu&o=r&m=free
-library.add(fas, faFacebookSquare, faYoutubeSquare, faLinkedin, faTwitterSquare)
+library.add(fas, faLinkedin, faTwitterSquare, faYoutubeSquare, faFacebookSquare)
 
 // 初始化 IndexedDB
 // 注意: 目前不需要用它
@@ -63,20 +63,18 @@ const Index = (props: { children: React.ReactNode }) => {
     }, [])
 
     return (
-        <StoreProvider store={null}>
-            <ThemeProvider theme={theme}>
-                <Layout className={style.layout}>
-                    <Header theme={theme} onToggleTheme={handleChangeTheme} />
+        <ThemeProvider theme={theme}>
+            <Layout className={style.layout}>
+                <Header theme={theme} onToggleTheme={handleChangeTheme} />
 
-                    <Layout.Content className={style.container}>
-                        <Sidebar />
-                        {props.children}
-                    </Layout.Content>
+                <Layout.Content className={style.container}>
+                    <Sidebar />
+                    {props.children}
+                </Layout.Content>
 
-                    {/* <Footer /> */}
-                </Layout>
-            </ThemeProvider>
-        </StoreProvider>
+                {/* <Footer /> */}
+            </Layout>
+        </ThemeProvider>
     )
 }
 
