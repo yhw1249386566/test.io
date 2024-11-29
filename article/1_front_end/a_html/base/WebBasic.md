@@ -183,7 +183,7 @@ JavaScript 相当简洁,却非常灵活.开发者们基于 JavaScript 核心编�
 
 连接到互联网的计算机被称作客户端和服务器.下面是一个简单描述它们如何交互的图表：
 
-![img](picture/client-server.png)
+![img](/picture/client-server.png)
 
 - 客户端是典型的Web用户入网设备（比如,你连接了Wi-Fi的电脑,或接入移动网络的手机）和设备上可联网的软件（通常使用像 Firefox 和 Chrome的浏览器）.
 - 服务器是存储网页,站点和应用的计算机.当一个客户端设备想要获取一个网页时,一份网页的拷贝将从服务器上下载到客户端机器上来在用户浏览器上显示.
@@ -194,7 +194,7 @@ JavaScript 相当简洁,却非常灵活.开发者们基于 JavaScript 核心编�
 
 现在,让我们假设 Web 就是一条路.路的一端是客户端,就像你的家.另一端则是服务器,就像你想去的商店.
 
-![img](picture/emample.png)
+![img](/picture/emample.png)
 
 除了客户端和服务器,我们还需要了解：
 
