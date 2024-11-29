@@ -8,6 +8,7 @@ v16.15.0
 
 # 若使用此版本, 需要启动服务时设置 NODE_OPTIONS=--openssl-legacy-provider
 # => 如: set NODE_OPTIONS=--openssl-legacy-provider && umi dev
+# => 当前有些库不支持高版本 node, 所以需要使用这种降级手段
 
 # 为什么需要这么高的版本? 因为 @yomua/y-tlog 引入的依赖 chalk 使用了 node 高版本的 API
 

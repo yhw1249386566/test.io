@@ -336,7 +336,7 @@
 </body>
 ```
 
-![](../picture/max-content关键字.png)
+![](/picture//max-content关键字.png)
 
 #### min-content P674
 
@@ -515,7 +515,7 @@ fit-content和min-content/max-content关键字比 比较灵活.
 </body>
 ```
 
-![](../picture/grid-template-areas.png)
+![](/picture//grid-template-areas.png)
 
 很显然,从源代码和渲染结果中,我们能轻易得出以下结论:
 
@@ -549,7 +549,7 @@ fit-content和min-content/max-content关键字比 比较灵活.
 </body>
 ```
 
-![](../picture/grid-template-areas和grid-template-rows&grid-template-colums的使用.png)
+![](/picture//grid-template-areas和grid-template-rows&grid-template-colums的使用.png)
 
 通过以上的源代码和渲染结果,我们很显然能得出以下结论:
 
@@ -599,13 +599,13 @@ fit-content和min-content/max-content关键字比 比较灵活.
 
 - 如果仅只具有 `grid-template-rows` 设置行高(height)，那么栅格元素的 width 将和它同级且具有最大 width 的栅格元素一样宽。
   
-  <img title="" src="./picture/仅只具有grid-template-rows.png" alt="">
+  <img title="" src=/仅只具有grid-template-rows.png" alt="">
   
   （仅只具有grid-template-rows.png）
 
 - 如果仅只具有 `grid-template-columns` 设置列宽(width)，那么栅格元素的 height 将和它同级且具有最大 height 的栅格元素一样高。
   
-  <img title="" src="./picture/仅只具有grid-template-columns.png" alt="">
+  <img title="" src="/picture//仅只具有grid-template-columns.png" alt="">
   
   （仅只具有`grid-template-columns`）
 
@@ -811,7 +811,7 @@ fit-content和min-content/max-content关键字比 比较灵活.
 </body>
 ```
 
-![](../picture/四个属性确定元素边界所在的栅格线.png)
+![](/picture//四个属性确定元素边界所在的栅格线.png)
 
 通过以上渲染结果+示例,我们可以轻松发现: 
 
@@ -917,7 +917,7 @@ grid-area属性指定4条栅格线名称控制栅格元素位置
 </body>
 ```
 
-![](../picture/grid-area属性指定4条栅格线名称控制栅格元素位置.png)
+![](/picture//grid-area属性指定4条栅格线名称控制栅格元素位置.png)
 
 - 看到以上示例,我想你们也注意到了,**我们为中间的(第二条)栅格行/列线在一个中括号中定义两组词**,这代表,这**第二条栅格行/列可以由任意的这其中一组词引用,但是无法两个一起使用**,即:
   
@@ -1057,7 +1057,7 @@ grid属性和其他简写属性一样,是为了以简洁的句法定义其他属
 
 - 如果使用**gird属性**,那么**没有写出来的属性,将会被重置为默认值.**
   
-  ![](../picture/grid属性重置未写属性.png)
+  ![](/picture//grid属性重置未写属性.png)
   
   这个示例我只使用grid属性写了栅格区域,但是一些其他属性没写,所以这些**未写属性将被自动重置为默认值**
 
