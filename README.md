@@ -454,7 +454,7 @@ Reference: src/pages/feature - dynamicFeature.tsx
 
     对此坏处的解决方法当然也有, 可以选一个图库, 将所有图片上传到图库, 然后更改图片的链接为图库地址;
 
-    但是这也有个坏处: 图库不稳定可能导致图片失效; 迁移工作太多, 麻烦 (不知道可不可以用代码修改所有图片链接).
+    但是这也有个坏处: 图库不稳定可能导致图片失效; 迁移工作太多, 麻烦 (可以用代码修改所有图片链接, 需要研究).
 
 -   对于在 `.env` 文件写入文章最新提交时间 `ARTICLE_COMMIT_LAST_DATE`, 当你更新文章, 并提交时, 此时提交完成,
 
@@ -463,3 +463,13 @@ Reference: src/pages/feature - dynamicFeature.tsx
     但是请注意: 这不会影响线上的更新. 即: 更新文章提交时间, 即使你没有在本地重新执行 `yarn build`,
 
     让 `.env - ARTICLE_COMMIT_LAST_DATE` 更新也没关系, 因为在 github actions 时, 会执行 `yarn build`.
+
+-   需要替换的 public/article 的图片路径, 请按照顺寻来替换 (因为这样更方便全局查找, 不会替换错误): 
+
+    `(picture` -> `(/picture`
+
+    `../../picture` -> `/picture`
+
+    `../picture` -> `/picture`
+
+    `./picture/` -> `/picture/`

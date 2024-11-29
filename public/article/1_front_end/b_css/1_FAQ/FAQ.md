@@ -100,7 +100,7 @@
 
 1. 如果你在样式表右边看见：`user agent stylesheet`，这说明这是浏览器默认为 html 元素添加的样式，你不能直接修改，你只能通过覆盖它从而达到修改的目的。
    
-   <img title="" src="./picture/user_agent_styleseet.png" alt="">
+   <img title="" src="/picture//user_agent_styleseet.png" alt="">
    
    （user_agent_styleseet.png）
 
