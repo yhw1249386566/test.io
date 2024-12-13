@@ -96,4 +96,27 @@ export default defineConfig({
 
         return config
     },
+
+    metas: [
+        {
+            name: 'og:title',
+            content: 'yomua笔记',
+        },
+        {
+            name: 'og:description',
+            content: 'yomua love you.',
+        },
+        {
+            name: 'description',
+            content: 'yomua love you.',
+        },
+        {
+            name: 'og:image',
+            content: '/assets/favicon.png',
+        },
+        {
+            name: 'og:image:type',
+            content: 'image/png',
+        },
+    ],
 })
