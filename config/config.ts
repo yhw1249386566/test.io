@@ -99,23 +99,23 @@ export default defineConfig({
 
     metas: [
         {
-            name: 'og:title',
+            property: 'og:title',
             content: 'yomua笔记',
         },
         {
-            name: 'og:description',
+            property: 'og:description',
             content: 'yomua love you.',
         },
         {
-            name: 'description',
+            property: 'description',
             content: 'yomua love you.',
         },
         {
-            name: 'og:image',
+            property: 'og:image',
             content: '/assets/favicon.png',
         },
         {
-            name: 'og:image:type',
+            property: 'og:image:type',
             content: 'image/png',
         },
     ],
